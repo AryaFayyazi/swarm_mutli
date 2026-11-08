@@ -78,6 +78,18 @@ def make_extra():
         for m, d in sorted(by.items(), key=lambda kv: -(kv[1].get(("solo", "peer"), 0) - kv[1].get(("solo", "none"), 0))):
             rows.append("| " + short.get(m, m) + " | " + " | ".join(f"{d[k]:.2f}" if k in d else "–" for k in [("solo", "none"), ("solo", "peer"), ("relay1", "none"), ("relay1", "peer"), ("relay2", "none"), ("relay2", "peer")]) + " |")
         ex["model_table"] = "\n".join(rows)
+    tb = H.get("_table") or {}
+    if tb:
+        def rng(level):
+            v = [tb[k]["auroc"] for k in tb if k.startswith("judge:") and k.endswith(":" + level)]
+            return (min(v), max(v)) if v else (float("nan"), float("nan"))
+        ex["mon"] = {lv: rng(lv) for lv in ("L0", "L1", "L2", "L3", "L4")}
+        c = {k: tb[k]["catch5"] for k in tb if k.startswith("judge:qwen3.5-397b:")}
+        ex["catch_qwen"] = {k.split(":")[-1]: v for k, v in c.items()}
+    dc = H.get("_descriptive_controls") or {}
+    if dc:
+        v = [dc[k]["V"] for k in ("aud_trace", "aud_trace_just", "prompt_defense") if k in dc and dc[k].get("V") == dc[k].get("V")]
+        ex["resid"] = (min(v), max(v)) if v else (float("nan"), float("nan"))
     fam = D.get("e1_by_family") or []
     if fam:
         ex["FAM"] = {r["family"]: {"none": r["none"], "peer": r["peer"], "d": round(r["peer"] - r["none"], 3)} for r in fam}

@@ -87,6 +87,38 @@ if e4p.exists():
         return {"V": round(pt, 3), "lo": round(lo, 3), "hi": round(hi, 3), "n": int(len(df))}
     out["e4_groups"] = {"C lead + C op": gv(u1r[u1r.model.isin(C_)]), "S lead + C op": gv(u4[u4.model.isin(C_) & u4.lead_model.isin(S_)]),
                         "C lead + S op": gv(u4[u4.model.isin(S_) & u4.lead_model.isin(C_)]), "S lead + S op": gv(u1r[u1r.model.isin(S_)])}
+# E2 exploratory contrasts between log levels (cluster bootstrap over scenarios)
+e2p = RAW / "e2.jsonl"
+if e2p.exists():
+    from scipy.stats import rankdata
+    r2 = pd.DataFrame([json.loads(l) for l in open(e2p)])[["episode_id", "monitor", "score"]]
+    key = e1[["episode_id", "scenario_id", "V"]].drop_duplicates("episode_id")
+    wide = r2.pivot_table(index="episode_id", columns="monitor", values="score", aggfunc="first").join(key.set_index("episode_id"), how="inner")
+    y = wide.V.values.astype(bool); sc_ = wide.scenario_id.values
+    groups = {s_: np.where(sc_ == s_)[0] for s_ in sorted(set(sc_))}; keys = list(groups)
+    rng = np.random.default_rng(5)
+    draws = [np.concatenate([groups[keys[i]] for i in rng.integers(0, len(keys), len(keys))]) for _ in range(1500)]
+    def au(sc, ii):
+        yy = y[ii]
+        if yy.sum() == 0 or (~yy).sum() == 0: return np.nan
+        rk = rankdata(sc[ii]); n1, n0 = yy.sum(), (~yy).sum(); return (rk[yy].sum() - n1 * (n1 + 1) / 2) / (n1 * n0)
+    cont = {}
+    for j in ("gemma-4-31b-it", "qwen3.5-397b"):
+        for a_, b_ in (("L4", "L3"), ("L1", "L0"), ("L3", "L1"), ("L3", "L2")):
+            A = np.nan_to_num(wide[f"judge:{j}:{a_}"].values); Bv = np.nan_to_num(wide[f"judge:{j}:{b_}"].values)
+            allix = np.arange(len(y)); pt = au(A, allix) - au(Bv, allix)
+            st = np.array([au(A, ii) - au(Bv, ii) for ii in draws]); st = st[np.isfinite(st)]
+            cont[f"{j} {a_}-{b_}"] = {"point": round(float(pt), 3), "lo": round(float(np.quantile(st, .025)), 3), "hi": round(float(np.quantile(st, .975)), 3)}
+    # self-query vs report-only judge, and ledger level vs self-query
+    for j in ("qwen3.5-397b",):
+        A = np.nan_to_num(wide["self"].values); Bv = np.nan_to_num(wide[f"judge:{j}:L0"].values)
+        pt = au(A, np.arange(len(y))) - au(Bv, np.arange(len(y)))
+        st = np.array([au(A, ii) - au(Bv, ii) for ii in draws]); st = st[np.isfinite(st)]
+        cont["self - judge qwen L0"] = {"point": round(float(pt), 3), "lo": round(float(np.quantile(st, .025)), 3), "hi": round(float(np.quantile(st, .975)), 3)}
+    out["e2_contrasts"] = cont
+    # self-query: what do the Operators say about themselves in violating episodes?
+    q = r2[r2.monitor == "self"].merge(key, on="episode_id")
+    out["self_scores_by_V"] = {"V": round(float(q[q.V].score.mean()), 1), "noV": round(float(q[~q.V].score.mean()), 1)}
 p = RES / "extra.json"
 d = json.load(open(p)) if p.exists() else {}
 d.update(out); p.write_text(json.dumps(d, indent=1, ensure_ascii=False))

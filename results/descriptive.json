@@ -769,6 +769,10 @@
   "e3": {
    "audit_decisions": 8864,
    "no_parsable_verdict_fail_open": 457
+  },
+  "e7": {
+   "audit_decisions": 92,
+   "no_parsable_verdict_fail_open": 11
   }
  },
  "counts": {
@@ -778,6 +782,16 @@
   "e4": 768,
   "e5": 1152,
   "e6": 192,
-  "e7": 0
- }
+  "e7": 40
+ },
+ "cost_credits": {
+  "e1": 50.91,
+  "e2": 35.37,
+  "e3": 31.14,
+  "e3b": 3.13,
+  "e4": 15.0,
+  "e5": 11.12,
+  "e6": 1.88
+ },
+ "cost_total": 148.5
 }

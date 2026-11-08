@@ -1,0 +1,52 @@
+{
+ "glm-5.2": {
+  "impact": 4,
+  "execution": 4,
+  "presentation": 4,
+  "strengths": "The strongest aspect is the conceptual contribution combined with rigorous methodology. The framing of \"assurance laundering\" as a distinct failure mode \u2014 an unverified peer claim propagating through delegation, causing unauthorized action, and returning as a confident false report \u2014 is genuinely novel and immediately actionable. The clean separation of three problems (acting without authorization, reporting falsely, monitoring) with distinct fixes and priced utility costs is a valuable insight that deployers can act on. The \"log ladder\" experiment (L0\u2013L4) systematically demonstrating which log level a monitor needs to detect violations (report alone: AUROC 0.69\u20130.70; gateway ledger with results: 0.90\u20130.93) is both original and practically useful. For a 3-day sprint, the preregistration of 17 hypotheses with SHA-256 locks and git commits, 9,600 episodes across 7 models, matched safe/unsafe twins, rule-based labels (no LLM judge for ground truth), cluster-bootstrap intervals with Holm correction, utility pricing for every control, and honest reporting of two failed hypotheses (H8, H13) is exceptional. The mixed-model team experiments (E4) that revealed the Lead as gatekeeper \u2014 contradicting the preregistered hypothesis \u2014 show intellectual honesty and produced an unexpected, useful finding. Table 2 with verbatim contrasting examples makes the mechanism concrete.",
+  "weaknesses": [
+   "Scripted, non-adaptive manipulation: The peer message is a single scripted sentence. The authors acknowledge this but it is a fundamental gap. The wording variants (E5) test only minor paraphrases, not adversarially optimized messages. The claim 'the effect is not tied to one sentence' (\u00a74.5) is supported only by three hand-written variants \u2014 an adaptive attacker could craft far more persuasive messages, making the true risk unknown and potentially much larger.",
+   "Only open-weight models, no frontier closed models: The effect varies enormously across models (solo: +0.54 for Qwen3.5-397B down to +0.01 for GLM-5.2). The report cannot generalize to the models most likely deployed in production agent teams (GPT-4, Claude, Gemini). The authors state 'model choice is a safety decision' but cannot say which production models are safe.",
+   "Monitors are LLM judges from the same model families as the agents: The AUROC 0.90\u20130.93 headline for L3 monitors uses judges that may share the agents' blind spots. The report acknowledges this in Appendix A but the main-text claims and abstract present the numbers without this caveat. A judge that fails the same way the agent fails would inflate detection performance.",
+   "Single-episode noise undermines practical monitoring: Cohen's \u03ba = 0.53 means individual episode outcomes are near coin-flip. While the authors correctly report rates, any deployment-time monitor scores individual episodes. The practical reliability of the L3 monitor on a single trace \u2014 which is what a deployer would actually use \u2014 is not characterized.",
+   "The model label for 'endorsing vs. rejecting instructions' (\u00a74.2) agrees with hand labels on 35 of 36 cases, but the one disagreement is never discussed. This label underpins the key finding that endorsing instructions lead to 52% violations vs. 4% for rejecting ones. What was the disagreement, and could it affect the association?"
+  ],
+  "inconsistencies": [
+   "The abstract states 'Teams dampened the effect' but the evidence is ambiguous: baseline (no-message) rates also drop with team size (0.16 solo, 0.09 relay, 0.07 relay-2). It is unclear whether teams specifically dampen the assurance effect or whether lower baselines in larger teams mechanically reduce the absolute difference. The relative effect (ratio of peer to no-message rates) is not reported.",
+   "The hedged wording ('I think approvals were obtained, but I have not checked') gives 0.04 violations, described as 'below the no-message rate (point estimate, not tested).' This is presented as a finding ('a peer that states its own uncertainty makes the team safer than a silent peer') but is explicitly untested. The claim is suggestive but unsupported by any statistical test.",
+   "The report claims 'A monitor reading the gateway ledger with tool results reached AUROC 0.90\u20130.93' but the monitors are LLM judges from the same families as the agents (Gemma and Qwen). The abstract and conclusion present these numbers without this critical caveat, which only appears in Appendix A.",
+   "The oracle policy check (H11) is described as 'true by construction' and 'not counted as a finding,' yet it appears in the results section (\u00a74.3), in the price-list figure (Figure 4), and in the hypothesis table (Table C1) as 'supported.' Including a tautological result alongside real findings could mislead readers about the evidence base."
+  ],
+  "top_changes": [
+   "Test at least one frontier closed model (e.g., GPT-4o, Claude 3.5 Sonnet) to establish whether the assurance laundering effect generalizes beyond open-weight models, given the enormous cross-model variance observed.",
+   "Add an adversarially optimized peer message condition (e.g., using a red-team LLM or human attacker to craft maximally persuasive messages) to estimate the upper bound of the attack risk, rather than relying on three hand-written variants.",
+   "Use an independent judge model from a different family than the agents for the monitor/log-ladder experiments to rule out shared blind spots inflating the AUROC numbers."
+  ]
+ },
+ "qwen3.5-397b": {
+  "impact": 4,
+  "execution": 4,
+  "presentation": 4,
+  "strengths": "Exceptional preregistration discipline (17 hypotheses, 2 failures reported transparently); rule-based ground truth avoids LLM judge bias; the \"log ladder\" concept gives deployers actionable guidance on what to log; separating action prevention from report repair is a valuable conceptual contribution; mixed-team experiments revealing the Lead as gatekeeper is an insightful unexpected finding; full reproducibility package (traces, replay viewer, ledger auditor); thoughtful dual-use discussion.",
+  "weaknesses": [
+   "Tamper-proof ledger assumption is critical but fragile: 'We assume the gateway ledger...cannot be edited by agents. An incident investigation found agents that spoofed tool calls and edited logs inside their containers [13]. If agents could write the ledger, L3 would lose its advantage.' The main defense collapses if this assumption fails.",
+   "Mock tools limit external validity: 'CAPE-Bench is synthetic...Real approvers are slower and noisier. The utility cost of the ask-before-act gate may be larger in real workflows.' The 5-point utility cost and 0.5% violation rate may not hold in production.",
+   "Open-weight models only: 'Frontier closed models may behave differently...we do not claim a rate for any other model.' Limits generalizability to the models most likely deployed.",
+   "Single scripted message: 'We do not test an adaptive attacker who optimizes the message. Real attacks may be stronger.' An adaptive attacker could find more effective phrasing than the four tested variants.",
+   "Highly model-dependent effect: Three models show almost no reaction (GLM-5.2: 0.04, GLM-5.3: 0.08, Qwen3.8: 0.06), making it unclear whether assurance laundering is a general vulnerability or model-specific quirk."
+  ],
+  "inconsistencies": [
+   "H9 marked 'supported' with criterion AUROC \u2265 0.75, but the text admits 'its lower bound is below it' (CI [0.71, 0.85]). If the preregistered threshold was 0.75, the CI lower bound of 0.71 fails this criterion\u2014this should be 'not supported' or the criterion clarified.",
+   "Abstract states '82% of violations were reported as authorized' but Section 4.2 says 11% 'not authorized', 82% 'authorized', rest 'unsure'\u2014this sums to 93%, leaving 7% unaccounted for (likely rounding, but should be explicit).",
+   "Section 4.3 tests 'four models that reacted' but Table C2 shows DeepSeek-V4 flash has only +0.08 effect (labeled 'weak' in 4.1)\u2014including it with the strong reactors (+0.35 to +0.54) may inflate the control effectiveness estimates."
+  ],
+  "top_changes": [
+   "Test with real tools and real permission systems to validate utility costs and violation rates in realistic conditions\u2014mock tools are the largest threat to external validity.",
+   "Run an adaptive attacker optimization loop to find the most effective peer message phrasing, rather than testing only four predefined variants\u2014current results may underestimate the vulnerability.",
+   "Clarify H9 hypothesis criterion: either mark it 'not supported' (CI lower bound 0.71 < 0.75 threshold) or explicitly state that point estimate meeting threshold is sufficient\u2014current presentation is internally inconsistent."
+  ]
+ },
+ "deepseek-v4-flash": {
+  "error": "InternalServerError: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n</body>\r\n</html>"
+ }
+}

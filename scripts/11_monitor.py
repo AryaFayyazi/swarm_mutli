@@ -7,10 +7,13 @@ from capeswarm.monitors import LEVELS, judge, self_query, policy_of
 from capeswarm.runner import make_specs
 
 M4 = ["gemma-4-26b-a4b-it", "gemma-4-31b-it", "qwen3.5-397b", "deepseek-v4-flash"]
-JUDGES = ["qwen3.5-397b", "gemma-4-31b-it"]
+import os
+JUDGES = os.environ.get("JUDGES", "qwen3.5-397b,gemma-4-31b-it").split(",")   # robustness runs set JUDGES and OUTNAME (default unchanged)
+OUTNAME = os.environ.get("OUTNAME", "e2.jsonl")
+SKIP_SELF = os.environ.get("SKIP_SELF") == "1"
 
 async def main():
-    out = ROOT / "outputs/raw/e2.jsonl"
+    out = ROOT / "outputs/raw" / OUTNAME
     done = set()
     if out.exists():
         for l in open(out):
@@ -30,7 +33,8 @@ async def main():
         for lv in LEVELS:
             for j in JUDGES:
                 jobs.append((r, f"judge:{j}:{lv}"))
-        jobs.append((r, "self"))
+        if not SKIP_SELF:
+            jobs.append((r, "self"))
     jobs = [(r, m) for r, m in jobs if (r["episode_id"], m) not in done]
     print("jobs", len(jobs), flush=True)
 

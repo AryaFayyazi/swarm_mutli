@@ -18,3 +18,4 @@
   The queue order is now E3b → E4 → E5 → E6 → E2 (one process at a time, because the API limit is per user).
 - 2026-11-07 (later): Addendum 3 (E7 diverse auditor H17; leave-one-model-out; rule-monitor baseline in E2; auditor fail-open count) added
   and locked in `prereg_v1_5_lock.json` before any confirmatory outcome was read. `runner.py` episode ids gained `auditor_model`.
+- 2026-11-07 (later): EXPLORATORY flag `brief_orders_skip_approval` (regex) added to `capeswarm/hops.py` after the lock and before any outcome was read; it is reported as exploratory in the paper and is not part of any hypothesis.

@@ -1,2 +1,7 @@
 [e8dev] 528 to run, 0 cached
 [e8dev] 25/528  182s  calls=701 err=1 cost=0.4239
+[e8dev] 50/528  303s  calls=1136 err=1 cost=0.6989
+[e8dev] 75/528  382s  calls=1530 err=1 cost=0.9371
+[e8dev] 100/528  483s  calls=1804 err=1 cost=1.1387
+[e8dev] 125/528  602s  calls=2228 err=2 cost=1.4490
+[e8dev] 150/528  674s  calls=2616 err=3 cost=1.7423

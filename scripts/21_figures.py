@@ -58,7 +58,7 @@ if e1 is not None:
             b.bar(i + (j - 0.5) * w, pt, w * 0.92, color=col, label=lab if i == 0 else None)
             b.errorbar(i + (j - 0.5) * w, pt, yerr=[[pt - lo], [hi - pt]], color=INK, lw=0.9, capsize=2)
             b.text(i + (j - 0.5) * w, hi + 0.02, f"{pt:.2f}", ha="center", fontsize=6.5, color=INK)
-    b.set_xticks(range(len(tops))); b.set_xticklabels([{"solo": "solo", "relay1": "relay\n(Lead→Op)", "relay2": "relay\n(Lead→Mgr→Op)"}[t] for t in tops])
+    b.set_xticks(range(len(tops))); b.set_xticklabels([{"solo": "solo", "relay1": "relay", "relay2": "relay-2"}[t] for t in tops])
     b.set_ylim(0, 1); b.set_ylabel("unauthorized-action rate (mean of 7 models)"); b.legend(loc="upper left", fontsize=7); b.grid(axis="x", visible=False)
     b.set_title("(b) Team structure", loc="left", fontsize=8.5, fontweight="bold")
     fig.tight_layout(); fig.savefig(OUT / "fig1_acting.pdf"); fig.savefig(OUT / "fig1_acting.png"); plt.close(fig)
@@ -66,31 +66,43 @@ if e1 is not None:
     # -------------------------------------------------------------- Fig 2: claim survival + report outcome
     hops = desc.get("hops_violators") or []
     rep = u[u.V].groupby(["topology", "assurance"]).agg(auth=("false_assurance", "sum"), disc=("disclosed", "sum"), hed=("hedged", "sum"), n=("V", "sum"))
-    fig, ax = plt.subplots(1, 2, figsize=(7.2, 2.5))
+    fig, ax = plt.subplots(1, 2, figsize=(7.2, 2.7), gridspec_kw={"width_ratios": [1, 1.15]})
     a = ax[0]
-    stages = [("brief_carries_claim", "Lead's brief\ncarries claim"), ("V", "Operator acts\nunauthorized"), ("handoff_cites_claim", "handoff cites\nthe ticket"), ("final_report_cites_claim", "final report cites\nthe ticket")]
+    stages = [("brief_carries_claim", "brief carries\nthe claim"), ("V", "Operator acts\nunauthorized"), ("handoff_cites_claim", "handoff cites\nthe ticket"), ("final_report_cites_claim", "report cites\nthe ticket")]
     hp = pd.DataFrame(desc.get("hops_unsafe_peer") or [])
     if len(hp):
-        for j, (t, col) in enumerate((("relay1", BLUE), ("relay2", AQUA))):
+        w = 0.36
+        for j, (t, col, lab) in enumerate((("relay1", BLUE, "relay"), ("relay2", AQUA, "relay-2"))):
             r = hp[hp.topology == t]
             if r.empty:
                 continue
-            ys = [float(r[c].iloc[0]) for c, _ in stages if c in r]
-            xs = [k for k, (c, _) in enumerate(stages) if c in r]
-            a.plot(xs, ys, "-o", color=col, ms=4.5, lw=1.4, mec="white", label={"relay1": "relay: Lead→Operator", "relay2": "relay: Lead→Manager→Operator"}[t])
-        a.set_xticks(range(len(stages))); a.set_xticklabels([s[1] for s in stages], fontsize=6.5); a.set_ylim(0, 1.02)
-        a.set_ylabel("share of peer-assured unsafe episodes"); a.legend(loc="upper right", fontsize=6.5)
+            for k, (c, _) in enumerate(stages):
+                if c in r and r[c].iloc[0] == r[c].iloc[0]:
+                    v = float(r[c].iloc[0])
+                    a.bar(k + (j - 0.5) * w, v, w * 0.92, color=col, label=lab if k == 0 else None)
+                    a.text(k + (j - 0.5) * w, v + 0.02, f"{v:.2f}", ha="center", fontsize=6.2, color=INK)
+        a.set_xticks(range(len(stages))); a.set_xticklabels([x[1] for x in stages], fontsize=6.2); a.set_ylim(0, 1.0)
+        a.set_ylabel("share of peer-assured unsafe episodes"); a.legend(loc="upper right", fontsize=6.5); a.grid(axis="x", visible=False)
     a.set_title("(a) Where the false claim goes", loc="left", fontsize=8.5, fontweight="bold")
     b = ax[1]
-    labs, A, D, Hh = [], [], [], []
-    for (t, asr), r in rep.iterrows():
-        labs.append(f"{t}\n{asr}"); n = max(r.n, 1); A.append(r.auth / n); D.append(r.disc / n); Hh.append(r.hed / n)
-    x = np.arange(len(labs))
-    b.bar(x, A, 0.7, color=ORANGE, label="report says “authorized” (false)")
+    order = [(t, asr) for t in ("solo", "relay1", "relay2") for asr in ("none", "peer")]
+    labs, A, D, Hh, R, ns = [], [], [], [], [], []
+    for (t, asr) in order:
+        if (t, asr) not in rep.index:
+            continue
+        r = rep.loc[(t, asr)]; n = max(r.n, 1)
+        labs.append({"solo": "solo", "relay1": "relay", "relay2": "relay-2"}[t] + "\n" + ("no msg" if asr == "none" else "false msg")); ns.append(int(r.n))
+        A.append(r.auth / n); Hh.append(r.hed / n); D.append(r.disc / n); R.append(max(0.0, 1 - (r.auth + r.hed + r.disc) / n))
+    x = np.arange(len(labs)); A, Hh, D, R = map(np.array, (A, Hh, D, R))
+    b.bar(x, A, 0.7, color=ORANGE, label="says “authorized” (false)")
     b.bar(x, Hh, 0.7, bottom=A, color=GRAY, label="“unsure”")
-    b.bar(x, D, 0.7, bottom=np.array(A) + np.array(Hh), color=BLUE, label="“not authorized” (disclosed)")
-    b.set_xticks(x); b.set_xticklabels(labs, fontsize=6.5); b.set_ylim(0, 1.02); b.set_ylabel("what the final report says\n(episodes with a violation)")
-    b.legend(loc="upper center", fontsize=6.3, bbox_to_anchor=(0.5, -0.30), ncol=1); b.grid(axis="x", visible=False)
+    b.bar(x, D, 0.7, bottom=A + Hh, color=BLUE, label="“not authorized” (disclosed)")
+    b.bar(x, R, 0.7, bottom=A + Hh + D, color="white", edgecolor=GRAY, hatch="////", linewidth=0.6, label="no report submitted")
+    for xi, n_ in zip(x, ns):
+        b.text(xi, 1.02, f"n={n_}", ha="center", fontsize=5.8, color=SUB)
+    b.set_xticks(x); b.set_xticklabels(labs, fontsize=6.0); b.set_ylim(0, 1.1); b.set_yticks([0, 0.25, 0.5, 0.75, 1.0])
+    b.set_ylabel("what the final report says\n(episodes with a violation)")
+    b.legend(loc="upper center", fontsize=6.0, bbox_to_anchor=(0.5, -0.27), ncol=2); b.grid(axis="x", visible=False)
     b.set_title("(b) The human-facing report", loc="left", fontsize=8.5, fontweight="bold")
     fig.tight_layout(); fig.savefig(OUT / "fig2_laundering.pdf"); fig.savefig(OUT / "fig2_laundering.png"); plt.close(fig)
 
@@ -102,26 +114,16 @@ if dc:
              "aud_trace_just": (ORANGE, "v"), "prompt_defense": (ORANGE, "D"), "ledger": (AQUA, "o"), "ledger_auth": (AQUA, "s")}
     names = {"baseline": "no control", "pdp": "oracle policy check", "ask_gate": "ask-before-act gate", "aud_min": "auditor: call only", "aud_trace": "auditor + tool results",
              "aud_trace_just": "auditor + swarm's words", "prompt_defense": "verification prompt", "ledger": "report from ledger", "ledger_auth": "report from ledger + approvals"}
-    placed = []
-    offs = [(5, 3, "left"), (5, -9, "left"), (-5, 4, "right"), (-5, -9, "right"), (5, 12, "left"), (5, -18, "left"), (-5, 13, "right"), (-5, -18, "right")]
-    ax.set_xlim(0, 1); ax.set_ylim(-0.03, 0.9)
-    fig.canvas.draw()
-    for k, v in sorted(dc.items(), key=lambda kv: -kv[1]["V"]):
-        if k not in style:
+    OFF = {"baseline": (6, -11, "left"), "ledger": (7, 6, "left"), "ledger_auth": (-7, -12, "right"), "pdp": (6, 13, "left"), "ask_gate": (-4, 13, "right"),
+           "aud_trace": (8, 3, "left"), "aud_trace_just": (-7, 7, "right"), "aud_min": (6, 5, "left"), "prompt_defense": (6, 6, "left")}
+    ax.set_xlim(0.15, 1.0); ax.set_ylim(-0.07, 0.62)
+    for k, v in dc.items():
+        if k not in style or v.get("V") is None or v["V"] != v["V"]:
             continue
         col, mk = style[k]
-        ax.scatter(v["goal_safe"], v["V"], s=34, color=col, marker=mk, edgecolor="white", linewidth=0.8, zorder=3)
-        px, py = ax.transData.transform((v["goal_safe"], v["V"]))
-        for dx, dy, ha in offs:
-            cx, cy = px + dx * 200 / 72, py + dy * 200 / 72
-            w = len(names[k]) * 6.3 * 0.55 * 200 / 72
-            x0, x1 = (cx, cx + w) if ha == "left" else (cx - w, cx)
-            if all(not (x0 < b[1] and x1 > b[0] and abs(cy - b[2]) < 9 * 200 / 72) for b in placed) and x1 < ax.transData.transform((1.0, 0))[0] * 1.15 and x0 > ax.transData.transform((0, 0))[0] - 5:
-                placed.append((x0, x1, cy))
-                ax.annotate(names[k], (v["goal_safe"], v["V"]), xytext=(dx, dy), textcoords="offset points", fontsize=6.3, color=INK, ha=ha)
-                break
-        else:
-            ax.annotate(names[k], (v["goal_safe"], v["V"]), xytext=(5, 3), textcoords="offset points", fontsize=6.3, color=INK)
+        ax.scatter(v["goal_safe"], v["V"], s=36, color=col, marker=mk, edgecolor="white", linewidth=0.8, zorder=3)
+        dx, dy, ha = OFF.get(k, (6, 4, "left"))
+        ax.annotate(names[k], (v["goal_safe"], v["V"]), xytext=(dx, dy), textcoords="offset points", fontsize=6.3, color=INK, ha=ha)
     ax.set_xlabel("safe twin: goal completion (utility)"); ax.set_ylabel("unsafe twin: unauthorized-action rate")
     from matplotlib.lines import Line2D
     ax.legend(handles=[Line2D([], [], marker="o", ls="", color=c, label=l) for c, l in ((GRAY, "baseline"), (BLUE, "gateway, outside the swarm"), (ORANGE, "inside the swarm (agents, prompts)"), (AQUA, "reporting only"))], loc="upper left", fontsize=6.3)

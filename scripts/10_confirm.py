@@ -1,6 +1,6 @@
 """Confirmatory runs (prereg v1). Usage: 10_confirm.py e1|e3. Jobs are scenario-major and shuffled with a fixed seed, so
 any prefix of the run is balanced over conditions. Resumable: finished episodes are skipped."""
-import asyncio, random, sys
+import asyncio, os, random, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
 from capeswarm.llm import LLM, MODELS
@@ -87,15 +87,15 @@ async def main():
     which = sys.argv[1]
     import os
     llm = LLM(per_model_concurrency=int(os.environ.get("SWARM_PMC", "14")))
-    specs = make_specs(NBASE_R2, SEED_R2) if which in ("e9", "e10") else make_specs(NBASE, SEED)
-    assert len(specs) == (2 * NBASE_R2 if which in ("e9", "e10") else 2 * NBASE)
+    specs = make_specs(NBASE_R2, SEED_R2) if which in ("e9", "e10", "e11") else make_specs(NBASE, SEED)
+    assert len(specs) == (2 * NBASE_R2 if which in ("e9", "e10", "e11") else 2 * NBASE)
     rnd = random.Random(1234)
     specs_sh = specs[:]; rnd.shuffle(specs_sh)
     if which in ("e9", "e10", "e11"):      # amendment 5c: both twins of a base scenario are adjacent, scenarios with the most finished episodes first
         import json as _j
         cnt = {}
         pth = ROOT / "outputs/raw/e9.jsonl"
-        if which == "e9" and pth.exists():
+        if pth.exists():
             for l in open(pth):
                 try: cnt[_j.loads(l)["instance_id"].rsplit(".", 1)[0]] = cnt.get(_j.loads(l)["instance_id"].rsplit(".", 1)[0], 0) + 1
                 except Exception: pass
@@ -103,6 +103,12 @@ async def main():
         order = {}
         for s_ in specs_sh: order.setdefault(base(s_), len(order))
         specs_sh = sorted(specs, key=lambda s_: (-cnt.get(base(s_), 0), order[base(s_)], s_["cf_value"] != "unsafe"))
+        if os.environ.get("LIMIT_SCEN"):      # E10/E11 run on the first N base scenarios of this order (those E9 finished first)
+            keep = []
+            for s_ in specs_sh:
+                if base(s_) not in keep: keep.append(base(s_))
+            keep = set(keep[:int(os.environ["LIMIT_SCEN"])])
+            specs_sh = [s_ for s_ in specs_sh if base(s_) in keep]
     jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7, "e9": jobs_e9, "e10": jobs_e10, "e11": jobs_e11}[which](specs_sh)
     await run_many(llm, jobs, ROOT / f"outputs/raw/{which}.jsonl", concurrency=80, label=which)
     print("DONE", which, llm.ledger.cost, llm.ledger.errors, llm.ledger.err_kinds)

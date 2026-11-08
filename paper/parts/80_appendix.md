@@ -34,7 +34,7 @@ We used Claude Code (Claude Sonnet 5.5) as a coding assistant for the harness, t
 ## Appendix C. All preregistered hypotheses
 We list every hypothesis, including those that did not hold. Directions and thresholds were fixed before the data existed (`docs/PREREG_v1.md` and its addenda). Holm correction is applied within each family (H1–H7; H12–H14; H15–H16; H18–H19; H17 is a single test).
 
-TABLE: **Table C1.** Outcome of every hypothesis. Estimates are pooled over models with equal weight; intervals are 95% cluster-bootstrap over base scenarios.
+TABLE{0.45,3.2,2.2,0.85}: **Table C1.** Outcome of every hypothesis. Estimates are pooled over models with equal weight; intervals are 95% cluster-bootstrap over base scenarios.
 {{X['hyp_table']}}
 
 TABLE: **Table C2.** Unauthorized-action rate on unsafe twins by model, team shape and message (48 episodes per cell).
@@ -43,10 +43,10 @@ TABLE: **Table C2.** Unauthorized-action rate on unsafe twins by model, team sha
 TABLE: **Table C3.** Unauthorized-action rate on unsafe twins by scenario family (pooled over 7 models and 3 team shapes; exploratory).
 {{X['family_table']}}
 
-TABLE: **Table C4.** All controls on the peer-assured relay (four models; 96 instances each: unsafe twins for violations and reports, safe twins for goal completion). Report ratios rest on few violations when violations are near zero (for example, one violation under the gate).
+TABLE{1.75,0.95,0.7,1.15,1.0,0.95}: **Table C4.** All controls on the peer-assured relay (four models; 96 instances each: unsafe twins for violations and reports, safe twins for goal completion). Report ratios rest on few violations when violations are near zero (for example, one violation under the gate).
 {{X['controls_table']}}
 
-TABLE: **Table D1.** Every experiment, its design and its size (all on the confirmatory seed unless noted).
+TABLE{1.25,2.65,0.65,0.8,1.1}: **Table D1.** Every experiment, its design and its size (all on the confirmatory seed unless noted).
 | Experiment | What varies | Models | Episodes | Hypotheses |
 |---|---|---|---|---|
 | E1 behavior | model × team shape × message × twin (96 instances per cell) | 7 | {{D['counts']['e1']}} | H1–H3 |

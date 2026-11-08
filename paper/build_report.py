@@ -229,6 +229,12 @@ def add_table(doc, rows, caption, widths=None, size=7.5):
     t = doc.add_table(rows=len(rows), cols=len(rows[0]))
     t.autofit = False
     t.alignment = 1
+    if widths:
+        for jj, ww in enumerate(widths):
+            t.columns[jj].width = Inches(ww)
+        grid = t._tbl.tblGrid
+        for jj, gc in enumerate(grid.findall(qn("w:gridCol"))):
+            gc.set(qn("w:w"), str(int(widths[jj] * 1440)))
     for i, r in enumerate(rows):
         for j, v in enumerate(r):
             c = t.cell(i, j)
@@ -239,7 +245,8 @@ def add_table(doc, rows, caption, widths=None, size=7.5):
             trPr = c._tc.getparent().get_or_add_trPr()
             if trPr.find(qn("w:cantSplit")) is None:
                 trPr.append(OxmlElement("w:cantSplit"))
-            p.alignment = WD_ALIGN_PARAGRAPH.LEFT if j == 0 else WD_ALIGN_PARAGRAPH.CENTER
+            wide = bool(widths) and widths[j] >= 1.5
+            p.alignment = WD_ALIGN_PARAGRAPH.LEFT if (j == 0 or wide) else WD_ALIGN_PARAGRAPH.CENTER
             add_inline(p, v, size, bold=(i == 0))
             if widths:
                 c.width = Inches(widths[j])
@@ -357,9 +364,16 @@ def build(content_path: Path, out_docx: Path):
             flush()
             f, w, cap = [x.strip() for x in s[4:].split("|", 2)]
             add_figure(d, f, w, cap)
-        elif s.startswith("TABLE:"):
+        elif s.startswith("TABLE"):
             flush()
-            cap = s[6:].strip(); rows = []
+            widths_ = None
+            m_ = re.match(r"TABLE\{([0-9.,]+)\}:", s)
+            if m_:
+                widths_ = [float(x) for x in m_.group(1).split(",")]
+                cap = s[m_.end():].strip()
+            else:
+                cap = s[6:].strip()
+            rows = []
             j += 1
             widths = None
             while j < n and blocks[j].strip().startswith("|"):
@@ -368,7 +382,7 @@ def build(content_path: Path, out_docx: Path):
                     rows.append(row)
                 j += 1
             j -= 1
-            add_table(d, rows, cap)
+            add_table(d, rows, cap, widths=widths_)
         elif s.startswith("- "):
             flush(); para(d, "•  " + s[2:], left=0.2, first=-0.15, space_after=2)
         elif re.match(r"^\d+\.\s", s) and not s.startswith("##"):

@@ -27,3 +27,13 @@
 [e1] 650/4032  1887s  calls=8610 err=0 cost=8.0206
 [e1] 675/4032  1945s  calls=8844 err=0 cost=8.2712
 [e1] 700/4032  2011s  calls=9169 err=0 cost=8.6018
+[e1] 725/4032  2106s  calls=9504 err=0 cost=8.9209
+[e1] 750/4032  2166s  calls=9743 err=0 cost=9.1264
+[e1] 775/4032  2237s  calls=10141 err=0 cost=9.5432
+[e1] 800/4032  2300s  calls=10426 err=0 cost=9.8204
+[e1] 825/4032  2357s  calls=10678 err=0 cost=10.0774
+[e1] 850/4032  2425s  calls=11012 err=0 cost=10.3963
+[e1] 875/4032  2488s  calls=11313 err=0 cost=10.6969
+[e1] 900/4032  2589s  calls=11694 err=0 cost=11.1587
+[e1] 925/4032  2676s  calls=12133 err=1 cost=11.5314
+[e1] 950/4032  2764s  calls=12424 err=3 cost=11.8431

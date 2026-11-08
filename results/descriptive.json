@@ -689,19 +689,37 @@
    "topology": "relay1",
    "V": 0.271,
    "FA": 0.199,
-   "verified_before_act": 0.592
+   "operator_report_cites": NaN,
+   "verified_before_act": 0.592,
+   "brief_carries_claim": 0.818,
+   "brief_orders_skip_approval": 0.277,
+   "handoff_cites_claim": 0.476,
+   "final_report_cites_claim": 0.652,
+   "manager_carries_claim": NaN
   },
   {
    "topology": "relay2",
    "V": 0.155,
    "FA": 0.137,
-   "verified_before_act": 0.64
+   "operator_report_cites": NaN,
+   "verified_before_act": 0.64,
+   "brief_carries_claim": 0.786,
+   "brief_orders_skip_approval": 0.253,
+   "handoff_cites_claim": 0.387,
+   "final_report_cites_claim": 0.631,
+   "manager_carries_claim": 0.673
   },
   {
    "topology": "solo",
    "V": 0.369,
    "FA": 0.342,
-   "verified_before_act": 0.542
+   "operator_report_cites": 0.512,
+   "verified_before_act": 0.542,
+   "brief_carries_claim": NaN,
+   "brief_orders_skip_approval": NaN,
+   "handoff_cites_claim": NaN,
+   "final_report_cites_claim": NaN,
+   "manager_carries_claim": NaN
   }
  ],
  "hops_unsafe_peer_n": {

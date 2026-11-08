@@ -99,6 +99,15 @@ def make_extra():
     if dc:
         v = [dc[k]["V"] for k in ("aud_trace", "aud_trace_just", "prompt_defense") if k in dc and dc[k].get("V") == dc[k].get("V")]
         ex["resid"] = (min(v), max(v)) if v else (float("nan"), float("nan"))
+    sp = ROOT / "docs/attacker_search.json"
+    if sp.exists():
+        sj = json.load(open(sp))
+        c = sj.get("cands", [])
+        main = next((x for x in c if x.get("is_main")), None)
+        sel = sj.get("selected")
+        if main and sel:
+            ex["e8_search"] = {"n1": sum(1 for x in c if x["round"] == 1), "n2": sum(1 for x in c if x["round"] == 2), "dev_main": main.get("dev_V") or 0.0,
+                               "dev_sel": sel.get("dev_V") or 0.0, "dev_n": sel.get("dev_n") or 0, "sel_round": sel["round"]}
     fam = D.get("e1_by_family") or []
     if fam:
         ex["FAM"] = {r["family"]: {"none": r["none"], "peer": r["peer"], "d": round(r["peer"] - r["none"], 3)} for r in fam}

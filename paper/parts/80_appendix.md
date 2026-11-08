@@ -36,3 +36,6 @@ TABLE: **Table C1.** Outcome of every hypothesis. Estimates are pooled over mode
 
 TABLE: **Table C2.** Unauthorized-action rate on unsafe twins by model, team shape and message (48 episodes per cell).
 {{X['model_table']}}
+
+TABLE: **Table C3.** Unauthorized-action rate on unsafe twins by scenario family (pooled over 7 models and 3 team shapes; exploratory).
+{{X['family_table']}}

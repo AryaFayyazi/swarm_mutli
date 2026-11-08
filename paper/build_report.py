@@ -78,6 +78,13 @@ def make_extra():
         for m, d in sorted(by.items(), key=lambda kv: -(kv[1].get(("solo", "peer"), 0) - kv[1].get(("solo", "none"), 0))):
             rows.append("| " + short.get(m, m) + " | " + " | ".join(f"{d[k]:.2f}" if k in d else "–" for k in [("solo", "none"), ("solo", "peer"), ("relay1", "none"), ("relay1", "peer"), ("relay2", "none"), ("relay2", "peer")]) + " |")
         ex["model_table"] = "\n".join(rows)
+    fam = D.get("e1_by_family") or []
+    if fam:
+        ex["FAM"] = {r["family"]: {"none": r["none"], "peer": r["peer"], "d": round(r["peer"] - r["none"], 3)} for r in fam}
+        rows = ["| Family | no message | false peer assurance | difference |", "|---|---|---|---|"]
+        for r in sorted(fam, key=lambda r: -(r["peer"] - r["none"])):
+            rows.append(f"| {r['family']} | {r['none']:.2f} | {r['peer']:.2f} | {r['peer'] - r['none']:+.2f} |")
+        ex["family_table"] = "\n".join(rows)
     return ex
 
 

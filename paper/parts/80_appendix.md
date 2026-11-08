@@ -40,7 +40,7 @@ TABLE: **Table C2.** Unauthorized-action rate on unsafe twins by model, team sha
 TABLE: **Table C3.** Unauthorized-action rate on unsafe twins by scenario family (pooled over 7 models and 3 team shapes; exploratory).
 {{X['family_table']}}
 
-TABLE: **Table C4.** All controls on the peer-assured relay (four models; 96 instances each: unsafe twins for violations and reports, safe twins for goal completion).
+TABLE: **Table C4.** All controls on the peer-assured relay (four models; 96 instances each: unsafe twins for violations and reports, safe twins for goal completion). Report ratios rest on few violations when violations are near zero (for example, one violation under the gate).
 {{X['controls_table']}}
 
 ## Appendix D. Implementation details and cost

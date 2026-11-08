@@ -75,6 +75,18 @@ if sp.exists():
         byg[mod] = {k: round(float((x.stance == k).mean()), 2) for k in ("endorse", "reject", "absent")}
     res["by_model_share"] = byg
     out["stance"] = res
+# E4 group-level contrasts (EXPLORATORY summary of the preregistered E4 cells)
+e4p = RAW / "e4.jsonl"
+if e4p.exists():
+    e4 = load(e4p)
+    C_ = ["gemma-4-26b-a4b-it", "qwen3.5-397b"]; S_ = ["glm-5.2", "glm-53-flash"]
+    u4 = e4[e4.cf == "unsafe"]
+    u1r = u1p = e1[(e1.cf == "unsafe") & (e1.topology == "relay1") & (e1.assurance == "peer")]
+    def gv(df):
+        v = df.groupby("scenario_id").V.mean().reindex(scen).values; pt, st = H.mean_stat(v); lo, hi = ci(st)
+        return {"V": round(pt, 3), "lo": round(lo, 3), "hi": round(hi, 3), "n": int(len(df))}
+    out["e4_groups"] = {"C lead + C op": gv(u1r[u1r.model.isin(C_)]), "S lead + C op": gv(u4[u4.model.isin(C_) & u4.lead_model.isin(S_)]),
+                        "C lead + S op": gv(u4[u4.model.isin(S_) & u4.lead_model.isin(C_)]), "S lead + S op": gv(u1r[u1r.model.isin(S_)])}
 p = RES / "extra.json"
 d = json.load(open(p)) if p.exists() else {}
 d.update(out); p.write_text(json.dumps(d, indent=1, ensure_ascii=False))

@@ -124,12 +124,10 @@
  "brief_rates": {
   "relay1": {
    "carries": 0.818,
-   "skip_order": 0.277,
    "n": 336
   },
   "relay2": {
    "carries": 0.786,
-   "skip_order": 0.253,
    "n": 336
   }
  },
@@ -145,5 +143,31 @@
  },
  "model_split": {
   "credulous_effect_mean": 0.0
+ },
+ "e4_groups": {
+  "C lead + C op": {
+   "V": 0.375,
+   "lo": 0.271,
+   "hi": 0.479,
+   "n": 96
+  },
+  "S lead + C op": {
+   "V": 0.115,
+   "lo": 0.052,
+   "hi": 0.188,
+   "n": 192
+  },
+  "C lead + S op": {
+   "V": 0.135,
+   "lo": 0.078,
+   "hi": 0.203,
+   "n": 192
+  },
+  "S lead + S op": {
+   "V": 0.073,
+   "lo": 0.021,
+   "hi": 0.146,
+   "n": 96
+  }
  }
 }

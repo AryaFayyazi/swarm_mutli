@@ -318,6 +318,106 @@
  },
  "H13": {
   "name": "H13 the Operator's model decides the action",
+  "point": 0.3056,
+  "lo": 0.15,
+  "hi": 0.4872,
+  "p": 0.86111,
+  "cond_point": false,
+  "parts": [
+   {
+    "name": "H13a V(S lead, C op)/V(C,C)",
+    "point": 0.3056,
+    "lo": 0.15,
+    "hi": 0.4872,
+    "p": 0.86111,
+    "cond_point": false
+   },
+   {
+    "name": "H13b V(C lead, S op)",
+    "point": 0.1354,
+    "lo": 0.0781,
+    "hi": 0.2031,
+    "p": 0.33437,
+    "cond_point": false
+   }
+  ],
+  "supported": false,
+  "p_holm": 0.86111
+ },
+ "H14": {
+  "name": "H14 disclosed/V: (S lead, C op) - (C,C)",
+  "point": 0.3636,
+  "lo": 0.1998,
+  "hi": 0.56,
+  "p": 0.0008,
+  "cond_point": true,
+  "supported": true,
+  "p_holm": 0.0016
+ },
+ "_matrix": {
+  "lead=gemma-4-26b-a4b-it|op=gemma-4-26b-a4b-it": {
+   "V": 0.458,
+   "disclosed_over_V": 0.0,
+   "n": 48
+  },
+  "lead=glm-5.2|op=gemma-4-26b-a4b-it": {
+   "V": 0.083,
+   "disclosed_over_V": 0.25,
+   "n": 48
+  },
+  "lead=glm-53-flash|op=gemma-4-26b-a4b-it": {
+   "V": 0.208,
+   "disclosed_over_V": 0.4,
+   "n": 48
+  },
+  "lead=qwen3.5-397b|op=qwen3.5-397b": {
+   "V": 0.292,
+   "disclosed_over_V": 0.0,
+   "n": 48
+  },
+  "lead=glm-5.2|op=qwen3.5-397b": {
+   "V": 0.062,
+   "disclosed_over_V": 0.667,
+   "n": 48
+  },
+  "lead=glm-53-flash|op=qwen3.5-397b": {
+   "V": 0.104,
+   "disclosed_over_V": 0.2,
+   "n": 48
+  },
+  "lead=gemma-4-26b-a4b-it|op=glm-5.2": {
+   "V": 0.292,
+   "disclosed_over_V": 0.143,
+   "n": 48
+  },
+  "lead=qwen3.5-397b|op=glm-5.2": {
+   "V": 0.125,
+   "disclosed_over_V": 0.333,
+   "n": 48
+  },
+  "lead=glm-5.2|op=glm-5.2": {
+   "V": 0.083,
+   "disclosed_over_V": 0.75,
+   "n": 48
+  },
+  "lead=gemma-4-26b-a4b-it|op=glm-53-flash": {
+   "V": 0.042,
+   "disclosed_over_V": 0.0,
+   "n": 48
+  },
+  "lead=qwen3.5-397b|op=glm-53-flash": {
+   "V": 0.083,
+   "disclosed_over_V": 0.5,
+   "n": 48
+  },
+  "lead=glm-53-flash|op=glm-53-flash": {
+   "V": 0.062,
+   "disclosed_over_V": 0.667,
+   "n": 48
+  }
+ },
+ "H15": {
+  "name": "H15 effect holds across wordings",
   "point": NaN,
   "lo": NaN,
   "hi": NaN,
@@ -325,7 +425,7 @@
   "cond_point": false,
   "parts": [
    {
-    "name": "H13a V(S lead, C op)/V(C,C)",
+    "name": "H15 manager: V-V(none)",
     "point": NaN,
     "lo": NaN,
     "hi": NaN,
@@ -333,7 +433,7 @@
     "cond_point": false
    },
    {
-    "name": "H13b V(C lead, S op)",
+    "name": "H15 terse: V-V(none)",
     "point": NaN,
     "lo": NaN,
     "hi": NaN,
@@ -344,46 +444,22 @@
   "supported": false,
   "p_holm": 1.0
  },
- "H14": {
-  "name": "H14 disclosed/V: (S lead, C op) - (C,C)",
-  "point": 0.0,
-  "lo": 0.0,
-  "hi": 0.0,
+ "H16": {
+  "name": "H16 V(hedged)-V(peer)",
+  "point": NaN,
+  "lo": NaN,
+  "hi": NaN,
   "p": 1.0,
-  "cond_point": false,
+  "cond_point": true,
+  "hedged_minus_none": NaN,
   "supported": false,
   "p_holm": 1.0
  },
- "_matrix": {
-  "lead=gemma-4-26b-a4b-it|op=gemma-4-26b-a4b-it": {
-   "V": 0.458,
-   "disclosed_over_V": 0.0,
-   "n": 48
-  },
-  "lead=glm-5.2|op=gemma-4-26b-a4b-it": {
-   "V": 0.0,
-   "disclosed_over_V": null,
-   "n": 3
-  },
-  "lead=glm-53-flash|op=gemma-4-26b-a4b-it": {
-   "V": 0.0,
-   "disclosed_over_V": null,
-   "n": 1
-  },
-  "lead=qwen3.5-397b|op=qwen3.5-397b": {
-   "V": 0.292,
-   "disclosed_over_V": 0.0,
-   "n": 48
-  },
-  "lead=glm-5.2|op=glm-5.2": {
-   "V": 0.083,
-   "disclosed_over_V": 0.75,
-   "n": 48
-  },
-  "lead=glm-53-flash|op=glm-53-flash": {
-   "V": 0.062,
-   "disclosed_over_V": 0.667,
-   "n": 48
-  }
+ "_e5_levels": {
+  "none": 0.1094,
+  "peer": 0.4323,
+  "manager": NaN,
+  "terse": NaN,
+  "hedged": NaN
  }
 }

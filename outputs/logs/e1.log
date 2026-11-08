@@ -1,2 +1,4 @@
 [e1] 4032 to run, 0 cached
 [e1] 25/4032  133s  calls=799 err=0 cost=0.5503
+[e1] 50/4032  242s  calls=1106 err=0 cost=0.8008
+[e1] 75/4032  316s  calls=1593 err=0 cost=1.1742

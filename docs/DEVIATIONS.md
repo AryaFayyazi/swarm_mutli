@@ -12,3 +12,7 @@
 - The Python process that runs E1/E3 loaded `llm.py/swarm.py/runner.py` at launch. `swarm.py` and `runner.py` were edited
   afterwards only to ADD the `prompt_defense` option and mixed-model episode ids (hashes in prereg_v1_1_lock.json);
   every E1/E3 code path is unchanged when the option is off.
+- 2026-11-07 (later): Addendum 2 (E5 wording robustness, E6 test–retest) added to PREREG_v1_1_addendum.md and locked in
+  `prereg_v1_4_lock.json` before any confirmatory outcome was read. `swarm.py` gained three assurance wordings (the `peer`
+  wording and every E1/E3 code path are unchanged); `10_confirm.py` gained jobs e5/e6; `hyp.py`/`20_analyze.py` gained e5_rows/e6_rows.
+  The queue order is now E3b → E4 → E5 → E6 → E2 (one process at a time, because the API limit is per user).

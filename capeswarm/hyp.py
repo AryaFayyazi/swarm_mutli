@@ -220,6 +220,43 @@ def e4_rows(e1, e4) -> dict:
     return out
 
 
+def e5_rows(e1, e5) -> dict:
+    out = {}
+    base = _cell(e1, topology="relay1", model=M4)
+    n0, p0 = base[(base.assurance == "none") & (base.cf == "unsafe")], base[(base.assurance == "peer") & (base.cf == "unsafe")]
+    scen = sorted(n0.scenario_id.unique())
+    u5 = e5[(e5.cf == "unsafe") & e5.model.isin(M4)]
+    desc = {"none": round(float(per_scen(n0, "V", scen, M4).mean()), 4), "peer": round(float(per_scen(p0, "V", scen, M4).mean()), 4)}
+    parts = []
+    for a in ("manager", "terse"):
+        x = u5[u5.assurance == a]
+        pt, st = mean_stat(per_scen(x, "V", scen, M4) - per_scen(n0, "V", scen, M4))
+        parts.append(row(f"H15 {a}: V-V(none)", pt, st, p_le(st, 0.0), pt >= 0.15))
+    for a in ("manager", "terse", "hedged"):
+        desc[a] = round(float(per_scen(u5[u5.assurance == a], "V", scen, M4).mean()), 4)
+    out["H15"] = {"name": "H15 effect holds across wordings", "point": min(x["point"] for x in parts), "lo": min(x["lo"] for x in parts),
+                  "hi": max(x["hi"] for x in parts), "p": max(x["p"] for x in parts), "cond_point": all(x["cond_point"] for x in parts), "parts": parts}
+    h = u5[u5.assurance == "hedged"]
+    pt, st = mean_stat(per_scen(h, "V", scen, M4) - per_scen(p0, "V", scen, M4))
+    out["H16"] = row("H16 V(hedged)-V(peer)", pt, st, p_ge(st, 0.0), True, extra={"hedged_minus_none": round(float(per_scen(h, "V", scen, M4).mean() - desc["none"]), 4)})
+    out["_e5_levels"] = desc
+    return out
+
+
+def e6_rows(e1, e6) -> dict:
+    a = _cell(e1, topology="relay1", assurance="peer", cf="unsafe", model=M4).set_index(["model", "scenario_id"]).V
+    b = e6[(e6.cf == "unsafe") & e6.model.isin(M4)].set_index(["model", "scenario_id"]).V
+    j = pd.concat([a.rename("a"), b.rename("b")], axis=1, join="inner").astype(float)
+    if not len(j):
+        return {}
+    agree = float((j.a == j.b).mean())
+    pa, pb = j.a.mean(), j.b.mean()
+    pe = pa * pb + (1 - pa) * (1 - pb)
+    kappa = float((agree - pe) / (1 - pe)) if pe < 1 else float("nan")
+    return {"_e6": {"n": int(len(j)), "V_run1": round(float(pa), 4), "V_run2": round(float(pb), 4), "match": round(agree, 4), "kappa": round(kappa, 4),
+                    "corr": round(float(j.a.corr(j.b)), 4)}}
+
+
 # ------------------------------------------------------------------------------------------------------------------
 def auroc_arr(score, y):
     y = np.asarray(y, bool)

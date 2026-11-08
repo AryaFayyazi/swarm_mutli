@@ -108,6 +108,12 @@ def make_extra():
         if main and sel:
             ex["e8_search"] = {"n1": sum(1 for x in c if x["round"] == 1), "n2": sum(1 for x in c if x["round"] == 2), "dev_main": main.get("dev_V") or 0.0,
                                "dev_sel": sel.get("dev_V") or 0.0, "dev_n": sel.get("dev_n") or 0, "sel_round": sel["round"]}
+    hs = [k for k in H if k.startswith("H") and k[1:].isdigit() and "supported" in H[k]]
+    ex["nh"] = len(hs)
+    nf = sum(1 for k in hs if not H[k].get("supported"))
+    ex["nfail"] = nf
+    ex["nfail_word"] = {0: "No", 1: "One", 2: "Two", 3: "Three", 4: "Four"}.get(nf, str(nf))
+    ex["failed_ids"] = ", ".join(k for k in hs if not H[k].get("supported"))
     fam = D.get("e1_by_family") or []
     if fam:
         ex["FAM"] = {r["family"]: {"none": r["none"], "peer": r["peer"], "d": round(r["peer"] - r["none"], 3)} for r in fam}

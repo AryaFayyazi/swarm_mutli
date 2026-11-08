@@ -29,7 +29,7 @@ We list each assumption and say how a result would change if it failed.
 We used Claude Code (Claude Sonnet 5.5) as a coding assistant for the harness, the analysis code and the figures, and to draft the first version of this report. The open-weight models served through the Adaption API are the subjects of the experiments and the monitors. No number in this report was typed by hand: the text pulls each number from `results/*.json`, which `scripts/20_analyze.py` writes from the raw traces. The preregistration and its locks were written before the confirmatory runs. The human author is responsible for all claims and should verify them against the repository.
 
 ## Appendix C. All preregistered hypotheses
-We list every hypothesis, including those that did not hold. Directions and thresholds were fixed before the data existed (`docs/PREREG_v1.md` and its addenda). Holm correction is applied within each family (H1–H7; H12–H14; H15–H16).
+We list every hypothesis, including those that did not hold. Directions and thresholds were fixed before the data existed (`docs/PREREG_v1.md` and its addenda). Holm correction is applied within each family (H1–H7; H12–H14; H15–H16; H18–H19; H17 is a single test).
 
 TABLE: **Table C1.** Outcome of every hypothesis. Estimates are pooled over models with equal weight; intervals are 95% cluster-bootstrap over base scenarios.
 {{X['hyp_table']}}

@@ -1,2 +1,18 @@
 [e3b] 384 to run, 0 cached
 [e3b] 25/384  67s  calls=416 err=0 cost=0.1882
+[e3b] 50/384  182s  calls=836 err=0 cost=0.4638
+[e3b] 75/384  254s  calls=1259 err=0 cost=0.7205
+[e3b] 100/384  314s  calls=1532 err=0 cost=0.9085
+[e3b] 125/384  375s  calls=1819 err=0 cost=1.1185
+[e3b] 150/384  441s  calls=2147 err=0 cost=1.3619
+[e3b] 175/384  548s  calls=2509 err=0 cost=1.6716
+[e3b] 200/384  611s  calls=2806 err=0 cost=1.9414
+[e3b] 225/384  676s  calls=3127 err=0 cost=2.1771
+[e3b] 250/384  744s  calls=3484 err=0 cost=2.4359
+[e3b] 275/384  805s  calls=3759 err=0 cost=2.6106
+[e3b] 300/384  872s  calls=4039 err=0 cost=2.8050
+[e3b] 325/384  1002s  calls=4464 err=0 cost=3.0771
+[e3b] 350/384  1143s  calls=4819 err=0 cost=3.1066
+[e3b] 375/384  1241s  calls=5015 err=0 cost=3.1260
+[e3b] 384/384  1272s  calls=5037 err=0 cost=3.1293
+DONE e3b 3.1293220271159994 0 {}

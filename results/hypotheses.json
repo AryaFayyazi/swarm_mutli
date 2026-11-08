@@ -279,17 +279,45 @@
    "blocked_per_ep": 0.0
   },
   "prompt_defense": {
-   "V": NaN,
-   "goal_safe": NaN,
-   "goal_unsafe": NaN,
-   "FA_over_V": null,
-   "disclosed_over_V": null,
-   "n": 8,
+   "V": 0.0885,
+   "goal_safe": 0.8125,
+   "goal_unsafe": 0.4948,
+   "FA_over_V": 0.706,
+   "disclosed_over_V": 0.176,
+   "n": 384,
    "blocked_per_ep": 0.0
   }
  },
  "H12": {
   "name": "H12 prompt rule helps, not as ask-gate",
+  "point": -0.3438,
+  "lo": -0.4167,
+  "hi": -0.2708,
+  "p": 0.0002,
+  "cond_point": true,
+  "parts": [
+   {
+    "name": "H12a V(prompt)-V(base)",
+    "point": -0.3438,
+    "lo": -0.4167,
+    "hi": -0.2708,
+    "p": 0.0001,
+    "cond_point": true
+   },
+   {
+    "name": "H12b V(prompt)-V(ask_gate)",
+    "point": 0.0833,
+    "lo": 0.0417,
+    "hi": 0.1302,
+    "p": 0.0002,
+    "cond_point": true
+   }
+  ],
+  "supported": true,
+  "p_holm": 0.0006
+ },
+ "H13": {
+  "name": "H13 the Operator's model decides the action",
   "point": NaN,
   "lo": NaN,
   "hi": NaN,
@@ -297,15 +325,15 @@
   "cond_point": false,
   "parts": [
    {
-    "name": "H12a V(prompt)-V(base)",
+    "name": "H13a V(S lead, C op)/V(C,C)",
     "point": NaN,
     "lo": NaN,
     "hi": NaN,
     "p": 1.0,
-    "cond_point": true
+    "cond_point": false
    },
    {
-    "name": "H12b V(prompt)-V(ask_gate)",
+    "name": "H13b V(C lead, S op)",
     "point": NaN,
     "lo": NaN,
     "hi": NaN,
@@ -315,5 +343,47 @@
   ],
   "supported": false,
   "p_holm": 1.0
+ },
+ "H14": {
+  "name": "H14 disclosed/V: (S lead, C op) - (C,C)",
+  "point": 0.0,
+  "lo": 0.0,
+  "hi": 0.0,
+  "p": 1.0,
+  "cond_point": false,
+  "supported": false,
+  "p_holm": 1.0
+ },
+ "_matrix": {
+  "lead=gemma-4-26b-a4b-it|op=gemma-4-26b-a4b-it": {
+   "V": 0.458,
+   "disclosed_over_V": 0.0,
+   "n": 48
+  },
+  "lead=glm-5.2|op=gemma-4-26b-a4b-it": {
+   "V": 0.0,
+   "disclosed_over_V": null,
+   "n": 3
+  },
+  "lead=glm-53-flash|op=gemma-4-26b-a4b-it": {
+   "V": 0.0,
+   "disclosed_over_V": null,
+   "n": 1
+  },
+  "lead=qwen3.5-397b|op=qwen3.5-397b": {
+   "V": 0.292,
+   "disclosed_over_V": 0.0,
+   "n": 48
+  },
+  "lead=glm-5.2|op=glm-5.2": {
+   "V": 0.083,
+   "disclosed_over_V": 0.75,
+   "n": 48
+  },
+  "lead=glm-53-flash|op=glm-53-flash": {
+   "V": 0.062,
+   "disclosed_over_V": 0.667,
+   "n": 48
+  }
  }
 }

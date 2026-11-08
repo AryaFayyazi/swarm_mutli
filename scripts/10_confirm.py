@@ -35,6 +35,9 @@ def jobs_e5(specs):
 def jobs_e6(specs):
     return [(s, dict(model=m, topology="relay1", assurance="peer", rep=1, tag="e1")) for s in specs if s["cf_value"] == "unsafe" for m in M4]
 
+def jobs_e7(specs):
+    return [(s, dict(model=m, topology="relay1", assurance="peer", control_kind="aud_trace", auditor_model="glm-5.2", tag="e7")) for s in specs for m in M4]
+
 C_GRP = ["gemma-4-26b-a4b-it", "qwen3.5-397b"]
 S_GRP = ["glm-5.2", "glm-53-flash"]
 
@@ -59,7 +62,7 @@ async def main():
     assert len(specs) == 2 * NBASE
     rnd = random.Random(1234)
     specs_sh = specs[:]; rnd.shuffle(specs_sh)
-    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6}[which](specs_sh)
+    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7}[which](specs_sh)
     await run_many(llm, jobs, ROOT / f"outputs/raw/{which}.jsonl", concurrency=80, label=which)
     print("DONE", which, llm.ledger.cost, llm.ledger.errors, llm.ledger.err_kinds)
 asyncio.run(main())

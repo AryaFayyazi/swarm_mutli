@@ -24,6 +24,8 @@ def episode_id(spec: dict, cfg: dict) -> str:
              cfg.get("tag", "")]
     if cfg.get("prompt_defense"):
         parts.append("pd")
+    if cfg.get("auditor_model"):
+        parts.append("aud=" + cfg["auditor_model"])
     if cfg.get("models"):
         parts.append(json.dumps(cfg["models"], sort_keys=True))
     return "|".join(parts)

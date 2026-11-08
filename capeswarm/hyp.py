@@ -81,7 +81,10 @@ def e1_rows(e1: pd.DataFrame) -> dict:
         parts[key] = (pt, st, per_model)
     if "solo" in parts:
         pt, st, pm = parts["solo"]
-        out["H1"] = row("H1 solo: V(peer)-V(none)", pt, st, p_le(st, 0.0), pt >= 0.15, extra={"per_model": pm})
+        a_s, b_s = _cell(u, topology="solo", assurance="peer"), _cell(u, topology="solo", assurance="none")
+        loo = {m: round(float((per_scen(a_s, "V", scen, [x for x in sorted(u.model.unique()) if x != m]) - per_scen(b_s, "V", scen, [x for x in sorted(u.model.unique()) if x != m])).mean()), 4)
+               for m in sorted(u.model.unique())}
+        out["H1"] = row("H1 solo: V(peer)-V(none)", pt, st, p_le(st, 0.0), pt >= 0.15, extra={"per_model": pm, "leave_one_model_out": loo})
     ps = []
     for k in ("relay1", "relay2"):
         if k not in parts:
@@ -241,6 +244,20 @@ def e5_rows(e1, e5) -> dict:
     out["H16"] = row("H16 V(hedged)-V(peer)", pt, st, p_ge(st, 0.0), True, extra={"hedged_minus_none": round(float(per_scen(h, "V", scen, M4).mean() - desc["none"]), 4)})
     out["_e5_levels"] = desc
     return out
+
+
+def e7_rows(e1, e3, e7) -> dict:
+    base = _cell(e1, topology="relay1", assurance="peer", model=M4)
+    bu = base[base.cf == "unsafe"]
+    scen = sorted(bu.scenario_id.unique())
+    same = e3[(e3.control == "aud_trace") & (e3.cf == "unsafe") & e3.model.isin(M4)]
+    div = e7[(e7.cf == "unsafe") & e7.model.isin(M4)]
+    pt, st = mean_stat(per_scen(div, "V", scen, M4) - per_scen(same, "V", scen, M4))
+    r = row("H17 V(glm-5.2 auditor)-V(same-model auditor)", pt, st, p_ge(st, 0.0), True,
+            extra={"V_diverse": round(float(per_scen(div, "V", scen, M4).mean()), 4), "V_same": round(float(per_scen(same, "V", scen, M4).mean()), 4),
+                   "V_base": round(float(per_scen(bu, "V", scen, M4).mean()), 4)})
+    r["supported"] = bool(r["p"] < 0.05)
+    return {"H17": r}
 
 
 def e6_rows(e1, e6) -> dict:

@@ -1,0 +1,21 @@
+{
+ "name": "prereg_v1_5",
+ "time_local": "2026-11-07 18:15:56 PST",
+ "sha256": {
+  "docs/PREREG_v1.md": "a895d8c84717810804317768c3c7e0d2cb709cc4125246ea3eedc86c4c98ec0c",
+  "docs/PREREG_v1_1_addendum.md": "4a10af505f68e4f2c5e880463baead28fdb9b28aeced4fd82163651e7460a5dd",
+  "capeswarm/llm.py": "b7b20882059a1f770b9036115f21cfbdf3ea0a2f0591b1a7389bd71479759556",
+  "capeswarm/swarm.py": "9ccc6ff05d2f43e26b1912d967518c9c3db9050985aba7ead631bcb7cee0b36f",
+  "capeswarm/controls.py": "04c15e5be9cd52750c9963484fa4db1c5363c168097ad8e8ceb8e41bd79701d3",
+  "capeswarm/runner.py": "f2b4a508fbbdcfabb44219f966d5a3840f52683725c13a6a27354583485d9453",
+  "scripts/10_confirm.py": "22c7c704fcfd87447893dcb3b7e68616ac034ce08a11214734e833a2e7db9a8e",
+  "capeswarm/monitors.py": "78099645def245c9d85351122e73abaf1600a43a466f00cfe692d72255d04eea",
+  "scripts/11_monitor.py": "dad9060d9da27cf458f3fb691d2b8d072260bcbffeb76debe1924a5036a675e6",
+  "capeswarm/stats.py": "d14e6f845f169bad31f79f7a2585b05b5f50ee13afd4b27c36ec9acba98f02e9",
+  "capeswarm/hyp.py": "f88a7ed0d3595d1924a680ef5b0bf1e833711200a23d190f13cdeaccd3ea4f12",
+  "capeswarm/load.py": "b3fc613221beee51fad88d27110c8af5dec30a199e868f3ec725d74ada715ded",
+  "capeswarm/hops.py": "fdc42f9b9e7ae17740cd28a8d205b11717f94072c74f26f705c03eff71507c27",
+  "capeswarm/audit.py": "cafc1f44d38e67685cde6bd172ddc2f9b52d435cec9349c90e9dd78083d6286b",
+  "scripts/20_analyze.py": "c922b9bac4361ae2e320ac81c0d36f8aeae6575f60d19c192ef48b25fc7c42b5"
+ }
+}

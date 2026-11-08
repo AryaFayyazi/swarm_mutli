@@ -9,3 +9,6 @@
 [e1] 200/4032  673s  calls=3117 err=0 cost=2.5849
 [e1] 225/4032  730s  calls=3367 err=0 cost=2.8060
 [e1] 250/4032  855s  calls=3964 err=0 cost=3.2332
+[e1] 275/4032  963s  calls=4354 err=0 cost=3.5675
+[e1] 300/4032  1048s  calls=4844 err=0 cost=4.0833
+[e1] 325/4032  1107s  calls=5116 err=0 cost=4.3744

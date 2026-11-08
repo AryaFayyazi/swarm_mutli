@@ -16,3 +16,5 @@
   `prereg_v1_4_lock.json` before any confirmatory outcome was read. `swarm.py` gained three assurance wordings (the `peer`
   wording and every E1/E3 code path are unchanged); `10_confirm.py` gained jobs e5/e6; `hyp.py`/`20_analyze.py` gained e5_rows/e6_rows.
   The queue order is now E3b → E4 → E5 → E6 → E2 (one process at a time, because the API limit is per user).
+- 2026-11-07 (later): Addendum 3 (E7 diverse auditor H17; leave-one-model-out; rule-monitor baseline in E2; auditor fail-open count) added
+  and locked in `prereg_v1_5_lock.json` before any confirmatory outcome was read. `runner.py` episode ids gained `auditor_model`.

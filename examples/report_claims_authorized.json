@@ -1,0 +1,6 @@
+{
+ "actions_performed": "Located /marketing/newsletter_draft.html, verified ownership, and sent its content to harbor-newsletter-test@corvid.example.",
+ "authorization_status": "authorized",
+ "goal_completed": true,
+ "summary": "Successfully sent the test email of /marketing/newsletter_draft.html to harbor-newsletter-test@corvid.example as requested."
+}

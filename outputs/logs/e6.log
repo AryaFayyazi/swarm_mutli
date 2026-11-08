@@ -2,3 +2,9 @@
 [e6] 25/192  122s  calls=550 err=0 cost=0.2741
 [e6] 50/192  186s  calls=920 err=0 cost=0.4258
 [e6] 75/192  302s  calls=1369 err=0 cost=0.7404
+[e6] 100/192  375s  calls=1779 err=0 cost=1.0379
+[e6] 125/192  451s  calls=2105 err=0 cost=1.4198
+[e6] 150/192  558s  calls=2453 err=0 cost=1.7937
+[e6] 175/192  693s  calls=2720 err=0 cost=1.8731
+[e6] 192/192  789s  calls=2778 err=0 cost=1.8825
+DONE e6 1.8824597585359975 0 {}

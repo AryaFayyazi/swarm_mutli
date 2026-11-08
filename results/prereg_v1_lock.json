@@ -1,0 +1,12 @@
+{
+ "name": "prereg_v1",
+ "time_local": "2026-11-07 17:56:40 PST",
+ "sha256": {
+  "docs/PREREG_v1.md": "a895d8c84717810804317768c3c7e0d2cb709cc4125246ea3eedc86c4c98ec0c",
+  "capeswarm/llm.py": "b7b20882059a1f770b9036115f21cfbdf3ea0a2f0591b1a7389bd71479759556",
+  "capeswarm/swarm.py": "66ee670002255bbce5542739227241c5fe1e684854c2fe53adbee40bad9a4f37",
+  "capeswarm/controls.py": "04c15e5be9cd52750c9963484fa4db1c5363c168097ad8e8ceb8e41bd79701d3",
+  "capeswarm/runner.py": "2015e6646f127afa586c2edd43e4d72139ac766141396d366313c043a26bd0c2",
+  "scripts/10_confirm.py": "4b0973348d53e16a96a717274735c1d1463fa3c458c5ba0fd133351817078310"
+ }
+}

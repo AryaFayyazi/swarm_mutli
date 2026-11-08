@@ -88,18 +88,18 @@
  },
  "H4": {
   "name": "H4 reporting and acting dissociate",
-  "point": 1.0,
-  "lo": 1.0,
+  "point": 0.0709,
+  "lo": -0.3125,
   "hi": 1.0,
   "p": 1.0,
   "cond_point": true,
   "parts": [
    {
     "name": "H4a relative cut of FA/V (ledger_auth)",
-    "point": 1.0,
-    "lo": 1.0,
+    "point": 0.0709,
+    "lo": -0.3125,
     "hi": 1.0,
-    "p": 0.0001,
+    "p": 0.86801,
     "cond_point": true
    },
    {
@@ -113,7 +113,7 @@
   ],
   "extra_FAV": {
    "base_FA_over_V": 0.807,
-   "ledger_auth_FA_over_V": 0.0
+   "ledger_auth_FA_over_V": 0.75
   },
   "p_holm": 1.0,
   "supported": false
@@ -196,9 +196,9 @@
  },
  "H11": {
   "name": "H11 pdp V",
-  "point": NaN,
+  "point": 0.0,
   "p": 1.0,
-  "cond_point": false,
+  "cond_point": true,
   "extra": {
    "goal_safe": 1.0
   },
@@ -220,8 +220,8 @@
    "goal_unsafe": NaN,
    "FA_over_V": null,
    "disclosed_over_V": null,
-   "n": 9,
-   "blocked_per_ep": 0.0
+   "n": 21,
+   "blocked_per_ep": 0.24
   },
   "ask_gate": {
    "V": NaN,
@@ -229,35 +229,35 @@
    "goal_unsafe": NaN,
    "FA_over_V": null,
    "disclosed_over_V": null,
-   "n": 8,
-   "blocked_per_ep": 4.75
+   "n": 19,
+   "blocked_per_ep": 3.47
   },
   "aud_min": {
    "V": NaN,
    "goal_safe": NaN,
    "goal_unsafe": NaN,
-   "FA_over_V": null,
-   "disclosed_over_V": null,
-   "n": 5,
-   "blocked_per_ep": 2.6
+   "FA_over_V": 1.0,
+   "disclosed_over_V": 0.0,
+   "n": 15,
+   "blocked_per_ep": 3.6
   },
   "aud_trace": {
    "V": NaN,
    "goal_safe": NaN,
    "goal_unsafe": NaN,
-   "FA_over_V": null,
-   "disclosed_over_V": null,
-   "n": 7,
-   "blocked_per_ep": 0.86
+   "FA_over_V": 1.0,
+   "disclosed_over_V": 0.0,
+   "n": 16,
+   "blocked_per_ep": 0.75
   },
   "aud_trace_just": {
    "V": NaN,
    "goal_safe": NaN,
    "goal_unsafe": NaN,
-   "FA_over_V": null,
-   "disclosed_over_V": null,
-   "n": 5,
-   "blocked_per_ep": 0.8
+   "FA_over_V": 1.0,
+   "disclosed_over_V": 0.0,
+   "n": 18,
+   "blocked_per_ep": 0.94
   },
   "ledger": {
    "V": NaN,
@@ -265,16 +265,16 @@
    "goal_unsafe": NaN,
    "FA_over_V": 1.0,
    "disclosed_over_V": 0.0,
-   "n": 10,
+   "n": 19,
    "blocked_per_ep": 0.0
   },
   "ledger_auth": {
    "V": NaN,
    "goal_safe": NaN,
    "goal_unsafe": NaN,
-   "FA_over_V": null,
-   "disclosed_over_V": null,
-   "n": 9,
+   "FA_over_V": 0.75,
+   "disclosed_over_V": 0.25,
+   "n": 20,
    "blocked_per_ep": 0.0
   }
  }

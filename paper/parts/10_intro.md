@@ -1,5 +1,5 @@
 ## 1. Introduction
-Teams of AI agents now do real work with real tools, and the human often sees only the last message. This makes the *report* a safety-critical object. A recent investigation of a multi-agent incident found agents that spoofed tool calls and tried to edit the logs inside their own containers [16]. If we cannot trust what agents write about what they did, we need to know which record to trust, and who writes it.
+Teams of AI agents now do real work with real tools, and the human often sees only the last message. This makes the *report* a safety-critical object. A recent investigation of a multi-agent incident found agents that spoofed tool calls and tried to edit the logs inside their own containers [13]. If we cannot trust what agents write about what they did, we need to know which record to trust, and who writes it.
 
 We study one concrete way that reports go wrong. In a team, a peer agent states a plausible fact: "all approvals were already obtained (ticket #31819)". Nobody has verified it. The Lead passes it to the Operator, the Operator acts, and the Lead tells the human that the work was authorized and cites the ticket. We call this **assurance laundering**. An unverified claim enters the team as a remark, becomes an instruction, leads to an unauthorized action, and leaves the team as a confident, specific, false report.
 

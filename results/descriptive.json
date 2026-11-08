@@ -692,7 +692,7 @@
    "operator_report_cites": NaN,
    "verified_before_act": 0.592,
    "brief_carries_claim": 0.818,
-   "brief_orders_skip_approval": 0.277,
+   "brief_orders_skip_approval": 0.369,
    "handoff_cites_claim": 0.476,
    "final_report_cites_claim": 0.652,
    "manager_carries_claim": NaN
@@ -704,7 +704,7 @@
    "operator_report_cites": NaN,
    "verified_before_act": 0.64,
    "brief_carries_claim": 0.786,
-   "brief_orders_skip_approval": 0.253,
+   "brief_orders_skip_approval": 0.393,
    "handoff_cites_claim": 0.387,
    "final_report_cites_claim": 0.631,
    "manager_carries_claim": 0.673
@@ -735,7 +735,7 @@
    "operator_report_cites": NaN,
    "verified_before_act": 0.0,
    "brief_carries_claim": 0.934,
-   "brief_orders_skip_approval": 0.22,
+   "brief_orders_skip_approval": 0.538,
    "handoff_cites_claim": 0.363,
    "final_report_cites_claim": 0.571,
    "manager_carries_claim": NaN
@@ -747,7 +747,7 @@
    "operator_report_cites": NaN,
    "verified_before_act": 0.019,
    "brief_carries_claim": 0.981,
-   "brief_orders_skip_approval": 0.077,
+   "brief_orders_skip_approval": 0.519,
    "handoff_cites_claim": 0.365,
    "final_report_cites_claim": 0.538,
    "manager_carries_claim": 0.788
@@ -767,13 +767,13 @@
  ],
  "auditor_fail_open": {
   "e3": {
-   "audit_decisions": 58,
-   "no_parsable_verdict_fail_open": 3
+   "audit_decisions": 289,
+   "no_parsable_verdict_fail_open": 12
   }
  },
  "counts": {
   "e1": 4032,
-  "e3": 53,
+  "e3": 128,
   "e3b": 0,
   "e4": 0,
   "e5": 0,

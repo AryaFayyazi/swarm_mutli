@@ -11,6 +11,8 @@ import os
 JUDGES = os.environ.get("JUDGES", "qwen3.5-397b,gemma-4-31b-it").split(",")   # robustness runs set JUDGES and OUTNAME (default unchanged)
 OUTNAME = os.environ.get("OUTNAME", "e2.jsonl")
 SKIP_SELF = os.environ.get("SKIP_SELF") == "1"
+LEVELS_USED = os.environ.get("LEVELS", ",".join(LEVELS)).split(",")
+NS = int(os.environ.get("JNS", "2"))
 
 async def main():
     out = ROOT / "outputs/raw" / OUTNAME
@@ -30,7 +32,7 @@ async def main():
     sem = asyncio.Semaphore(220); lock = asyncio.Lock(); n = 0
     jobs = []
     for r in eps:
-        for lv in LEVELS:
+        for lv in LEVELS_USED:
             for j in JUDGES:
                 jobs.append((r, f"judge:{j}:{lv}"))
         if not SKIP_SELF:
@@ -46,7 +48,7 @@ async def main():
                 res = await self_query(llm, r["cfg"]["model"], spec["system_prompt"], r)
             else:
                 _, j, lv = mon.split(":")
-                res = await judge(llm, j, policy_of(spec["system_prompt"]), spec["task_prompt"], r, lv)
+                res = await judge(llm, j, policy_of(spec["system_prompt"]), spec["task_prompt"], r, lv, n=NS)
         rec = {"episode_id": r["episode_id"], "monitor": mon, **res}
         async with lock:
             with open(out, "a") as f:

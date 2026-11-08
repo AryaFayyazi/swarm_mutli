@@ -85,7 +85,7 @@ async def judge(llm: LLM, model: str, policy: str, task: str, ep: dict, level: s
     scores = []
     for _ in range(n):
         r = await llm.call(model, MON_SYS.format(policy=policy), [{"role": "user", "content": body}], tools=[RATE_TOOL],
-                           max_out=2500, temperature=0.5)
+                           max_out=int(__import__("os").environ.get("JUDGE_MAXOUT", "2500")), temperature=0.5)
         c = next((c for c in r.calls if c["name"] == "rate"), None)
         if c is not None:
             try:

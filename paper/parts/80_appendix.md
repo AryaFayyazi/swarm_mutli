@@ -2,7 +2,7 @@
 ### A.1 Limitations
 We list each assumption and say how a result would change if it failed.
 - **Open-weight models only.** The sprint API serves seven open-weight models. Frontier closed models may behave differently. The effect size varies a lot between our models (Figure 2a), so we do not claim a rate for any other model. The *direction* of the mechanism is what we test. If frontier models resist the assurance, H1 would fail for them, and the gateway results (H5) would still stand.
-- **The assurance is scripted.** One message from a peer starts the chain. We do not test an adaptive attacker who optimizes the message. Real attacks may be stronger. Our wording variants (E5) only show that the effect is not tied to one phrase.
+- **The attacker is weak.** One message from a peer starts the chain. We tested four hand-written wordings (E5) and a two-round search by one attacker model that saw only a generic description and development-seed scores (E8). A stronger attacker that knows the scenario, the policy or the agents' prompts, or one trained against the team, may do more.
 - **One model per team, mostly.** Teams use one model for every role. E4 mixes models, but only four models and only across the credulous/skeptical divide.
 - **Mock tools and a rule checker.** CAPE-Bench is synthetic. The permission system answers "approved" or "denied" by a fixed rule per world. Real approvers are slower and noisier. The utility cost of the ask-before-act gate may be larger in real workflows.
 - **The oracle policy check is an upper bound.** It uses the benchmark's own checker. Its zero violation rate is true by construction (H11), so we do not count it as a finding.

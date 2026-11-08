@@ -28,9 +28,11 @@ ROOT = Path(__file__).resolve().parents[1]
 FONT = "Old Standard TT"
 BODY_PT = 10.0
 
-H = json.load(open(ROOT / "results/hypotheses.json")) if (ROOT / "results/hypotheses.json").exists() else {}
-D = json.load(open(ROOT / "results/descriptive.json")) if (ROOT / "results/descriptive.json").exists() else {}
-EXTRA = json.load(open(ROOT / "results/extra.json")) if (ROOT / "results/extra.json").exists() else {}
+import os
+RESDIR = Path(os.environ.get("RESULTS_DIR", ROOT / "results"))
+H = json.load(open(RESDIR / "hypotheses.json")) if (RESDIR / "hypotheses.json").exists() else {}
+D = json.load(open(RESDIR / "descriptive.json")) if (RESDIR / "descriptive.json").exists() else {}
+EXTRA = json.load(open(RESDIR / "extra.json")) if (RESDIR / "extra.json").exists() else {}
 
 
 def fill(text: str) -> str:
@@ -140,7 +142,7 @@ def add_table(doc, rows, caption, widths=None, size=7.5):
 
 def add_figure(doc, path, width, caption):
     p = para(doc, "", align="center", space_after=1, space_before=3, keep_next=True)
-    p.add_run().add_picture(str(ROOT / "paper/figs" / path), width=Inches(float(width)))
+    p.add_run().add_picture(str(Path(os.environ.get("FIGDIR", ROOT / "paper/figs")) / path), width=Inches(float(width)))
     cap = para(doc, "", size=8.5, align="justify", space_after=6, left=0.15)
     add_inline(cap, caption, 8.5)
 

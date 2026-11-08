@@ -23,8 +23,8 @@ async def main():
         if r.get("out") and c["topology"] == "relay1" and c["model"] in M4:
             eps.append(r)
     print("traces", len(eps), flush=True)
-    llm = LLM(per_model_concurrency=14)
-    sem = asyncio.Semaphore(90); lock = asyncio.Lock(); n = 0
+    llm = LLM(per_model_concurrency=40)
+    sem = asyncio.Semaphore(220); lock = asyncio.Lock(); n = 0
     jobs = []
     for r in eps:
         for lv in LEVELS:

@@ -22,6 +22,14 @@ for l in open(RAW / "e9.jsonl"):
         if ex is None and f["where"] == "peer_message" and f["ok"]:
             ex = f
 res["_filter"] = {"calls": tot, "ok": ok, "fail_open": tot - ok, "changed": chg, "example": ex}
+p11 = RAW / "e11.jsonl"
+if p11.exists() and p11.stat().st_size:
+    res["counts"]["e11"] = int(len(load(p11)))
+    res.update(H2.e11_rows(e9, load(p11)))
+    sel = json.load(open(ROOT / "docs/filter_attacker_search.json")).get("selected")
+    res["_e11_selected"] = sel
+    for h in ("H28", "H29", "H30"):
+        if h in res: print(h, res[h]["point"], res[h]["lo"], res[h]["hi"], res[h].get("p_holm"), res[h]["supported"])
 p12 = RAW / "e12.jsonl"
 if p12.exists() and p12.stat().st_size:
     res["counts"]["e12"] = int(len(load(p12)))
@@ -45,7 +53,7 @@ if p10.exists() and pm.exists():
                 rule.append({"episode_id": r["episode_id"], "monitor": "rule", "score": float(bool(structural(led, specs.get(r["instance_id"]))["unrecorded_state_changes"]))})
     res.update(H2.e10_rows(e9, e10, mon, pd.DataFrame(rule)))
 (ROOT / "results/round2.json").write_text(json.dumps(res, indent=1, default=str))
-for h in ("H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27"):
+for h in ("H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27", "H28", "H29", "H30", "H31"):
     if h in res:
         r = res[h]; print(h, r["name"][:55], "pt", r["point"], "CI", r["lo"], r["hi"], "p_holm", r.get("p_holm"), "SUPPORTED" if r["supported"] else "not supported")
 if "_cells" in res:

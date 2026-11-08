@@ -57,7 +57,8 @@ def jobs_e4(specs):
 
 async def main():
     which = sys.argv[1]
-    llm = LLM(per_model_concurrency=14)
+    import os
+    llm = LLM(per_model_concurrency=int(os.environ.get("SWARM_PMC", "14")))
     specs = make_specs(NBASE, SEED)
     assert len(specs) == 2 * NBASE
     rnd = random.Random(1234)

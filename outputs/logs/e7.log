@@ -1,3 +1,11 @@
 [e7] 384 to run, 0 cached
 [e7] 25/384  150s  calls=620 err=32 cost=0.8454
 [e7] 50/384  256s  calls=1071 err=60 cost=1.5890
+[e7] 75/384  356s  calls=1511 err=74 cost=2.3469
+[e7] 100/384  476s  calls=1900 err=108 cost=3.0788
+[e7] 125/384  557s  calls=2239 err=133 cost=3.6981
+[e7] 150/384  662s  calls=2691 err=150 cost=4.4800
+[e7] 175/384  759s  calls=3027 err=178 cost=5.1166
+[e7] 200/384  892s  calls=3399 err=206 cost=5.7075
+[e7] 225/384  1209s  calls=3908 err=282 cost=6.5517
+[e7] 250/384  2288s  calls=4320 err=870 cost=7.0202

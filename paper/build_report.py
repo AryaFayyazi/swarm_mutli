@@ -62,7 +62,14 @@ def make_extra():
         if not r:
             rows.append(f"| {h} | {CLAIM[h]} | not run | not run |")
             continue
-        est = f"{r['point']:+.2f} [{r['lo']:+.2f}, {r['hi']:+.2f}]" if "lo" in r and r["lo"] == r["lo"] else f"{r['point']:+.2f}"
+        PL = {"H2": ["relay", "relay-2"], "H4": ["false reports cut", "change in V"], "H5": ["V", "goal drop"], "H6": ["call only", "+results", "+words"],
+              "H7": ["Gemma judge", "Qwen judge"], "H12": ["vs base", "vs gate"], "H13": ["ratio", "V"], "H15": ["manager", "terse"]}
+        def fmt(q):
+            return f"{q['point']:+.2f} [{q['lo']:+.2f}, {q['hi']:+.2f}]" if q.get("lo") == q.get("lo") and "lo" in q else f"{q['point']:+.2f}"
+        if r.get("parts") and h in PL:
+            est = "; ".join(f"{lab} {fmt(q)}" for lab, q in zip(PL[h], r["parts"]))
+        else:
+            est = fmt(r)
         res = "supported" if r.get("supported") else "**not supported**"
         rows.append(f"| {h} | {CLAIM[h]} | {est} | {res} |")
     ex["hyp_table"] = "\n".join(rows)
@@ -199,6 +206,10 @@ def add_table(doc, rows, caption, widths=None, size=7.5):
             c.text = ""
             p = c.paragraphs[0]
             p.paragraph_format.space_after = Pt(0); p.paragraph_format.line_spacing = 1.0
+            p.paragraph_format.keep_with_next = (i < len(rows) - 1)      # keep the table on one page
+            trPr = c._tc.getparent().get_or_add_trPr()
+            if trPr.find(qn("w:cantSplit")) is None:
+                trPr.append(OxmlElement("w:cantSplit"))
             p.alignment = WD_ALIGN_PARAGRAPH.LEFT if j == 0 else WD_ALIGN_PARAGRAPH.CENTER
             add_inline(p, v, size, bold=(i == 0))
             if widths:

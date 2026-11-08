@@ -104,7 +104,7 @@ class LLM:
             except Exception as e:  # network, 429, 5xx, parse
                 last = f"{type(e).__name__}: {str(e)[:600]}"
                 if "429" in last:
-                    self._pause_until = time.monotonic() + 20.0
+                    self._pause_until = time.monotonic() + float(os.environ.get("SWARM_PAUSE", "20"))
                 self.ledger.errors += 1
                 k = last[:90]
                 if len(self.ledger.err_samples) < 6 and '429' in last:

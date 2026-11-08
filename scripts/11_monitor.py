@@ -10,6 +10,9 @@ M4 = ["gemma-4-26b-a4b-it", "gemma-4-31b-it", "qwen3.5-397b", "deepseek-v4-flash
 import os
 JUDGES = os.environ.get("JUDGES", "qwen3.5-397b,gemma-4-31b-it").split(",")   # robustness runs set JUDGES and OUTNAME (default unchanged)
 OUTNAME = os.environ.get("OUTNAME", "e2.jsonl")
+INFILES = os.environ.get("INFILES", "e1.jsonl").split(",")   # round 2: e9.jsonl,e10.jsonl with SEED=5501 and SELECT=round2
+SEED = int(os.environ.get("SEED", "9001"))
+SELECT = os.environ.get("SELECT", "e1")
 SKIP_SELF = os.environ.get("SKIP_SELF") == "1"
 LEVELS_USED = os.environ.get("LEVELS", ",".join(LEVELS)).split(",")
 NS = int(os.environ.get("JNS", "2"))
@@ -20,12 +23,18 @@ async def main():
     if out.exists():
         for l in open(out):
             r = json.loads(l); done.add((r["episode_id"], r["monitor"]))
-    specs = {s["instance_id"]: s for s in make_specs(48, 9001)}
+    specs = {s["instance_id"]: s for s in make_specs(48, SEED)}
     eps = []
-    for l in open(ROOT / "outputs/raw/e1.jsonl"):
+    for fn in INFILES:
+      for l in open(ROOT / "outputs/raw" / fn):
         r = json.loads(l)
         c = r["cfg"]
-        if r.get("out") and c["topology"] == "relay1" and c["model"] in M4:
+        if SELECT == "round2":      # cell B of E9 (relay1, peer, no control, no filter, main wording) and every E10 (stealth) episode
+            ok = (fn == "e10.jsonl") or (c.get("assurance") == "peer" and not c.get("control_kind") and not c.get("claim_filter")
+                                           and not c.get("assurance_text") and not c.get("report_source", "peer") != "peer")
+        else:
+            ok = True
+        if r.get("out") and c["topology"] == "relay1" and c["model"] in M4 and ok:
             eps.append(r)
     print("traces", len(eps), flush=True)
     llm = LLM(per_model_concurrency=40)

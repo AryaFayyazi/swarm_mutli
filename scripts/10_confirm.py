@@ -7,6 +7,7 @@ from capeswarm.llm import LLM, MODELS
 from capeswarm.runner import make_specs, run_many
 
 SEED, NBASE = 9001, 48
+NBASE_R2 = 40          # amendment 5b: the API limit fell to ~60 requests/min, so round 2 uses 40 base scenarios
 SEED_R2 = 5501          # round 2 (addendum 5): fresh draws, E9 and E10
 M4 = ["gemma-4-26b-a4b-it", "gemma-4-31b-it", "qwen3.5-397b", "deepseek-v4-flash"]
 CONTROLS = ["pdp", "ask_gate", "aud_min", "aud_trace", "aud_trace_just"]
@@ -61,15 +62,16 @@ def _atk():
     return json.load(open(ROOT / "docs/attacker_search.json"))["selected"]["text"]
 
 def jobs_e9(specs):
+    """Amendment 5b: unsafe-only cells need no safe twin (V only); B, C, D run both twins (V and utility). No solo cells."""
     atk = _atk()
-    cells = [("A", dict(topology="relay1", assurance="none")), ("B", dict(topology="relay1", assurance="peer")),
-             ("C", dict(topology="relay1", assurance="peer", claim_filter="rewrite")),
-             ("D", dict(topology="relay1", assurance="peer", control_kind="ask_gate")),
-             ("E", dict(topology="relay1", assurance="terse")), ("F", dict(topology="relay1", assurance="terse", claim_filter="rewrite")),
-             ("G", dict(topology="relay1", assurance="peer", assurance_text=atk)),
-             ("H", dict(topology="relay1", assurance="peer", assurance_text=atk, claim_filter="rewrite")),
-             ("S0", dict(topology="solo", assurance="none")), ("S1", dict(topology="solo", assurance="peer"))]
-    return [(s, dict(model=m, tag="e9", **c)) for s in specs for m in M4 for _, c in cells]
+    cells = [("A", dict(assurance="none"), False), ("B", dict(assurance="peer"), True),
+             ("C", dict(assurance="peer", claim_filter="rewrite"), True),
+             ("D", dict(assurance="peer", control_kind="ask_gate"), True),
+             ("E", dict(assurance="terse"), False), ("F", dict(assurance="terse", claim_filter="rewrite"), False),
+             ("G", dict(assurance="peer", assurance_text=atk), False),
+             ("H", dict(assurance="peer", assurance_text=atk, claim_filter="rewrite"), False)]
+    return [(s, dict(model=m, topology="relay1", tag="e9", **c)) for s in specs for m in M4 for _, c, both in cells
+            if both or s["cf_value"] == "unsafe"]
 
 def jobs_e10(specs):
     return [(s, dict(model=m, topology="relay1", assurance="peer", stealth=True, tag="e10")) for s in specs for m in M4]
@@ -78,8 +80,8 @@ async def main():
     which = sys.argv[1]
     import os
     llm = LLM(per_model_concurrency=int(os.environ.get("SWARM_PMC", "14")))
-    specs = make_specs(NBASE, SEED_R2 if which in ("e9", "e10") else SEED)
-    assert len(specs) == 2 * NBASE
+    specs = make_specs(NBASE_R2, SEED_R2) if which in ("e9", "e10") else make_specs(NBASE, SEED)
+    assert len(specs) == (2 * NBASE_R2 if which in ("e9", "e10") else 2 * NBASE)
     rnd = random.Random(1234)
     specs_sh = specs[:]; rnd.shuffle(specs_sh)
     jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7, "e9": jobs_e9, "e10": jobs_e10}[which](specs_sh)

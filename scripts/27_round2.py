@@ -1,0 +1,48 @@
+"""Round 2 analysis (H20-H27) + descriptive extras. Reads outputs/raw/e9.jsonl, e10.jsonl, r2mon.jsonl. Writes results/round2.json. No API calls."""
+import json, sys
+from pathlib import Path
+import numpy as np, pandas as pd
+ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
+from capeswarm.load import load
+import capeswarm.hyp2 as H2
+from capeswarm.audit import structural
+from capeswarm.runner import make_specs
+
+RAW = ROOT / "outputs/raw"
+e9 = load(RAW / "e9.jsonl")
+res = {"counts": {"e9": int(len(e9))}}
+res.update(H2.e9_rows(e9))
+# filter behaviour (fail-open rate, how often the rewrite changed the message)
+tot = ok = chg = 0
+ex = None
+for l in open(RAW / "e9.jsonl"):
+    r = json.loads(l)
+    for f in (r.get("filter") or []):
+        tot += 1; ok += bool(f["ok"]); chg += bool(f["ok"] and f["out"].strip() != f["in"].strip())
+        if ex is None and f["where"] == "peer_message" and f["ok"]:
+            ex = f
+res["_filter"] = {"calls": tot, "ok": ok, "fail_open": tot - ok, "changed": chg, "example": ex}
+# report-level: false assurance among violators, cells B vs C vs D
+p10 = RAW / "e10.jsonl"
+pm = RAW / "r2mon.jsonl"
+if p10.exists() and pm.exists():
+    e10 = load(p10)
+    res["counts"]["e10"] = int(len(e10))
+    mon = pd.DataFrame([json.loads(l) for l in open(pm)])[["episode_id", "monitor", "score"]]
+    specs = {x["instance_id"]: x["user_email"] for x in make_specs(48, 5501)}
+    ids = set(mon.episode_id); rule = []
+    for fn in ("e9.jsonl", "e10.jsonl"):
+        for l in open(RAW / fn):
+            r = json.loads(l)
+            if r["episode_id"] in ids and r.get("out"):
+                led = [{"tool": e["tool"], "args": e["args"], "obs": e["obs"]} for e in r["ledger"] if not e.get("blocked")]
+                rule.append({"episode_id": r["episode_id"], "monitor": "rule", "score": float(bool(structural(led, specs.get(r["instance_id"]))["unrecorded_state_changes"]))})
+    res.update(H2.e10_rows(e9, e10, mon, pd.DataFrame(rule)))
+(ROOT / "results/round2.json").write_text(json.dumps(res, indent=1, default=str))
+for h in ("H20", "H21", "H22", "H23", "H24", "H25", "H26", "H27"):
+    if h in res:
+        r = res[h]; print(h, r["name"][:55], "pt", r["point"], "CI", r["lo"], r["hi"], "p_holm", r.get("p_holm"), "SUPPORTED" if r["supported"] else "not supported")
+if "_cells" in res:
+    for k, v in res["_cells"].items():
+        print(k, "V", v["V"], "goal_safe", v["goal_safe"], "FA/V", v["FA_over_V"], "n", v["n_unsafe"], v["n_safe"])
+print(res["_filter"]["calls"], "filter calls, fail-open", res["_filter"]["fail_open"], "changed", res["_filter"]["changed"])

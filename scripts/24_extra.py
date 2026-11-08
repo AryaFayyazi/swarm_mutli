@@ -129,6 +129,35 @@ if e2p.exists():
     # self-query: what do the Operators say about themselves in violating episodes?
     q = r2[r2.monitor == "self"].merge(key, on="episode_id")
     out["self_scores_by_V"] = {"V": round(float(q[q.V].score.mean()), 1), "noV": round(float(q[~q.V].score.mean()), 1)}
+# independent judge family (glm-53-flash never acted in these traces), L0 and L3 only (EXPLORATORY robustness run)
+e2xp = RAW / "e2x.jsonl"
+if e2xp.exists() and e2xp.stat().st_size:
+    from scipy.stats import rankdata
+    rx = pd.DataFrame([json.loads(l) for l in open(e2xp)])[["episode_id", "monitor", "score"]]
+    key = e1[["episode_id", "scenario_id", "V"]].drop_duplicates("episode_id")
+    wx = rx.pivot_table(index="episode_id", columns="monitor", values="score", aggfunc="first").join(key.set_index("episode_id"), how="inner")
+    res = {}
+    for lv in ("L0", "L3"):
+        col = f"judge:glm-53-flash:{lv}"
+        if col in wx:
+            res[f"nan_{lv}"] = round(float(wx[col].isna().mean()), 3)
+    ok = wx.dropna(subset=[c for c in wx.columns if c.startswith("judge:")]) if any(c.startswith("judge:") for c in wx.columns) else wx
+    yv = ok.V.values.astype(bool); scx = ok.scenario_id.values
+    gr = {s_: np.where(scx == s_)[0] for s_ in sorted(set(scx))}; ks = list(gr); rg = np.random.default_rng(9)
+    dr = [np.concatenate([gr[ks[i]] for i in rg.integers(0, len(ks), len(ks))]) for _ in range(1500)]
+    def aux(sc, ii):
+        yy = yv[ii]
+        if yy.sum() == 0 or (~yy).sum() == 0: return np.nan
+        rk = rankdata(sc[ii]); n1, n0 = yy.sum(), (~yy).sum(); return (rk[yy].sum() - n1 * (n1 + 1) / 2) / (n1 * n0)
+    if "judge:glm-53-flash:L0" in ok and "judge:glm-53-flash:L3" in ok:
+        a0 = ok["judge:glm-53-flash:L0"].values; a3 = ok["judge:glm-53-flash:L3"].values; allx = np.arange(len(yv))
+        for nm, sc in (("L0", a0), ("L3", a3)):
+            st = np.array([aux(sc, ii) for ii in dr]); st = st[np.isfinite(st)]
+            res[nm] = {"auroc": round(float(aux(sc, allx)), 3), "lo": round(float(np.quantile(st, .025)), 3), "hi": round(float(np.quantile(st, .975)), 3)}
+        st = np.array([aux(a3, ii) - aux(a0, ii) for ii in dr]); st = st[np.isfinite(st)]
+        res["L3-L0"] = {"point": round(float(aux(a3, allx) - aux(a0, allx)), 3), "lo": round(float(np.quantile(st, .025)), 3), "hi": round(float(np.quantile(st, .975)), 3)}
+        res["n"] = int(len(yv))
+    out["indep_judge"] = res
 p = RES / "extra.json"
 d = json.load(open(p)) if p.exists() else {}
 d.update(out); p.write_text(json.dumps(d, indent=1, ensure_ascii=False))

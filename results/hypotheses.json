@@ -418,48 +418,56 @@
  },
  "H15": {
   "name": "H15 effect holds across wordings",
-  "point": NaN,
-  "lo": NaN,
-  "hi": NaN,
-  "p": 1.0,
-  "cond_point": false,
+  "point": 0.2083,
+  "lo": 0.1354,
+  "hi": 0.3438,
+  "p": 0.0001,
+  "cond_point": true,
   "parts": [
    {
     "name": "H15 manager: V-V(none)",
-    "point": NaN,
-    "lo": NaN,
-    "hi": NaN,
-    "p": 1.0,
-    "cond_point": false
+    "point": 0.25,
+    "lo": 0.1615,
+    "hi": 0.3438,
+    "p": 0.0001,
+    "cond_point": true
    },
    {
     "name": "H15 terse: V-V(none)",
-    "point": NaN,
-    "lo": NaN,
-    "hi": NaN,
-    "p": 1.0,
-    "cond_point": false
+    "point": 0.2083,
+    "lo": 0.1354,
+    "hi": 0.2865,
+    "p": 0.0001,
+    "cond_point": true
    }
   ],
-  "supported": false,
-  "p_holm": 1.0
+  "supported": true,
+  "p_holm": 0.0002
  },
  "H16": {
   "name": "H16 V(hedged)-V(peer)",
-  "point": NaN,
-  "lo": NaN,
-  "hi": NaN,
-  "p": 1.0,
+  "point": -0.3958,
+  "lo": -0.4844,
+  "hi": -0.3073,
+  "p": 0.0001,
   "cond_point": true,
-  "hedged_minus_none": NaN,
-  "supported": false,
-  "p_holm": 1.0
+  "hedged_minus_none": -0.0729,
+  "supported": true,
+  "p_holm": 0.0002
  },
  "_e5_levels": {
   "none": 0.1094,
   "peer": 0.4323,
-  "manager": NaN,
-  "terse": NaN,
-  "hedged": NaN
+  "manager": 0.3594,
+  "terse": 0.3177,
+  "hedged": 0.0365
+ },
+ "_e6": {
+  "n": 73,
+  "V_run1": 0.5616,
+  "V_run2": 0.6438,
+  "match": 0.7534,
+  "kappa": 0.4887,
+  "corr": 0.496
  }
 }

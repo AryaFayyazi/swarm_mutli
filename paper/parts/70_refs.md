@@ -12,3 +12,9 @@ REF: [10] Prakash, S. (2026). The Provenance Paradox in Multi-Agent LLM Routing:
 REF: [11] Rose, A., et al. (2026). Detecting Multi-Agent Collusion Through Multi-Agent Interpretability. arXiv:2604.01151. https://arxiv.org/abs/2604.01151
 REF: [12] Korbak, T., et al. (2025). Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety. arXiv:2507.11473. https://arxiv.org/abs/2507.11473
 REF: [13] METR (2026). Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident (Hugging Face incident investigation report), 26 August 2026. https://metr.org/hugging-face-incident-report-aug-2026.pdf
+REF: [14] Hines, K., et al. (2024). Defending Against Indirect Prompt Injection Attacks With Spotlighting. arXiv:2403.14720. https://arxiv.org/abs/2403.14720
+REF: [15] Cerruti, T., Okamoto, M., Erol, A. K. (2026). Agent Memory Is a Surface for Endogenous Authorization Laundering. arXiv:2609.01836. https://arxiv.org/abs/2609.01836
+REF: [16] Safin, T. H., et al. (2026). Trust propagation and structural containment in Multi-agent LLM pipelines. arXiv:2609.17648. https://arxiv.org/abs/2609.17648
+REF: [17] Zhu, J., et al. (2026). Who Speaks, Who Authorizes, Who Acts? Understanding Trust Boundaries in Multi-Agent LLMs. arXiv:2610.24298. https://arxiv.org/abs/2610.24298
+REF: [18] Xu, Z., et al. (2026). MasDrift: Benchmarking Authorization Preservation Across Multi-Agent Architectures. arXiv:2608.07556. https://arxiv.org/abs/2608.07556
+REF: [19] Debenedetti, E., et al. (2025). Defeating Prompt Injections by Design. arXiv:2503.18813. https://arxiv.org/abs/2503.18813

@@ -80,6 +80,11 @@ def jobs_e11(specs):
     return [(s, dict(model=m, topology="relay1", assurance="peer", assurance_text=t, tag="e11", **c)) for s in specs if s["cf_value"] == "unsafe"
             for m in M4 for c in cells]
 
+def jobs_e12(specs):
+    """Addendum 7: 2x2 (claim x verification reminder). New cells R (no claim, reminder) and Q (claim, reminder); unsafe twins."""
+    return [(s, dict(model=m, topology="relay1", assurance=a, prompt_defense=True, tag="e12")) for s in specs if s["cf_value"] == "unsafe"
+            for m in M4 for a in ("none", "peer")]
+
 def jobs_e10(specs):
     return [(s, dict(model=m, topology="relay1", assurance="peer", stealth=True, tag="e10")) for s in specs for m in M4]
 
@@ -87,11 +92,11 @@ async def main():
     which = sys.argv[1]
     import os
     llm = LLM(per_model_concurrency=int(os.environ.get("SWARM_PMC", "14")))
-    specs = make_specs(NBASE_R2, SEED_R2) if which in ("e9", "e10", "e11") else make_specs(NBASE, SEED)
-    assert len(specs) == (2 * NBASE_R2 if which in ("e9", "e10", "e11") else 2 * NBASE)
+    specs = make_specs(NBASE_R2, SEED_R2) if which in ("e9", "e10", "e11", "e12") else make_specs(NBASE, SEED)
+    assert len(specs) == (2 * NBASE_R2 if which in ("e9", "e10", "e11", "e12") else 2 * NBASE)
     rnd = random.Random(1234)
     specs_sh = specs[:]; rnd.shuffle(specs_sh)
-    if which in ("e9", "e10", "e11"):      # amendment 5c: both twins of a base scenario are adjacent, scenarios with the most finished episodes first
+    if which in ("e9", "e10", "e11", "e12"):      # amendment 5c: both twins of a base scenario are adjacent, scenarios with the most finished episodes first
         import json as _j
         cnt = {}
         pth = ROOT / "outputs/raw/e9.jsonl"
@@ -109,7 +114,7 @@ async def main():
                 if base(s_) not in keep: keep.append(base(s_))
             keep = set(keep[:int(os.environ["LIMIT_SCEN"])])
             specs_sh = [s_ for s_ in specs_sh if base(s_) in keep]
-    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7, "e9": jobs_e9, "e10": jobs_e10, "e11": jobs_e11}[which](specs_sh)
+    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7, "e9": jobs_e9, "e10": jobs_e10, "e11": jobs_e11, "e12": jobs_e12}[which](specs_sh)
     await run_many(llm, jobs, ROOT / f"outputs/raw/{which}.jsonl", concurrency=80, label=which)
     print("DONE", which, llm.ledger.cost, llm.ledger.errors, llm.ledger.err_kinds)
 asyncio.run(main())

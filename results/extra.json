@@ -284,5 +284,15 @@
     "absent": 0.15
    }
   }
+ },
+ "ratio_peer_none": {
+  "solo": 2.25,
+  "relay1": 3.04,
+  "relay2": 2.09
+ },
+ "hedged_vs_none": {
+  "point": -0.073,
+  "lo": -0.135,
+  "hi": -0.021
  }
 }

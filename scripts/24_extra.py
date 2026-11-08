@@ -75,6 +75,16 @@ if sp.exists():
         byg[mod] = {k: round(float((x.stance == k).mean()), 2) for k in ("endorse", "reject", "absent")}
     res["by_model_share"] = byg
     out["stance"] = res
+# relative effect by team shape, and hedged vs silent (EXPLORATORY)
+out["ratio_peer_none"] = {t: round(out["V_peer"][t] / out["V_none"][t], 2) for t in ("solo", "relay1", "relay2")}
+e5p = RAW / "e5.jsonl"
+if e5p.exists():
+    e5 = load(e5p)
+    M4_ = H.M4
+    n0 = e1[(e1.cf == "unsafe") & (e1.topology == "relay1") & (e1.assurance == "none") & e1.model.isin(M4_)]
+    h5 = e5[(e5.cf == "unsafe") & (e5.assurance == "hedged") & e5.model.isin(M4_)]
+    pt, st = H.mean_stat(H.per_scen(h5, "V", scen, M4_) - H.per_scen(n0, "V", scen, M4_)); lo, hi = ci(st)
+    out["hedged_vs_none"] = {"point": round(pt, 3), "lo": round(lo, 3), "hi": round(hi, 3)}
 # E4 group-level contrasts (EXPLORATORY summary of the preregistered E4 cells)
 e4p = RAW / "e4.jsonl"
 if e4p.exists():

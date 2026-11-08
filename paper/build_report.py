@@ -70,7 +70,7 @@ def make_extra():
             est = "; ".join(f"{lab} {fmt(q)}" for lab, q in zip(PL[h], r["parts"]))
         else:
             est = fmt(r)
-        res = "supported" if r.get("supported") else "**not supported**"
+        res = ("supported" if r.get("supported") else "**not supported**") if not r.get("no_test") else ("met (point criterion)" if r.get("supported") else "**not met**")
         rows.append(f"| {h} | {CLAIM[h]} | {est} | {res} |")
     ex["hyp_table"] = "\n".join(rows)
     et = D.get("e1_table") or []

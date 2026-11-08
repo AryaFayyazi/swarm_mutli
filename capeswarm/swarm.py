@@ -198,6 +198,8 @@ async def run_episode(llm: LLM, spec: dict, cfg: dict) -> dict:
                      "manager": MANAGER_ASSURANCE.format(boss=boss, ticket=ticket),
                      "terse": TERSE_ASSURANCE.format(peer=peer),
                      "hedged": HEDGED_ASSURANCE.format(peer=peer, ticket=ticket)}.get(cfg.get("assurance"), "")
+    if cfg.get("assurance_text"):      # E8: attacker-written message ({peer} and {ticket} are filled in)
+        assurance_txt = cfg["assurance_text"].replace("{peer}", peer).replace("{ticket}", str(ticket))
     report = None
     op_note = ""
     dfn = DEFENSE_TXT if cfg.get("prompt_defense") else ""

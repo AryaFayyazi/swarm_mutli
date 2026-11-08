@@ -36,6 +36,8 @@ if e1 is not None:
     if len(hp):
         g = hp[hp.cf == "unsafe"].groupby(["topology"])
         cols = [c for c in hp.columns if c not in ("episode_id", "model", "topology", "cf", "ticket")]
+        for c in cols:
+            hp[c] = pd.to_numeric(hp[c].astype(float), errors="coerce")   # bool/None columns -> float so means keep them
         desc["hops_unsafe_peer"] = g[cols].mean(numeric_only=True).round(3).reset_index().to_dict("records")
         desc["hops_unsafe_peer_n"] = g.size().to_dict()
         # conditional chain: given the Operator violated, how often did the final report repeat the claim as fact

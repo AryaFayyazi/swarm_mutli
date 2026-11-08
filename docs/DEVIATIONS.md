@@ -19,3 +19,4 @@
 - 2026-11-07 (later): Addendum 3 (E7 diverse auditor H17; leave-one-model-out; rule-monitor baseline in E2; auditor fail-open count) added
   and locked in `prereg_v1_5_lock.json` before any confirmatory outcome was read. `runner.py` episode ids gained `auditor_model`.
 - 2026-11-07 (later): EXPLORATORY flag `brief_orders_skip_approval` (regex) added to `capeswarm/hops.py` after the lock and before any outcome was read; it is reported as exploratory in the paper and is not part of any hypothesis.
+- 2026-11-08 ~21:30: BUG FIX in `scripts/20_analyze.py` (descriptive hop table only): boolean hop columns with missing values (solo has none) were dropped by `mean(numeric_only=True)`; they are now cast to float. No hypothesis row is affected. Found after E1 finished; E1 hypothesis rows H1-H3 are identical before and after.

@@ -1,0 +1,6 @@
+adaption>=0.19
+httpx
+numpy
+scipy
+pandas
+matplotlib

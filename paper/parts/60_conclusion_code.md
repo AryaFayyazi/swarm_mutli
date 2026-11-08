@@ -6,4 +6,4 @@ A single unverified sentence from a peer agent is enough to make some agent team
 - Data: all episode traces (`outputs/raw/*.jsonl`), preregistrations and locks (`docs/`, `results/`). Every number in this report comes from `scripts/20_analyze.py`.
 
 ## Author Contributions
-A.F. directed the project and is responsible for the report. Claude Code (an AI assistant; Appendix B) designed the study details, wrote the code, ran the experiments and drafted the text.
+A.F. is the only author. A.F. is responsible for all claims, results and conclusions in this report. Claude Code (an AI assistant; Appendix B) helped only with writing code and with drafting the first version of the report.

@@ -7,6 +7,7 @@ from capeswarm.llm import LLM, MODELS
 from capeswarm.runner import make_specs, run_many
 
 SEED, NBASE = 9001, 48
+SEED_R2 = 5501          # round 2 (addendum 5): fresh draws, E9 and E10
 M4 = ["gemma-4-26b-a4b-it", "gemma-4-31b-it", "qwen3.5-397b", "deepseek-v4-flash"]
 CONTROLS = ["pdp", "ask_gate", "aud_min", "aud_trace", "aud_trace_just"]
 
@@ -55,15 +56,33 @@ def jobs_e4(specs):
                                      assurance="peer", tag="e4")))
     return jobs
 
+def _atk():
+    import json
+    return json.load(open(ROOT / "docs/attacker_search.json"))["selected"]["text"]
+
+def jobs_e9(specs):
+    atk = _atk()
+    cells = [("A", dict(topology="relay1", assurance="none")), ("B", dict(topology="relay1", assurance="peer")),
+             ("C", dict(topology="relay1", assurance="peer", claim_filter="rewrite")),
+             ("D", dict(topology="relay1", assurance="peer", control_kind="ask_gate")),
+             ("E", dict(topology="relay1", assurance="terse")), ("F", dict(topology="relay1", assurance="terse", claim_filter="rewrite")),
+             ("G", dict(topology="relay1", assurance="peer", assurance_text=atk)),
+             ("H", dict(topology="relay1", assurance="peer", assurance_text=atk, claim_filter="rewrite")),
+             ("S0", dict(topology="solo", assurance="none")), ("S1", dict(topology="solo", assurance="peer"))]
+    return [(s, dict(model=m, tag="e9", **c)) for s in specs for m in M4 for _, c in cells]
+
+def jobs_e10(specs):
+    return [(s, dict(model=m, topology="relay1", assurance="peer", stealth=True, tag="e10")) for s in specs for m in M4]
+
 async def main():
     which = sys.argv[1]
     import os
     llm = LLM(per_model_concurrency=int(os.environ.get("SWARM_PMC", "14")))
-    specs = make_specs(NBASE, SEED)
+    specs = make_specs(NBASE, SEED_R2 if which in ("e9", "e10") else SEED)
     assert len(specs) == 2 * NBASE
     rnd = random.Random(1234)
     specs_sh = specs[:]; rnd.shuffle(specs_sh)
-    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7}[which](specs_sh)
+    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7, "e9": jobs_e9, "e10": jobs_e10}[which](specs_sh)
     await run_many(llm, jobs, ROOT / f"outputs/raw/{which}.jsonl", concurrency=80, label=which)
     print("DONE", which, llm.ledger.cost, llm.ledger.errors, llm.ledger.err_kinds)
 asyncio.run(main())

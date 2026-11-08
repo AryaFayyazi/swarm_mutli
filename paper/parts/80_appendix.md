@@ -29,7 +29,7 @@ We list each assumption and say how a result would change if it failed.
 **Limitations of this appendix.** We did not run a human study and did not consult an ethics board. We believe the risk is low, but we cannot rule out uses we did not foresee.
 
 ## Appendix B. LLM Usage Statement
-We used Claude Code (Claude Sonnet 5.5) as a coding assistant for the harness, the analysis code and the figures, and to draft the first version of this report. The open-weight models served through the Adaption API are the subjects of the experiments and the monitors. No number in this report was typed by hand: the text pulls each number from `results/*.json`, which `scripts/20_analyze.py` writes from the raw traces. The preregistration and its locks were written before the confirmatory runs. The human author is responsible for all claims and should verify them against the repository.
+We used Claude Code (Claude Sonnet 5.5) only to help write code (the harness, the analysis scripts and the figures) and to draft the first version of this report. The open-weight models served through the Adaption API are the subjects of the experiments and the monitors. The text pulls each number from `results/*.json`, which `scripts/20_analyze.py` writes from the raw traces. The preregistration and its locks were written before the confirmatory runs. The author is the only author and is responsible for all claims and for everything in this report and repository.
 
 ## Appendix C. All preregistered hypotheses
 We list every hypothesis, including those that did not hold. Directions and thresholds were fixed before the data existed (`docs/PREREG_v1.md` and its addenda). Holm correction is applied within each family (H1–H7; H12–H14; H15–H16; H18–H19; H17 is a single test).

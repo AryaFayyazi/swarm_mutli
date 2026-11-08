@@ -24,6 +24,10 @@ def episode_id(spec: dict, cfg: dict) -> str:
              cfg.get("tag", "")]
     if cfg.get("prompt_defense"):
         parts.append("pd")
+    if cfg.get("claim_filter"):
+        parts.append("cf=" + str(cfg["claim_filter"]))
+    if cfg.get("stealth"):
+        parts.append("stealth")
     if cfg.get("assurance_text"):
         import hashlib
         parts.append("at=" + hashlib.sha1(cfg["assurance_text"].encode()).hexdigest()[:10])

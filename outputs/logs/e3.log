@@ -1,3 +1,5 @@
 [e3] 2688 to run, 0 cached
 [e3] 25/2688  181s  calls=833 err=0 cost=0.3520
 [e3] 50/2688  253s  calls=1345 err=0 cost=0.5671
+[e3] 75/2688  362s  calls=1639 err=0 cost=0.7543
+[e3] 100/2688  433s  calls=2064 err=0 cost=1.0257

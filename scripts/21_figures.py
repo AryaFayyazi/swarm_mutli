@@ -20,7 +20,7 @@ plt.rcParams.update({"font.family": "DejaVu Serif", "font.size": 8, "axes.edgeco
                      "axes.grid": True, "grid.color": GRID, "grid.linewidth": 0.6, "axes.axisbelow": True, "legend.frameon": False,
                      "figure.dpi": 200, "savefig.bbox": "tight"})
 SHORT = {"gemma-4-26b-a4b-it": "Gemma-4 26B", "gemma-4-31b-it": "Gemma-4 31B", "qwen3.8-27b": "Qwen3.8 27B", "qwen3.5-397b": "Qwen3.5 397B",
-         "glm-53-flash": "GLM-5.3 flash", "glm-5.2": "GLM-5.2", "deepseek-v4-flash": "DeepSeek-V4 flash"}
+         "glm-53-flash": "glm-53-flash", "glm-5.2": "GLM-5.2", "deepseek-v4-flash": "DeepSeek-V4 flash"}
 def opt(n):
     p = RAW / n
     return load(p) if p.exists() and p.stat().st_size else None

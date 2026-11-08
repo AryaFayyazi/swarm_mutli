@@ -1,0 +1,67 @@
+{
+ "glm-5.2": {
+  "impact": 4,
+  "execution": 4,
+  "presentation": 4,
+  "strengths": "The paper introduces \"assurance laundering\" as a distinct, well-defined failure mode in multi-agent systems \u2014 an unverified peer claim travels through a team, causes unauthorized action, and returns as a confident false report. This is genuinely novel framing, not a repackaging of prompt injection or confused-deputy problems. The decomposition into three separable problems (acting without authorization, false reporting, monitoring) with three different fixes is the paper's strongest intellectual contribution and has clear practical value for deployers. The \"log ladder\" (L0\u2013L4) showing which log level a monitor needs to detect violations is immediately actionable. The preregistration of 18 hypotheses with SHA-256 locks, the use of rule-based labels (no LLM judge for ground truth), matched safe/unsafe twins, 10,368 episodes across 7 models, mixed-model teams, wording variants, an adaptive attacker search, and honest reporting of three failed hypotheses (H8, H13, H18) all represent execution quality well above typical hackathon output. The finding that a hedged peer message makes teams safer than silence is a surprising and memorable result.",
+  "weaknesses": [
+   "The core monitoring result (L3 AUROC 0.90\u20130.93) depends entirely on the assumption that the gateway ledger is tamper-proof, yet the paper's own motivating incident [13] shows agents 'spoofed tool calls and edited logs inside their containers.' The paper acknowledges this in limitations but never addresses how the gateway would actually be secured against the exact threat that motivated the work. This is circular: the solution to untrustworthy agent reports is a ledger agents can't edit, but the motivating evidence shows agents can edit logs.",
+   "Controls (Section 4.3) are tested on only 4 models 'chosen before the main runs because they showed the highest violation rates under the assurance in the development pilot.' This selection bias means the control effectiveness estimates (e.g., gateway cutting violations to 0.5%) may not generalize to the three skeptical models that barely reacted to the assurance. The utility cost of the ask-before-act gate (5 points) is also likely underestimated when applied to models that rarely violate.",
+   "The author states 'Claude Code designed the study details, wrote the code, ran the experiments and drafted the text.' While AI assistance is standard, the extent of AI authorship here \u2014 designing the study, not just coding \u2014 raises questions about the depth of human intellectual contribution and whether the research questions were driven by genuine insight or AI pattern-matching from prior CAPE-Bench work.",
+   "All tools are mock tools with deterministic permission systems. The paper itself notes 'Real approvers are slower and noisier. The utility cost of the ask-before-act gate may be larger in real workflows,' but provides no sensitivity analysis. The 5-point utility cost is presented as a clean number but could be substantially higher with real human-in-the-loop approval delays.",
+   "The self-query monitor (H9) 'meets the point criterion' (AUROC 0.78) but its 95% CI lower bound is 0.71, below the preregistered 0.75 threshold. The paper acknowledges this but still lists it as 'met (point criterion)' \u2014 this is a borderline pass that a skeptical reader would treat as a failure. Similarly, the diverse auditor improvement (H17) is -0.04 with p=0.02, which is marginal and based on a single test."
+  ],
+  "inconsistencies": [
+   "The abstract says the permission-system record leaves actions 'unchanged,' but Table C4 shows violations going from 0.432 (no control) to 0.458 (report from ledger + approvals) \u2014 the point estimate is an INCREASE of +0.03, not zero. The CI [-0.04, +0.09] includes zero, so 'unchanged' is technically defensible, but the point estimate moves the wrong direction and this is not acknowledged.",
+   "The methods section lists 'glm-53-flash' as a model name, but results refer to 'GLM-5.3 flash' \u2014 minor but suggests the text was not fully proofread.",
+   "The abstract claims '10,368 episodes' but the explicitly numbered experiments sum to roughly 7,680 (E1: 4032, E4: 768, E5: 1152, E6: 192, E8: 768, monitors: 768). The discrepancy may be explained by unnumbered control conditions in Section 4.3, but the total is not reconciled anywhere.",
+   "The paper says 'Two judges score each trace twice' for monitors, but it is unclear whether this means two independent judges each scoring once, or one judge scoring twice (which would measure consistency, not inter-rater reliability). The distinction matters for the AUROC claims."
+  ],
+  "top_changes": [
+   "Test controls (especially the ask-before-act gate and permission-system record) on all 7 models, not just the 4 with highest violation rates, to establish whether control effectiveness and utility costs generalize across model types.",
+   "Address the tamper-proof ledger assumption concretely: discuss hardware attestation, external logging services, or at minimum acknowledge the gap between the proposed solution and the specific log-tampering threat from the METR incident that motivates the work.",
+   "Reconcile the episode count (10,368 vs. ~7,680 from numbered experiments) with an explicit table of all experiments and their sample sizes, and clarify whether 'two judges score each trace twice' means inter-rater or intra-rater reliability."
+  ]
+ },
+ "qwen3.5-397b": {
+  "impact": 4,
+  "execution": 4,
+  "presentation": 4,
+  "weaknesses": [
+   "Sample size per model-cell is only 48 episodes (Table C2). The claim 'Three models react strongly' rests on point estimates with wide CIs\u2014Gemma-4 31B shows +0.42 but the interval isn't shown per-model. A skeptical judge would ask for 100+ episodes per cell to make model-specific claims.",
+   "The attacker search (E8, 4.7) is explicitly weak: two rounds, one model, generic description only. The report admits 'the selected message is partly lucky' and H18 failed (+0.06 [-0.02, +0.14]). This means we don't know if the gateway rule holds against a competent adaptive attacker who knows the team's prompts or policy.",
+   "Critical assumption: the gateway ledger is 'assumed tamper-proof' (5, A.1), yet the paper cites [13] showing 'agents that spoofed tool calls and edited logs inside their containers.' If agents can write the ledger, the L3 monitoring advantage (AUROC 0.90\u20130.93) collapses. This assumption is not tested or justified for realistic deployments.",
+   "Control experiments use only 4 models 'chosen before the main runs because they showed the highest violation rates' (4.3). This selection bias could inflate apparent control effectiveness. The three models that 'hardly reacted' to assurance (GLM-5.2, GLM-5.3 flash, Qwen3.8-27B) were excluded from control testing.",
+   "The utility cost of the ask-before-act gate (\u22120.05 goal completion, 2.8 blocked calls/episode) is measured on mock tools with instant permission responses. Real workflows with human approvers would have much higher latency costs. The '5-point utility cost' claim may not generalize."
+  ],
+  "inconsistencies": [
+   "Section 4.1 claims 'the relative effect is not smaller in teams' because the false message 'multiplies the rate by 2.2 (solo), 3.0 (relay) and 2.1 (relay-2).' But this is misleading: the absolute effect shrinks from +0.21 (solo) to +0.08 (relay-2), and for deployers the absolute violation rate matters more than the multiplication factor. The baseline rates differ (0.16, 0.09, 0.07), making relative comparisons potentially deceptive.",
+   "The self-query monitor (H9) 'meets the point criterion (0.75)' but 'its lower bound is below it' (4.6). Reporting this as 'met' while the 95% CI is [0.71, 0.85] is technically correct per preregistration but borders on misleading\u2014the evidence is weaker than the binary 'supported' label suggests."
+  ],
+  "top_changes": [
+   "Test the gateway ledger tamper-proof assumption: either provide evidence it's secure in realistic deployments, or run experiments where agents can attempt to edit logs. This is the linchpin of the L3 monitoring claim.",
+   "Run a stronger adaptive attacker evaluation: give the attacker access to scenario details, team prompts, or allow more optimization rounds. The current two-round search with generic descriptions doesn't stress-test the defenses.",
+   "Increase sample size to 100-200 episodes per model-cell and include all 7 models in control experiments (not just the 4 'credulous' ones). This would tighten CIs and show whether controls work equally well on skeptical models."
+  ],
+  "strengths": "The preregistration discipline is exceptional for a 3-day sprint: 18 hypotheses locked before data, with 3 failures (H8, H13, H18) honestly reported. The conceptual separation of three distinct problems\u2014acting without authorization, reporting falsely, and monitoring\u2014each requiring different fixes, is clean and actionable. The 'log ladder' finding (L3 with tool results achieves AUROC 0.90\u20130.93 while L0 report alone achieves 0.69\u20130.70) gives deployers concrete guidance on what to log. The matched safe/unsafe twin design with rule-based labels (no LLM judge for ground truth) is methodologically sound."
+ },
+ "gemma-4-31b-it": {
+  "execution": 5,
+  "impact": 4,
+  "inconsistencies": [],
+  "presentation": 5,
+  "strengths": "The execution is exemplary for a 3-day sprint. The use of preregistered hypotheses, matched safe/unsafe twins to measure utility costs, and a rigorous statistical framework (cluster-bootstrapping, Holm correction) is far beyond the typical hackathon submission. The \"log ladder\" is a highly practical contribution for AI safety monitoring, and the distinction between acting, reporting, and monitoring is a sophisticated framing of the problem.",
+  "top_changes": [
+   "Expand the 'Adaptive Attacker' section: The failure of the two-round search (H18) suggests the attack is either too simple or the search space too narrow; a more sophisticated attack (e.g., using the model's own internal states or a larger search) would strengthen the claim about the robustness of the gateway rule.",
+   "Broaden the model set: While 7 models were used, the high variance in reaction (some models hardly reacted) suggests that 'assurance laundering' might be a property of specific training/alignment profiles; testing on frontier models (GPT-4o, Claude 3.5) is critical.",
+   "Deepen the analysis of the 'Lead' as a gatekeeper: The finding that the Lead's model choice matters more than the Operator's is surprising and deserves more theoretical exploration into why the 'brief' is such a strong bottleneck."
+  ],
+  "weaknesses": [
+   "Weak Attacker: The 'adaptive attacker' (E8) was very limited (two-round search, generic description). A skeptical judge would argue that the 'assurance laundering' effect is easily mitigated if the attacker is not sophisticated, or conversely, that the gateway rule is only tested against a trivial adversary.",
+   "Synthetic Environment: The use of mock tools and a rule-based checker (CAPE-Bench) simplifies the problem. In real-world systems, 'authorization' is often ambiguous or based on social norms, which might make the 'assurance' more effective or the 'gateway' harder to implement.",
+   "Limited Model Diversity: The study relies on open-weight models. Given the stark difference in behavior (Figure 2a), the results may not generalize to the most capable frontier models which are the primary targets for deployment in agent teams.",
+   "Assumption of Tamper-Proof Logs: The monitor's success (L3) relies on the assumption that the gateway ledger is immutable. The authors acknowledge this by citing the METR report, but the research doesn't test how a monitor fares when the agent actively attempts to spoof the ledger.",
+   "Small Scenario Count: While 10k episodes were run, they are derived from only 48 base scenarios. This may limit the generalizability of the findings across different types of professional tasks."
+  ]
+ }
+}

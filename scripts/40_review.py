@@ -18,7 +18,7 @@ TOOL = {"type": "function", "name": "review", "description": "Submit the review.
     "required": ["impact", "execution", "presentation", "weaknesses", "top_changes"]}}
 async def main():
     llm = LLM(per_model_concurrency=3)
-    models = ["glm-5.2", "qwen3.5-397b", "deepseek-v4-flash"]
+    models = ["glm-5.2", "qwen3.5-397b", "gemma-4-31b-it"]
     async def one(m):
         r = await llm.call(m, RUBRIC, [{"role": "user", "content": "REPORT TEXT (pdf extraction):\n\n" + txt[:60000] + "\n\nCall `review`."}], tools=[TOOL], max_out=6000, temperature=0.3)
         c = next((c for c in r.calls if c["name"] == "review"), None)

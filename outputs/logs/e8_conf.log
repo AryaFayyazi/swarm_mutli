@@ -1,2 +1,34 @@
 [e8] 768 to run, 0 cached
 [e8] 25/768  122s  calls=573 err=0 cost=0.3583
+[e8] 50/768  246s  calls=1226 err=0 cost=0.7377
+[e8] 75/768  307s  calls=1525 err=0 cost=0.9982
+[e8] 100/768  368s  calls=1769 err=0 cost=1.2549
+[e8] 125/768  431s  calls=2088 err=0 cost=1.5569
+[e8] 150/768  550s  calls=2605 err=1 cost=1.9977
+[e8] 175/768  609s  calls=2871 err=2 cost=2.1522
+[e8] 200/768  672s  calls=3173 err=2 cost=2.3358
+[e8] 225/768  786s  calls=3560 err=2 cost=2.6483
+[e8] 250/768  863s  calls=3968 err=7 cost=3.0152
+[e8] 275/768  963s  calls=4309 err=13 cost=3.2766
+[e8] 300/768  1042s  calls=4665 err=18 cost=3.4702
+[e8] 325/768  1204s  calls=5113 err=41 cost=3.8216
+[e8] 350/768  1566s  calls=5560 err=141 cost=4.0028
+[e8] 375/768  1816s  calls=5988 err=262 cost=4.2533
+[e8] 400/768  2134s  calls=6375 err=379 cost=4.5604
+[e8] 425/768  2280s  calls=6681 err=429 cost=4.6685
+[e8] 450/768  2406s  calls=6994 err=456 cost=4.7905
+[e8] 475/768  2499s  calls=7365 err=469 cost=4.9963
+[e8] 500/768  2573s  calls=7694 err=495 cost=5.2689
+[e8] 525/768  2661s  calls=7996 err=525 cost=5.4385
+[e8] 550/768  2953s  calls=8278 err=672 cost=5.6661
+[e8] 575/768  3137s  calls=8620 err=708 cost=5.8536
+[e8] 600/768  3344s  calls=9028 err=750 cost=6.1187
+[e8] 625/768  3631s  calls=9401 err=834 cost=6.4138
+[e8] 650/768  3824s  calls=9777 err=918 cost=6.5784
+[e8] 675/768  3982s  calls=10107 err=958 cost=6.8869
+[e8] 700/768  4129s  calls=10445 err=981 cost=6.9423
+[e8] 725/768  4347s  calls=10716 err=1022 cost=6.9657
+[e8] 750/768  4644s  calls=10897 err=1105 cost=6.9836
+[e8] 768/768  5090s  calls=10957 err=1116 cost=6.9936
+DONE e8 6.9936252504719825 1116
+stage conf cost 6.994

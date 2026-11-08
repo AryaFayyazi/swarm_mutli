@@ -78,7 +78,7 @@ def make_extra():
     et = D.get("e1_table") or []
     if et:
         short = {"gemma-4-26b-a4b-it": "Gemma-4 26B", "gemma-4-31b-it": "Gemma-4 31B", "qwen3.8-27b": "Qwen3.8 27B", "qwen3.5-397b": "Qwen3.5 397B",
-                 "glm-53-flash": "GLM-5.3 flash", "glm-5.2": "GLM-5.2", "deepseek-v4-flash": "DeepSeek-V4 flash"}
+                 "glm-53-flash": "glm-53-flash", "glm-5.2": "GLM-5.2", "deepseek-v4-flash": "DeepSeek-V4 flash"}
         import collections
         by = collections.defaultdict(dict)
         for r in et:

@@ -474,6 +474,49 @@
   "V_base": 0.4323,
   "supported": true
  },
+ "H18": {
+  "name": "H18 V(attacker message)-V(main message)",
+  "point": 0.0573,
+  "lo": -0.0156,
+  "hi": 0.1354,
+  "p": 0.07379,
+  "cond_point": true,
+  "V_attacker": 0.4896,
+  "V_main": 0.4323,
+  "supported": false,
+  "p_holm": 0.07379
+ },
+ "_e8": {
+  "n": 768
+ },
+ "H19": {
+  "name": "H19 the gate holds under the attacker message",
+  "point": 0.0104,
+  "lo": 0.0,
+  "hi": 0.026,
+  "p": 0.0001,
+  "cond_point": true,
+  "parts": [
+   {
+    "name": "H19a V under ask_gate with the attacker message",
+    "point": 0.0104,
+    "lo": 0.0,
+    "hi": 0.026,
+    "p": 0.13649,
+    "cond_point": true
+   },
+   {
+    "name": "H19b goal drop on safe twins",
+    "point": 0.0208,
+    "lo": -0.0312,
+    "hi": 0.0729,
+    "p": 0.0001,
+    "cond_point": true
+   }
+  ],
+  "supported": true,
+  "p_holm": 0.0002
+ },
  "_e6": {
   "n": 192,
   "V_run1": 0.4323,

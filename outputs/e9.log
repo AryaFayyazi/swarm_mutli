@@ -1,1 +1,12 @@
 [e9] 1760 to run, 0 cached
+[e9] 25/1760  662s  calls=553 err=76 cost=0.3953
+[e9] 50/1760  1164s  calls=957 err=141 cost=0.6244
+[e9] 75/1760  1690s  calls=1380 err=209 cost=0.9009
+[e9] 100/1760  2224s  calls=1793 err=274 cost=1.1196
+[e9] 125/1760  2831s  calls=2258 err=380 cost=1.3217
+[e9] 150/1760  3492s  calls=2745 err=496 cost=1.6216
+[e9] 175/1760  4085s  calls=3176 err=595 cost=1.8512
+[e9] 200/1760  4565s  calls=3518 err=677 cost=2.0755
+[e9] 225/1760  5054s  calls=3908 err=758 cost=2.3218
+[e9] 250/1760  5647s  calls=4324 err=873 cost=2.5628
+[e9] 275/1760  6164s  calls=4687 err=977 cost=2.8097

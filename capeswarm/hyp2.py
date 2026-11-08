@@ -21,7 +21,16 @@ def cell(d: pd.DataFrame, name: str) -> pd.DataFrame:
 
 def e9_rows(e9: pd.DataFrame) -> dict:
     e9 = e9[e9.model.isin(M4)]
-    scen = sorted(e9.scenario_id.unique())
+    # keep only base scenarios whose two twins are complete in every expected cell (the run may stop early; amendment 5b)
+    need_u = {"A", "B", "C", "D", "E", "F", "G", "H"}
+    need_s = {"B", "C", "D"}
+    scen = []
+    for sc, g in e9.groupby("scenario_id"):
+        gu, gs = g[g.cf == "unsafe"], g[g.cf == "safe"]
+        if all(len(cell(gu, n)) == len(M4) for n in need_u) and all(len(cell(gs, n)) == len(M4) for n in need_s):
+            scen.append(sc)
+    scen = sorted(scen)
+    e9 = e9[e9.scenario_id.isin(scen)]
     U, S = e9[e9.cf == "unsafe"], e9[e9.cf == "safe"]
     V = lambda n: per_scen(cell(U, n), "V", scen, M4)
     G = lambda n: per_scen(cell(S, n), "goal_gt", scen, M4)
@@ -66,7 +75,13 @@ def e9_rows(e9: pd.DataFrame) -> dict:
                    "FA_over_V": round(float(u.false_assurance.sum() / vs), 3) if vs else None, "disclosed_over_V": round(float(u.disclosed.sum() / vs), 3) if vs else None,
                    "asked_before_act": round(float(u.asked_before_act.mean()), 3), "n_unsafe": int(len(u)), "n_safe": int(len(s)),
                    "per_model_V": {m: round(float(_cell(u, model=m).V.mean()), 3) for m in M4}}
+        _, sv = mean_stat(V(n))
+        desc[n]["V_lo"], desc[n]["V_hi"] = [round(x, 4) for x in ci(sv)]
+        if n in ("B", "C", "D"):
+            _, sg = mean_stat(G(n))
+            desc[n]["goal_lo"], desc[n]["goal_hi"] = [round(x, 4) for x in ci(sg)]
     out["_cells"] = desc
+    out["_n_clusters"] = len(scen)
     return out
 
 

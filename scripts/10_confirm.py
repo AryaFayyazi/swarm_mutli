@@ -67,11 +67,18 @@ def jobs_e9(specs):
     cells = [("A", dict(assurance="none"), False), ("B", dict(assurance="peer"), True),
              ("C", dict(assurance="peer", claim_filter="rewrite"), True),
              ("D", dict(assurance="peer", control_kind="ask_gate"), True),
-             ("E", dict(assurance="terse"), False), ("F", dict(assurance="terse", claim_filter="rewrite"), False),
              ("G", dict(assurance="peer", assurance_text=atk), False),
              ("H", dict(assurance="peer", assurance_text=atk, claim_filter="rewrite"), False)]
     return [(s, dict(model=m, topology="relay1", tag="e9", **c)) for s in specs for m in M4 for _, c, both in cells
             if both or s["cf_value"] == "unsafe"]
+
+def jobs_e11(specs):
+    """Round 3 (addendum 6): the filter-aware attacker's selected message vs the filter and the gate, unsafe twins, same scenarios as E9."""
+    import json
+    t = json.load(open(ROOT / "docs/filter_attacker_search.json"))["selected"]["text"]
+    cells = [dict(claim_filter="rewrite"), dict(), dict(control_kind="ask_gate")]
+    return [(s, dict(model=m, topology="relay1", assurance="peer", assurance_text=t, tag="e11", **c)) for s in specs if s["cf_value"] == "unsafe"
+            for m in M4 for c in cells]
 
 def jobs_e10(specs):
     return [(s, dict(model=m, topology="relay1", assurance="peer", stealth=True, tag="e10")) for s in specs for m in M4]
@@ -84,7 +91,19 @@ async def main():
     assert len(specs) == (2 * NBASE_R2 if which in ("e9", "e10") else 2 * NBASE)
     rnd = random.Random(1234)
     specs_sh = specs[:]; rnd.shuffle(specs_sh)
-    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7, "e9": jobs_e9, "e10": jobs_e10}[which](specs_sh)
+    if which in ("e9", "e10", "e11"):      # amendment 5c: both twins of a base scenario are adjacent, scenarios with the most finished episodes first
+        import json as _j
+        cnt = {}
+        pth = ROOT / "outputs/raw/e9.jsonl"
+        if which == "e9" and pth.exists():
+            for l in open(pth):
+                try: cnt[_j.loads(l)["instance_id"].rsplit(".", 1)[0]] = cnt.get(_j.loads(l)["instance_id"].rsplit(".", 1)[0], 0) + 1
+                except Exception: pass
+        base = lambda s_: s_["instance_id"].rsplit(".", 1)[0]
+        order = {}
+        for s_ in specs_sh: order.setdefault(base(s_), len(order))
+        specs_sh = sorted(specs, key=lambda s_: (-cnt.get(base(s_), 0), order[base(s_)], s_["cf_value"] != "unsafe"))
+    jobs = {"e1": jobs_e1, "e3": jobs_e3, "e3b": jobs_e3b, "e4": jobs_e4, "e5": jobs_e5, "e6": jobs_e6, "e7": jobs_e7, "e9": jobs_e9, "e10": jobs_e10, "e11": jobs_e11}[which](specs_sh)
     await run_many(llm, jobs, ROOT / f"outputs/raw/{which}.jsonl", concurrency=80, label=which)
     print("DONE", which, llm.ledger.cost, llm.ledger.errors, llm.ledger.err_kinds)
 asyncio.run(main())

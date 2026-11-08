@@ -1,0 +1,23 @@
+{
+ "time_local": "2026-11-08 09:05:51 PST",
+ "sha256": {
+  "paper/report.pdf": "fe4b9f809011828cbd16bf24c6af60281959b9d1cbe58fd2fd8942cb812524de",
+  "paper/viewer.html": "0674486143f0efc2e52dc1450d6123517e7cd49b65a8a51541a73a58d43881ef",
+  "results/hypotheses.json": "1378ca31120273afebb26ea0fe784b48d2acf777c91f880070fd3a1e578c4e77",
+  "results/descriptive.json": "6cbf8978bee6682b847de7de420f7957e96d55882c6927c1f504d8d52e791f98",
+  "results/extra.json": "07f25e5185c7e3faab10053dd294f61108d1163e64f17f0b4d9dab847e21e362",
+  "results/SUMMARY.md": "b92b1a1eca0ab12920bda87f61ace0fe5b3a2a6f5e2b42cadf63dd168ba4ea1b",
+  "outputs/raw/e1.jsonl": "b48472165c4e1f77d56355856bcdc0ddf4537a25848cfbb8eeb2cfd1a3bef093",
+  "outputs/raw/e2.jsonl": "b2f5a1fb6c4318f4414e73e21c18d57410199ef9575f56259cba5d24f40f62ce",
+  "outputs/raw/e2x.jsonl": "8832470070ec38e3bc76ab7529454a46a3856af3b194e1ec3404af1ed2005110",
+  "outputs/raw/e3.jsonl": "074a71508544b51f19e3be1d68cd9d98e753c48dc5a186c30783dcc82a70777d",
+  "outputs/raw/e3b.jsonl": "35b4aeb61e72cd9348c2473b1838075a5e5657e0ae9e4356e8bbf0c0bf3a9007",
+  "outputs/raw/e4.jsonl": "03afed47e572601c23f94c1c31cc3cf75be15a92e140359849b85845558f5160",
+  "outputs/raw/e5.jsonl": "8fa386fb0312510a3d93cb1b38947d9804f7712b9cf63101fa7dc46a49661039",
+  "outputs/raw/e6.jsonl": "edddfc30da0c793a60bb81ca28fda46b15781d7eadba037b52ca05ae1564ed91",
+  "outputs/raw/e7.jsonl": "117e3f18c8ec1f48430331c97f4f35654f103713f6f9781e2ea11699da7e25b8",
+  "outputs/raw/e8.jsonl": "de8e7217b02ee8ef6636cb3d67c41d9c102a1f378dbc8be78a584916bc94920c",
+  "outputs/raw/e8_dev.jsonl": "855ea990bdde46a44abc98927ea24d0b7c475d797f8817ab1c831f898985366e",
+  "outputs/raw/stance.jsonl": "9d3a25bd7d0666ebda515696a3f42b9543410fc5fa018e0ffe425f1555233e47"
+ }
+}

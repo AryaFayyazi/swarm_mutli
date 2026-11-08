@@ -33,3 +33,6 @@ We list every hypothesis, including those that did not hold. Directions and thre
 
 TABLE: **Table C1.** Outcome of every hypothesis. Estimates are pooled over models with equal weight; intervals are 95% cluster-bootstrap over base scenarios.
 {{X['hyp_table']}}
+
+TABLE: **Table C2.** Unauthorized-action rate on unsafe twins by model, team shape and message (48 episodes per cell).
+{{X['model_table']}}

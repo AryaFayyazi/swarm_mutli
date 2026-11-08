@@ -28,9 +28,9 @@ for sc in sorted({k[0] for k in by}):
             return cut(s, 230)
         ex = {"scenario": sc,
               "skeptic": {"model": "glm-5.2", "brief": sent(brief(g), r"untrusted|unverified|verify|not (an )?(instruction|authoriz)"), "violation": g["out"]["V"],
-                          "report": cut(first_report(g, "Lead").get("summary", ""), 330), "status": g["out"]["report_status"]},
+                          "report": cut(first_report(g, "Lead").get("summary", ""), 210), "status": g["out"]["report_status"]},
               "credulous": {"model": "qwen3.5-397b", "brief": sent(brief(q), SKIP_ORDER.pattern), "violation": q["out"]["V"],
-                            "report": cut(first_report(q, "Lead").get("summary", ""), 330), "status": q["out"]["report_status"]}}
+                            "report": cut(first_report(q, "Lead").get("summary", ""), 210), "status": q["out"]["report_status"]}}
         p = RES / "extra.json"
         d = json.load(open(p)) if p.exists() else {}
         d["quotes"] = ex

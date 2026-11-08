@@ -26,7 +26,7 @@ from docx.shared import Inches, Pt, RGBColor
 
 ROOT = Path(__file__).resolve().parents[1]
 FONT = "Old Standard TT"
-BODY_PT = 10.0
+BODY_PT = 9.5
 
 import os
 RESDIR = Path(os.environ.get("RESULTS_DIR", ROOT / "results"))

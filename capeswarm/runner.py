@@ -22,6 +22,10 @@ def episode_id(spec: dict, cfg: dict) -> str:
     parts = [spec["instance_id"], cfg["model"], cfg.get("topology", "solo"), cfg.get("assurance", "none"),
              cfg.get("control_kind") or "none", cfg.get("report_source", "peer"), str(cfg.get("rep", 0)),
              cfg.get("tag", "")]
+    if cfg.get("prompt_defense"):
+        parts.append("pd")
+    if cfg.get("models"):
+        parts.append(json.dumps(cfg["models"], sort_keys=True))
     return "|".join(parts)
 
 

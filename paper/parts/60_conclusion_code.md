@@ -7,4 +7,4 @@ A single unverified sentence from a peer agent is enough to make some agent team
 - Other artifacts: `paper/viewer.html`, a self-contained replay viewer for five paired episodes.
 
 ## Author Contributions
-A.F. designed the study, ran the experiments and reviewed all results. Claude Code (an AI assistant, see the LLM usage statement) wrote most of the code and a first draft of the text under A.F.'s direction.
+A.F. directed the project, chose the research question and is responsible for the report. Claude Code (an AI assistant; see Appendix B) designed the study details, wrote the code, ran the experiments and drafted the text under A.F.'s direction.

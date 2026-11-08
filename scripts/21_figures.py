@@ -114,8 +114,8 @@ if dc:
              "aud_trace_just": (ORANGE, "v"), "prompt_defense": (ORANGE, "D"), "ledger": (AQUA, "o"), "ledger_auth": (AQUA, "s")}
     names = {"baseline": "no control", "pdp": "oracle policy check", "ask_gate": "ask-before-act gate", "aud_min": "auditor: call only", "aud_trace": "auditor + tool results",
              "aud_trace_just": "auditor + swarm's words", "prompt_defense": "verification prompt", "ledger": "report from ledger", "ledger_auth": "report from ledger + approvals"}
-    OFF = {"baseline": (6, -11, "left"), "ledger": (7, 6, "left"), "ledger_auth": (-7, -12, "right"), "pdp": (6, 13, "left"), "ask_gate": (-4, 13, "right"),
-           "aud_trace": (8, 3, "left"), "aud_trace_just": (-7, 7, "right"), "aud_min": (6, 5, "left"), "prompt_defense": (6, 6, "left")}
+    OFF = {"baseline": (6, -11, "left"), "ledger": (7, 6, "left"), "ledger_auth": (-7, -12, "right"), "pdp": (6, -13, "left"), "ask_gate": (-6, -13, "right"),
+           "aud_trace": (6, 10, "left"), "aud_trace_just": (-7, 7, "right"), "aud_min": (6, 5, "left"), "prompt_defense": (8, -3, "left")}
     ax.set_xlim(0.15, 1.0); ax.set_ylim(-0.07, 0.62)
     for k, v in dc.items():
         if k not in style or v.get("V") is None or v["V"] != v["V"]:

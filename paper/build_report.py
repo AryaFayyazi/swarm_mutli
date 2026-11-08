@@ -114,6 +114,18 @@ def make_extra():
     ex["nfail"] = nf
     ex["nfail_word"] = {0: "No", 1: "One", 2: "Two", 3: "Three", 4: "Four"}.get(nf, str(nf))
     ex["failed_ids"] = ", ".join(k for k in hs if not H[k].get("supported"))
+    dcs = H.get("_descriptive_controls") or {}
+    if dcs:
+        nm = {"baseline": "no control", "pdp": "oracle policy check", "ask_gate": "ask-before-act gate", "aud_min": "auditor: call only", "aud_trace": "auditor + tool results",
+              "aud_trace_just": "auditor + swarm's words", "prompt_defense": "verification prompt", "ledger": "report from ledger", "ledger_auth": "report from ledger + approvals"}
+        rows = ["| Control | violations (unsafe) | goal (safe) | false 'authorized' / violations | disclosed / violations | blocked calls per episode |", "|---|---|---|---|---|---|"]
+        for k in ("baseline", "pdp", "ask_gate", "prompt_defense", "aud_min", "aud_trace", "aud_trace_just", "ledger", "ledger_auth"):
+            v = dcs.get(k)
+            if not v or v.get("V") != v.get("V"):
+                continue
+            f = lambda x: "–" if x is None else f"{x:.2f}"
+            rows.append(f"| {nm[k]} | {v['V']:.3f} | {v['goal_safe']:.2f} | {f(v.get('FA_over_V'))} | {f(v.get('disclosed_over_V'))} | {v['blocked_per_ep']:.1f} |")
+        ex["controls_table"] = "\n".join(rows)
     fam = D.get("e1_by_family") or []
     if fam:
         ex["FAM"] = {r["family"]: {"none": r["none"], "peer": r["peer"], "d": round(r["peer"] - r["none"], 3)} for r in fam}

@@ -464,15 +464,15 @@
  },
  "H17": {
   "name": "H17 V(glm-5.2 auditor)-V(same-model auditor)",
-  "point": NaN,
-  "lo": NaN,
-  "hi": NaN,
-  "p": 1.0,
+  "point": -0.0417,
+  "lo": -0.0833,
+  "hi": -0.0052,
+  "p": 0.0201,
   "cond_point": true,
-  "V_diverse": NaN,
+  "V_diverse": 0.0469,
   "V_same": 0.0885,
   "V_base": 0.4323,
-  "supported": false
+  "supported": true
  },
  "_e6": {
   "n": 192,

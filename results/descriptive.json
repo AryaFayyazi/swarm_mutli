@@ -771,8 +771,8 @@
    "no_parsable_verdict_fail_open": 457
   },
   "e7": {
-   "audit_decisions": 92,
-   "no_parsable_verdict_fail_open": 11
+   "audit_decisions": 2346,
+   "no_parsable_verdict_fail_open": 182
   }
  },
  "counts": {
@@ -782,7 +782,7 @@
   "e4": 768,
   "e5": 1152,
   "e6": 192,
-  "e7": 40
+  "e7": 384
  },
  "cost_credits": {
   "e1": 50.91,
@@ -791,7 +791,8 @@
   "e3b": 3.13,
   "e4": 15.0,
   "e5": 11.12,
-  "e6": 1.88
+  "e6": 1.88,
+  "e7": 4.59
  },
- "cost_total": 148.5
+ "cost_total": 153.1
 }

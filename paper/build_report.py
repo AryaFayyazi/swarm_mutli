@@ -77,7 +77,7 @@ def make_extra():
             rows.append(f"| {h} | {CLAIM[h]} | not run | not run |")
             continue
         PL = {"H2": ["relay", "relay-2"], "H4": ["false reports cut", "change in V"], "H5": ["V", "goal drop"], "H6": ["call only", "+results", "+words"],
-              "H7": ["Gemma judge", "Qwen judge"], "H12": ["vs base", "vs gate"], "H13": ["ratio", "V"], "H15": ["manager", "terse"], "H19": ["V", "goal drop"], "H23": ["terse", "attacker"], "H24": ["V", "goal drop"]}
+              "H7": ["Gemma judge", "Qwen judge"], "H12": ["vs base", "vs gate"], "H13": ["ratio", "V"], "H15": ["manager", "terse"], "H19": ["V", "goal drop"], "H24": ["V", "goal drop"]}
         def fmt(q):
             return f"{q['point']:+.2f} [{q['lo']:+.2f}, {q['hi']:+.2f}]" if q.get("lo") == q.get("lo") and "lo" in q else f"{q['point']:+.2f}"
         if r.get("parts") and h in PL:

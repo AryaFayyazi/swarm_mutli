@@ -22,6 +22,12 @@ for l in open(RAW / "e9.jsonl"):
         if ex is None and f["where"] == "peer_message" and f["ok"]:
             ex = f
 res["_filter"] = {"calls": tot, "ok": ok, "fail_open": tot - ok, "changed": chg, "example": ex}
+p12 = RAW / "e12.jsonl"
+if p12.exists() and p12.stat().st_size:
+    res["counts"]["e12"] = int(len(load(p12)))
+    res.update(H2.e12_rows(e9, load(p12)))
+    if "H31" in res:
+        r = res["H31"]; print("H31", r["point"], r["lo"], r["hi"], r.get("p_holm"), r["supported"], res["_2x2"])
 # report-level: false assurance among violators, cells B vs C vs D
 p10 = RAW / "e10.jsonl"
 pm = RAW / "r2mon.jsonl"

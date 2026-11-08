@@ -93,6 +93,16 @@ if fam2:
     for h in fam2:
         rows[h]["p_holm"] = round(adj[h], 5); rows[h]["supported"] = bool(adj[h] < 0.05 and rows[h]["cond_point"])
 desc["counts"] = {n: (int(len(x)) if x is not None else 0) for n, x in (("e1", e1), ("e3", e3), ("e3b", e3b), ("e4", e4), ("e5", e5), ("e6", e6), ("e7", e7))}
+costs = {}
+for lf in sorted((ROOT / "outputs/logs").glob("*.log")):
+    for l in open(lf):
+        if l.startswith("DONE"):
+            parts = l.split()
+            try:
+                costs[parts[1]] = round(float(parts[2]), 2)
+            except Exception:
+                pass
+desc["cost_credits"] = costs; desc["cost_total"] = round(sum(costs.values()), 1)
 (RES / "hypotheses.json").write_text(json.dumps(rows, indent=1, default=str))
 (RES / "descriptive.json").write_text(json.dumps(desc, indent=1, default=str))
 for h in ("H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H11", "H12", "H13", "H14", "H15", "H16", "H17"):

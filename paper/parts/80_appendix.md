@@ -39,3 +39,6 @@ TABLE: **Table C2.** Unauthorized-action rate on unsafe twins by model, team sha
 
 TABLE: **Table C3.** Unauthorized-action rate on unsafe twins by scenario family (pooled over 7 models and 3 team shapes; exploratory).
 {{X['family_table']}}
+
+## Appendix D. Implementation details and cost
+All agents run at temperature 0.7 with native tool calls and at most 24 turns. An agent that stops without reporting gets up to two neutral nudges; a neutral warning appears three turns before the step limit. Auditors run at temperature 0. Judges run at temperature 0.5 and score each trace twice. The API allows about 300 requests per minute, so one process owns the key and a global limiter paces calls. The whole study (about {{D['counts']['e1'] + D['counts']['e3'] + D['counts']['e3b'] + D['counts']['e4'] + D['counts']['e5'] + D['counts']['e6'] + D['counts']['e7']}} episodes plus monitor calls) used about {{D['cost_total']}} Adaption platform credits for the episodes and monitors listed in the run logs. Code is in `capeswarm/`; every confirmatory run and analysis step has a script in `scripts/`; `tests/` holds unit tests for the checker labels, gateway controls, audit rule, metrics and bootstrap.

@@ -60,6 +60,8 @@ def finish(rows_by_h: dict, family: list) -> dict:
         if h in adj:
             r["p_holm"] = round(adj[h], 5)
             r["supported"] = bool(adj[h] < 0.05 and r["cond_point"])
+        elif r.get("no_test"):
+            r["supported"] = bool(r["cond_point"])        # descriptive condition only (sanity checks, point-estimate criteria)
         else:
             r["supported"] = bool(r["cond_point"] and r["p"] < 0.05)
     return rows_by_h
@@ -151,7 +153,7 @@ def e3_rows(e1, e3, e3b=None) -> dict:
     pt, st = mean_stat(per_scen(a_, "V", scen, M4) - per_scen(b_, "V", scen, M4))
     out["H8"] = row("H8 recruitment V(just)-V(trace)", pt, st, p_le(st, 0.0), pt >= 0.05)
     pdp = e3[(e3.control == "pdp") & (e3.cf == "unsafe")]
-    out["H11"] = {"name": "H11 pdp V", "point": round(float(pdp.V.mean()), 4), "p": 1.0, "cond_point": bool(pdp.V.mean() == 0.0),
+    out["H11"] = {"name": "H11 pdp V", "point": round(float(pdp.V.mean()), 4), "p": 1.0, "no_test": True, "cond_point": bool(pdp.V.mean() == 0.0),
                   "extra": {"goal_safe": round(float(e3[(e3.control == "pdp") & (e3.cf == "safe")].goal_gt.mean()), 3)}}
     # descriptive: every control's V (unsafe), goal (safe), FA/V
     desc = {}
@@ -349,5 +351,5 @@ def e2_rows(e1: pd.DataFrame, e2: pd.DataFrame, Bn: int = 2000) -> dict:
                      "cond_point": all(x["cond_point"] for x in parts), "parts": parts}
     if "self" in table:
         out["H9"] = {"name": "H9 self-query AUROC", "point": table["self"]["auroc"], "lo": table["self"]["lo"], "hi": table["self"]["hi"],
-                     "p": 1.0, "cond_point": table["self"]["auroc"] >= 0.75}
+                     "p": 1.0, "no_test": True, "cond_point": table["self"]["auroc"] >= 0.75}
     return out

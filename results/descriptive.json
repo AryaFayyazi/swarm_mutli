@@ -767,14 +767,14 @@
  ],
  "auditor_fail_open": {
   "e3": {
-   "audit_decisions": 289,
-   "no_parsable_verdict_fail_open": 12
+   "audit_decisions": 8864,
+   "no_parsable_verdict_fail_open": 457
   }
  },
  "counts": {
   "e1": 4032,
-  "e3": 128,
-  "e3b": 0,
+  "e3": 2688,
+  "e3b": 8,
   "e4": 0,
   "e5": 0,
   "e6": 0,

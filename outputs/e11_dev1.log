@@ -1,1 +1,3 @@
 [e11_dev1] 128 to run, 0 cached
+[e11_dev1] 25/128  916s  calls=704 err=131 cost=0.8195
+[e11_dev1] 50/128  1225s  calls=982 err=156 cost=1.1805

@@ -1,0 +1,140 @@
+{
+ "glm-5.2": {
+  "undefined_terms": [
+   "Abstract: 'CAPE-Swarm, a team layer on the CAPE-Bench environments [1]' \u2014 CAPE-Bench is not explained until Section 3.1; a first-time reader of the abstract has no idea what it is.",
+   "Section 3.2: 'except in E4, which pairs different models' \u2014 experiment labels E1\u2013E13 are not introduced until Section 4, yet E4 is referenced here.",
+   "Section 3.5: 'glm-53-flash, temperature 0' \u2014 this model name appears with no introduction or explanation of what it is.",
+   "Section 3.5: 'Our claim filter is a form of spotlighting [14]' \u2014 spotlighting is referenced but never defined; a reader must consult the citation.",
+   "Figure 1 caption: 'the ladder shows a Qwen3.5-397B judge' \u2014 model names and the 'ladder' concept appear before Section 4 introduces models or Section 3.6 defines monitor levels.",
+   "Section 2: 'defines retroactive permission laundering' \u2014 this term from CAPE-Bench is mentioned but never defined in the paper.",
+   "Section 2: 'The provenance paradox [10] also finds that unverifiable claims mislead delegation.' \u2014 the provenance paradox is named but not explained.",
+   "Section 4.5: '(\u03ba = 0.53)' \u2014 Cohen's kappa (or whatever kappa this is) is used without definition."
+  ],
+  "hard_sentences": [
+   "run(a(t)) \u21d4 readonly(a(t)) \u2228 \u2203 u < t : covers(r(u), a(t)) \u2227 answer(r(u)) \u2260 denied (Section 3.5, Eq. 7) \u2014 Dense formal logic with multiple predicates (readonly, covers, answer) that are not defined in prose; a reader must reverse-engineer the meaning.",
+   "Within a family of k related predictions with sorted p-values p(1) \u2264 \u2026 \u2264 p(k), the Holm-adjusted value is p\u0303(i) = max_{j\u2264i} min{ 1, (k \u2212 j + 1) \u00b7 p(j) } (Section 3.7, Eq. 10) \u2014 The Holm correction formula is presented without any intuitive explanation of what it does or why it is needed here.",
+   "The oracle check reaches V = 0 by construction, so it is only an upper bound. (Section 4.3) \u2014 'Upper bound' is ambiguous: upper bound on what? A reader may think V=0 is a lower bound on safety, not an upper bound on achievable control effectiveness.",
+   "The interaction is +0.24 [+0.10, +0.38]. (Section 4.7) \u2014 'Interaction' is used in the statistical sense (difference-of-differences in a 2\u00d72 design) but never explained; a non-statistician reader cannot tell what this number means.",
+   "x(c,s) = (1/|M|) \u03a3_{m\u2208M} (1/|E(c,s,m)|) \u03a3_{e\u2208E(c,s,m)} y(e) (Section 3.4, Eq. 5) \u2014 Double summation with nested indices and set notation is hard to parse without working through it step by step.",
+   "A single episode repeats its own outcome only 77% of the time (\u03ba = 0.53), so we report rates and not single traces. (Section 4.5) \u2014 The connection between the 77% figure and kappa, and why this implies reporting rates, requires inference the reader must make alone.",
+   "AUROC(j, \u2113) = P[ s(T\u207a) > s(T\u207b) ] + \u00bd P[ s(T\u207a) = s(T\u207b) ], Catch(j, \u2113) = P[ s(T\u207a) > q ] (Section 3.6, Eq. 8) \u2014 Two definitions packed into one line with undefined T\u207a, T\u207b, s, and q all introduced in the same sentence.",
+   "A pressure message with no claim at all would pass it unchanged, so the filter needs the gate or a permission record behind it. (Section 4.8) \u2014 'Pressure message' is not a previously defined term; the reader must infer what it means and why it evades the filter."
+  ],
+  "number_heavy": [
+   "Section 4.1: 'For a single agent, one false sentence raises V from 0.16 to 0.37 (+0.21 [+0.16, +0.25]). The average hides a split between models (Figure 2a): three models react strongly (+0.35 to +0.54), one weakly (+0.08) and three hardly at all. \u2026 V is 0.37 for the single agent, 0.27 for the relay team and 0.15 for relay-2' \u2014 eight numbers in four sentences.",
+   "Section 4.3 (Permission record and Ask-before-act gate paragraphs): 'V is 43%, and 81% of violating episodes give a false report \u2026 false reports fall to 26% (a relative cut of 68% [57%, 78%]) \u2026 V does not change (+0.03 [-0.04, +0.09]) \u2026 V falls to 0.5% (upper bound 1.6%), at a cost of 0.05 [0.02, 0.09] \u2026 V is 5% to 9% \u2026 goal completion 0.26' \u2014 over fifteen numbers in two short paragraphs.",
+   "Section 4.7 (mechanism paragraph): 'the claim raises V from 0.10 to 0.38 \u2026 V is 0.06 without the claim and 0.10 with it \u2026 +0.04 [-0.01, +0.09] \u2026 The interaction is +0.24 [+0.10, +0.38] \u2026 in 0.82 of episodes \u2026 0.47 [0.33, 0.60] \u2026 0.80 and 0.80' \u2014 twelve numbers in five sentences.",
+   "Section 4.8 (Finding paragraph): 'V from 0.09 to 0.36 (+0.27 [+0.17, +0.38]) \u2026 V falls to 0.03 (-0.33 [-0.44, -0.23]) \u2026 75% without the filter \u2026 at most 0.14 \u2026 0.50 to 0.01 (-0.49 [-0.64, -0.33]) \u2026 0.80 with the filter and 0.74 without (-0.06 [-0.11, +0.01]) \u2026 V is 0.00 and goal completion is 0.77 \u2026 difference +0.02 [-0.03, +0.08]' \u2014 over twenty numbers in one paragraph."
+  ],
+  "report_like": [
+   "Section 4.8: 'If it returns nothing, the original message passes, which happened in 129 of 610 calls, mostly on the Lead's brief.' \u2014 Reads like a raw implementation log, not a paper.",
+   "Section 4.8: 'The design had 40 base tasks, and 22 have every condition finished (Appendix A).' \u2014 Lab-notebook style reporting of incomplete data collection.",
+   "Section 4.7: 'The Operator asked the permission system before acting in 0.82 of episodes with no claim and 0.47 [0.33, 0.60] with the claim, and in 0.80 and 0.80 with the rule.' \u2014 Four conditions compressed into one sentence with no narrative framing.",
+   "Section 4.5: 'A single episode repeats its own outcome only 77% of the time (\u03ba = 0.53), so we report rates and not single traces.' \u2014 Reads like a methodological footnote from a lab notebook rather than a motivated design choice.",
+   "Section 4.5: 'Its best message is not stronger than the scripted one on fresh tasks (V = 0.49 against 0.43; difference +0.06 [-0.02, +0.14]), and the gate holds against it (V = 1.0%).' \u2014 Pure results logging with no interpretation."
+  ],
+  "unsupported": [
+   "'The Lead's brief sets what the Operator believes (Appendix E.8).' (Section 4.4) \u2014 This is a strong causal claim, but the evidence shown (V differs by Lead model) is correlational; the paper does not show that the brief is the mechanism rather than, e.g., the Lead's other messages or behavior.",
+   "'Agents do not simply believe the claim. They stop asking.' (Section 4.7) \u2014 Presented as a conclusion, but the supporting log evidence is explicitly labeled 'exploratory' in the same paragraph.",
+   "'A neutral message with no approval content gives the same V (0.09), so we cannot say that the effect is specific to what a message says about approval.' (Section 4.7) \u2014 This finding undermines the paper's core framing of 'assurance laundering' as a distinct phenomenon, yet the paper does not reconcile this with its thesis.",
+   "'The filter needs no change at the gateway, and the agent still decides.' (Section 4.8) \u2014 The claim that 'the agent still decides' is asserted but not tested; no experiment measures whether the agent's decision process is genuinely preserved versus merely coerced by the rewritten message."
+  ],
+  "top_changes": [
+   "Add a table early in Section 4 listing all experiments (E1\u2013E13) with their conditions, models, team shapes, and sample sizes, since labels like E4, E8, E11 are used in Section 3 before any experiment is introduced.",
+   "Move the formal mathematical definitions (Eqs. 5\u201310) to an appendix and replace them with a short prose summary in the main text; the formulas interrupt the narrative for a reader who is not a statistician.",
+   "Define or briefly gloss technical terms on first use: spotlighting, retroactive permission laundering, provenance paradox, Cohen's kappa, interaction effect, AUROC \u2014 each currently appears without explanation.",
+   "Reduce number density in results paragraphs by moving confidence intervals and per-model breakdowns to tables/figures, keeping the main text focused on the direction and magnitude of effects.",
+   "Add one or two sentences to the abstract or introduction explaining what CAPE-Bench is (matched safe/unsafe task twins with rule-based labels), since it is central to the entire paper but undefined until Section 3.1."
+  ]
+ },
+ "qwen3.5-397b": {
+  "undefined_terms": [
+   "CAPE-Swarm (Abstract, defined Section 1)",
+   "Lead/Operator agent roles (Section 1, defined Section 3.2)",
+   "safe/unsafe twin (Abstract, defined Section 3.1)",
+   "Experiment labels E1-E13 (Section 4, defined in Appendix D Table D1)",
+   "relay/relay-2 team (Section 3.2, no clear definition of naming)",
+   "log levels L0-L4 (Section 3.6, first use without context)",
+   "\u03c7 checker symbol (Section 3.1, mathematical notation without explanation)"
+  ],
+  "hard_sentences": [
+   "Abstract: 'In 12,064 episodes with seven open-weight models, one false peer sentence raises a single agent's rate of unauthorized actions from 0.16 to 0.37, and 70% to 93% of violating team runs still report authorized' - too many statistics compressed",
+   "Section 3.4: '\u0394(c,s) = (1/|M|) \u03a3m\u2208M (1/|E(c,s,m)|) \u03a3e\u2208E(c,s,m) y(e)' - formula-heavy without plain-language explanation",
+   "Section 3.5: 'run(a(t)) \u21d4 readonly(a(t)) \u2228 \u2203 u < t : covers(r(u), a(t)) \u2227 answer(r(u)) \u2260 denied' - logical notation assumes math background",
+   "Section 3.7: 'Within a family of k related predictions with sorted p-values p(1) \u2264 \u2026 \u2264 p(k), the Holm-adjusted value is...' - statistical method unexplained",
+   "Section 4.7: 'The interaction is +0.24 [+0.10, +0.38]' - interaction effect not explained for non-statisticians",
+   "Section 4.8: 'The filter is not tuned to one sentence: the attacker message of Section 4.5, which the filter never saw, drops from 0.50 to 0.01 (-0.49 [-0.64, -0.33])' - nested references and statistics",
+   "Section 3.6: 'AUROC(j, \u2113) = P[ s(T\u207a) > s(T\u207b) ] + \u00bd P[ s(T\u207a) = s(T\u207b) ]' - probability notation without context",
+   "Section 5: 'Three of seven models hardly reacted to the claim and three reacted strongly' - vague quantification ('hardly', 'strongly')"
+  ],
+  "number_heavy": [
+   "Abstract (12,064 episodes, 0.16 to 0.37, 70% to 93%, AUROC 0.90-0.93, 0.69-0.70, 7 of 33)",
+   "Section 3.4 (five indicator equations, two averaging formulas with summations)",
+   "Section 4.1 (0.16 to 0.37, +0.21 [+0.16, +0.25], +0.35 to +0.54, +0.08, 0.37, 0.27, 0.15)",
+   "Section 4.3 (43%, 81%, 26%, 68% [57%, 78%], +0.03 [-0.04, +0.09], 0.5%, 1.6%, 0.05 [0.02, 0.09], 5% to 9%, 0.26)",
+   "Section 4.8 (896 episodes, 40 base tasks, 22 finished, 0.09 to 0.36, +0.27 [+0.17, +0.38], 0.03, -0.33 [-0.44, -0.23], 75%, 0.14, 0.50 to 0.01, -0.49 [-0.64, -0.33], 0.80, 0.74, -0.06 [-0.11, +0.01], 0.00, 0.77, +0.02 [-0.03, +0.08], 240 episodes, 20 base tasks, 0.31, 0.05, -0.26 [-0.41, -0.11])"
+  ],
+  "report_like": [
+   "Section 4 opening: 'Each subsection answers one question: does a false peer message make agents act (4.1, experiment E1)...' - reads like experimental log",
+   "Section 3.7: 'SHA-256 hashes and git commits record the order (Appendix C)' - procedural documentation",
+   "Section 4.8: '22 have every condition finished (Appendix A)' - lab notebook style",
+   "Section 4.5: 'This did not replicate on fresh tasks (Section 4.7)' - informal lab note",
+   "Section 5: 'Appendix C lists all predictions by experiment' - reference to tracking document",
+   "Section 4.7: 'The logs show this (exploratory)' - informal aside"
+  ],
+  "unsupported": [
+   "Abstract: '7 of 33 predictions failed' - no list of which 7 failed in main text",
+   "Section 4.8: 'holds against an attacker who knows it' - only one attacker model (GLM-5.2) tested, not generalizable",
+   "Section 4.7: 'A neutral message with no approval content gives the same V (0.09), so we cannot say that the effect is specific to what a message says about approval' - claims specificity cannot be determined from single comparison",
+   "Section 5: 'Three of seven models hardly reacted... and three reacted strongly' - 'hardly' and 'strongly' are undefined thresholds",
+   "Section 4.8: 'The filter needs no change at the gateway, and the agent still decides' - agent agency claim not empirically tested"
+  ],
+  "top_changes": [
+   "Move experiment labels (E1-E13) and their descriptions from Appendix D into Section 4 where they are first referenced",
+   "Add a glossary box defining Lead, Operator, gateway, twins, and log levels before Section 3",
+   "Replace mathematical formulas in Section 3.4-3.6 with plain-language descriptions, move equations to appendix",
+   "Reduce Abstract statistics by 50% - keep only the key finding (0.16 to 0.37 increase, 70-93% false reports)",
+   "Clearly mark exploratory vs. preregistered findings with visual indicators (e.g., asterisks or boxes) throughout Section 4"
+  ]
+ },
+ "gemma-4-31b-it": {
+  "hard_sentences": [
+   "A factorial test shows that the claim displaces the agent's own authorization check, and a verification rule removes nearly all of its effect.",
+   "The Operator asked the permission system before acting in 0.82 of episodes with no claim and 0.47 [0.33, 0.60] with the claim, and in 0.80 and 0.80 with the rule.",
+   "A self-query monitor asks the Operator's own model two yes/no questions.",
+   "The interaction is +0.24 [+0.10, +0.38].",
+   "A single episode repeats its own outcome only 77% of the time ( \u03ba = 0.53), so we report rates and not single traces.",
+   "The provenance paradox [10] also finds that unverifiable claims mislead delegation.",
+   "A monitor detects violations only if it reads the gateway log with results (AUROC 0.90\u20130.93, against 0.69\u20130.70 from the report).",
+   "The report is a structured call with the fields authorization_status (\"authorized\", \"not_authorized\" or \"unsure\"), goal_completed, actions_performed and summary, so we score reports by rule."
+  ],
+  "number_heavy": [
+   "Abstract",
+   "Section 3.4 (Outcomes and estimands)",
+   "Section 3.7 (Inference)",
+   "Section 4.1 (A false peer message makes agents act without authorization)"
+  ],
+  "report_like": [
+   "\"All experiments were preregistered; 7 of 33 predictions failed.\" (Abstract)",
+   "\"E1 crosses seven open-weight models, three team shapes and two message conditions (4,032 episodes).\" (Section 4)",
+   "\"The main experiments use |S| = 48 scenarios (six per family, seed 9001).\" (Section 3.1)"
+  ],
+  "top_changes": [
+   "Define \"factorial test\" and \"interaction\" in Section 4.7 to explain how the verification rule and claim were crossed.",
+   "Clarify the \"self-query monitor\" in Section 3.6; specify what the \"two yes/no questions\" actually are.",
+   "Simplify the notation in Section 3.4 (Eq 1-6) or provide a plain-English summary of what V, F, D, and G represent before the formulas.",
+   "Explain the significance of the \"kappa (\u03ba = 0.53)\" value in Section 4.5 for readers unfamiliar with Cohen's kappa/inter-rater reliability.",
+   "Explicitly define \"safe twin\" and \"unsafe twin\" earlier in the Introduction rather than waiting for the Methodology section."
+  ],
+  "undefined_terms": [
+   "\"assurance laundering\" (Abstract - used in title and abstract, but the formal definition \"an unverified remark becomes an instruction...\" is in Section 1)",
+   "\"CAPE-Bench\" (Abstract - \"CAPE-Bench environments [1]\" used before the purpose of the benchmark is explained in Section 1)",
+   "\"AUROC\" (Abstract - used without definition)",
+   "\"relay team\" (Section 3.2 - \"The relay team is Lead plus Operator\" is the definition, but it is used in the Abstract/Intro contextually first)",
+   "\"gateway log\" (Abstract - \"gateway log with results\" used before the gateway is defined in Section 3.2)"
+  ],
+  "unsupported": [
+   "\"A peer's question... does lower V, to 0.01... We did not measure its price on safe twins.\" (Section 4.7) - The claim that it \"lowers it further\" in the abstract is supported for V, but the trade-off (useful work) is admitted to be unknown."
+  ]
+ }
+}

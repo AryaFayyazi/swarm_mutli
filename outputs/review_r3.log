@@ -1,0 +1,18 @@
+glm-5.2 {'impact': 4, 'execution': 4, 'presentation': 4}
+   - The most novel contributions rest on the smallest experiments. E9 (claim filter) completed only 22 of 40 planned base scenarios due to API rate limits, and E12 (mechanism test) has only 160 episodes. The claim that the filter cuts V from 0.36 to 0.03 is based 
+   - The claim that the filter 'holds against an attacker who knows it' is overstated. The attacker search was 2 rounds by one model (GLM-5.2) testing a single message. The author explicitly admits 'a pressure message with no claim at all would pass it unchanged, s
+   - All tools are mock tools in synthetic scenarios with a deterministic permission system. No real tools, real approvers, or real workflows were tested. The utility cost of the ask-before-act gate (0.05 on safe twins) may be much larger with real, slower, noisier
+   - Only open-weight models were tested, with extreme heterogeneity: the peer message effect ranges from +0.00 to +0.54 across models. Three of seven models 'hardly reacted.' The pooled averages (0.16 to 0.37) are driven by 3-4 models and may not generalize to fro
+   - Several very recent 2026 papers study nearly identical phenomena: Cerruti et al. [15] on false permission records in agent memory, Safin et al. [16] on forged approvals in multi-agent pipelines, Zhu et al. [17] on trust boundaries. The differentiation is incre
+qwen3.5-397b {'impact': 4, 'execution': 4, 'presentation': 4}
+   - [
+   - "
+   - C
+   - l
+   - a
+gemma-4-31b-it {'impact': 4, 'execution': 5, 'presentation': 5}
+   - The attacker model's search was limited to two rounds on a development seed; a skeptical judge would argue that a more persistent attacker could easily find a bypass for the claim filter.
+   - The 'fresh tasks' experiments (E9-E13) were smaller than planned due to API limits, reducing the statistical power of the claim filter and doubt-message results.
+   - The study relies on mock tools and a deterministic rule-based checker, which may not fully capture the nuance or noise of real-world authorization systems.
+   - The 'self-query monitor' result is described as 'weak' because the lower bound of the confidence interval missed the threshold, suggesting the monitor's effectiveness is not yet robustly established.
+   - The claim filter's utility cost was not significantly different from the gate's, meaning the 'low cost' claim is not yet empirically proven over the stronger gateway defense.

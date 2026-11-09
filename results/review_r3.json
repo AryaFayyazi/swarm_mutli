@@ -1,0 +1,59 @@
+{
+ "glm-5.2": {
+  "impact": 4,
+  "execution": 4,
+  "presentation": 4,
+  "strengths": "The matched-twin methodology with deterministic rule-based labels and preregistration is exceptional for a 3-day sprint. The mechanism finding (E12) \u2014 that a false claim raises violations not because agents believe it but because it displaces their own authorization check (interaction +0.24 [+0.10, +0.38]) \u2014 is genuinely insightful and directly motivates the claim filter defense. The \"price list\" of controls (Figure 3) and the monitor log ladder (AUROC 0.69 from report vs. 0.90\u20130.93 from gateway log with results) are practically actionable contributions deployers could act on immediately. The honest reporting of 7/33 failed predictions, including the non-replication of the hedged-message effect, builds trust. The separation of acting, reporting, and monitoring as three distinct failure modes with distinct fixes is a clean and useful framing.",
+  "weaknesses": [
+   "The most novel contributions rest on the smallest experiments. E9 (claim filter) completed only 22 of 40 planned base scenarios due to API rate limits, and E12 (mechanism test) has only 160 episodes. The claim that the filter cuts V from 0.36 to 0.03 is based on roughly 44 unsafe episodes per model across 4 models \u2014 a handful of violations. The abstract headline numbers are thus built on underpowered cells.",
+   "The claim that the filter 'holds against an attacker who knows it' is overstated. The attacker search was 2 rounds by one model (GLM-5.2) testing a single message. The author explicitly admits 'a pressure message with no claim at all would pass it unchanged, so the filter needs the gate or a permission record behind it' \u2014 meaning the filter alone is insufficient, contradicting the framing of it as a standalone cheap defense.",
+   "All tools are mock tools in synthetic scenarios with a deterministic permission system. No real tools, real approvers, or real workflows were tested. The utility cost of the ask-before-act gate (0.05 on safe twins) may be much larger with real, slower, noisier approval systems \u2014 the author acknowledges this but it fundamentally limits the practical claims.",
+   "Only open-weight models were tested, with extreme heterogeneity: the peer message effect ranges from +0.00 to +0.54 across models. Three of seven models 'hardly reacted.' The pooled averages (0.16 to 0.37) are driven by 3-4 models and may not generalize to frontier/closed models at all.",
+   "Several very recent 2026 papers study nearly identical phenomena: Cerruti et al. [15] on false permission records in agent memory, Safin et al. [16] on forged approvals in multi-agent pipelines, Zhu et al. [17] on trust boundaries. The differentiation is incremental \u2014 matched twins, the report as outcome, and the mechanism test are genuine additions, but the core phenomenon of false approval claims propagating through agent teams was already identified by others."
+  ],
+  "inconsistencies": [
+   "The hedged message result in Section 4.5 (V=0.04, 'below no message at all (0.11)') is presented as a finding, then in Section 4.7 the same comparison 'did not replicate' (V=0.09 vs 0.10). The initial framing in 4.5 is misleading since the effect vanished on fresh tasks.",
+   "The abstract says the filter 'holds against an attacker who knows it (0.31 without it, 0.05 with it),' but the author concedes 'a pressure message with no claim at all would pass it unchanged' \u2014 the filter's robustness is conditional on the attacker using approval-claim language, which an informed attacker would simply avoid.",
+   "E9 is described as using 'fresh tasks' (seed 5501), but Appendix A reveals '26 of its 96 task prompts repeat prompts of the main experiments (new entities, same templates).' These are not entirely fresh, which could inflate filter performance if template-specific patterns were learned.",
+   "The report says 'no violating report says authorized any more' with the filter (Section 4.8), but with V=0.03 across ~44 unsafe episodes per model, this is roughly 1-2 violations total \u2014 the claim of zero false reports rests on near-empty cells.",
+   "The preregistration is described as rigorous with SHA-256 hashes and git commits, but the author admits 'lock times are self-reported' and 'were not published before each run' and 'dates inside one repository can be forged.' The preregistration is not independently verifiable as pre-data."
+  ],
+  "top_changes": [
+   "Run E9 (claim filter) and E12 (mechanism test) at full planned sample size (40 scenarios, adequate episodes per cell) to provide convincing statistical power for the most novel contributions, which currently rest on 22 and 20 base scenarios respectively.",
+   "Test at least one frontier/closed model (e.g., GPT-4-class or Claude-class) to assess whether the effect and the defenses generalize beyond open-weight models, given the extreme heterogeneity observed (3/7 models barely reacted).",
+   "Run a stronger, longer adaptive attacker search against the claim filter (more rounds, multiple attacker models, messages that avoid approval-claim language entirely) to validate or revise the robustness claim, since the author already identifies the bypass but still headlines the filter as robust in the abstract."
+  ]
+ },
+ "qwen3.5-397b": {
+  "impact": 4,
+  "execution": 4,
+  "presentation": 4,
+  "strengths": "Methodologically rigorous for a 3-day sprint: preregistered design with 33 predictions (7 failures honestly reported), matched twins with deterministic rule-based labels (no LLM judge for ground truth), large sample size (12,064 episodes across 7 models), clear separation of acting vs. reporting vs. monitoring failures with distinct fixes, and a genuine mechanism test showing the claim displaces the agent's own authorization check rather than agents simply believing it. The claim filter defense is practical and tested against an attacker who knows it.",
+  "weaknesses": "[\"Claim filter 'fails open': '129 of 610 calls' passed unchanged (mostly Lead's brief), and authors admit 'a pressure message with no claim at all would pass it unchanged, so the filter needs the gate or a permission record behind it'\u2014undermining claims of sufficiency.\", 'Only open-weight models tested: authors explicitly state \"Frontier closed models may behave differently\" and effect sizes vary dramatically across models (Figure 2a: +0.08 to +0.54), limiting real-world applicability.', 'Key prediction failed to replicate: hedged message effect from E5 (V=0.04, below no-message baseline) \"did not replicate on fresh tasks\" in E13 (V=0.09, equal to baseline), raising robustness concerns.', 'Mock tools only: CAPE-Bench environments are synthetic; authors acknowledge \"Real approvers are slower and noisier. The utility cost of the ask-before-act gate may be larger in real workflows.\"', 'No tamper test for gateway log: critical assumption that \"agents cannot edit it\" is untested despite citing evidence that \"real agents have tried to tamper with logs [13]\".']",
+  "inconsistencies": "[\"E5 found hedged message gave V=0.04, 'below no message at all (0.11)' with difference -0.07 [-0.14, -0.02], but E13 on fresh tasks found V=0.09, 'equals no message (0.10; difference -0.01 [-0.10, +0.07])'\u2014same manipulation, opposite conclusions.\", 'Abstract claims '70% to 93% of violating team runs still report authorized' while Section 4.2 states 82% overall\u2014consistent but the range obscures that 82% is the mean, not a bound.', 'Claim filter described as marking 'approval claims' but rewrites attacker message 'because it names a ticket and a peer'\u2014suggests pattern-matching on surface features rather than semantic understanding of approval claims.']",
+  "top_changes": [
+   "Test claim filter and gateway defenses on frontier/closed models (GPT-4-class, Claude) to establish external validity beyond open-weight models where effect sizes vary 7x.",
+   "Run explicit tamper test where agents attempt to edit or spoof the gateway log\u2014this assumption underpins all monitoring claims (AUROC 0.90-0.93 at L3) but is untested.",
+   "Complete E9-E13 at full planned sample size (API rate limits cut experiments short); resolve the hedged-message replication failure with adequate power."
+  ]
+ },
+ "gemma-4-31b-it": {
+  "execution": 5,
+  "impact": 4,
+  "inconsistencies": [],
+  "presentation": 5,
+  "strengths": "The report is an exemplary piece of sprint research. It is rigorously preregistered, uses a sophisticated 'matched twin' experimental design to isolate the effect of a single sentence, and provides a clear theory of change (displacement of the agent's own check). The execution is exceptional, including a comprehensive set of controls (gateway rules, claim filters, auditors) and a detailed analysis of monitorability across different log levels. The presentation is professional, concise, and transparent about failures and limitations.",
+  "top_changes": [
+   "Expand the 'attacker' section: The current attacker is described as 'weak' (short search). Testing against a more sophisticated, iterative red-teaming process would strengthen the claim that the filter is robust.",
+   "Test on frontier/closed models: The author acknowledges the limitation of using only open-weight models. Validating these findings on GPT-4o or Claude 3.5 would significantly increase the impact and generalizability.",
+   "Explore 'pressure' messages: The author notes that messages without explicit approval claims (e.g., 'this is routine, proceed') might bypass the filter. A systematic study of these 'stealth' prompts would refine the defense."
+  ],
+  "weaknesses": [
+   "The attacker model's search was limited to two rounds on a development seed; a skeptical judge would argue that a more persistent attacker could easily find a bypass for the claim filter.",
+   "The 'fresh tasks' experiments (E9-E13) were smaller than planned due to API limits, reducing the statistical power of the claim filter and doubt-message results.",
+   "The study relies on mock tools and a deterministic rule-based checker, which may not fully capture the nuance or noise of real-world authorization systems.",
+   "The 'self-query monitor' result is described as 'weak' because the lower bound of the confidence interval missed the threshold, suggesting the monitor's effectiveness is not yet robustly established.",
+   "The claim filter's utility cost was not significantly different from the gate's, meaning the 'low cost' claim is not yet empirically proven over the stronger gateway defense."
+  ]
+ }
+}

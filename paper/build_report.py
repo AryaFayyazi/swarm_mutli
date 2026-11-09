@@ -272,11 +272,11 @@ def add_table(doc, rows, caption, widths=None, size=7.5):
             p = c.paragraphs[0]
             p.paragraph_format.space_after = Pt(0); p.paragraph_format.line_spacing = 1.0
             n_ = len(rows)
-            p.paragraph_format.keep_with_next = (i < n_ - 1) if n_ <= 8 else (i < 2 or (n_ - 3 <= i < n_ - 1))   # short tables stay whole; long ones may split
+            p.paragraph_format.keep_with_next = (i < n_ - 1) if n_ <= 4 else (i < 2 or (n_ - 2 <= i < n_ - 1))   # short tables stay whole; long ones may split
             trPr = c._tc.getparent().get_or_add_trPr()
             if trPr.find(qn("w:cantSplit")) is None:
                 trPr.append(OxmlElement("w:cantSplit"))
-            if i == 0 and len(rows) > 8 and trPr.find(qn("w:tblHeader")) is None:
+            if i == 0 and len(rows) > 4 and trPr.find(qn("w:tblHeader")) is None:
                 trPr.append(OxmlElement("w:tblHeader"))
             wide = bool(widths) and widths[j] >= 1.5
             p.alignment = WD_ALIGN_PARAGRAPH.LEFT if (j == 0 or wide) else WD_ALIGN_PARAGRAPH.CENTER

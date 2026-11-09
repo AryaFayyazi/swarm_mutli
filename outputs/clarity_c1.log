@@ -1,0 +1,62 @@
+== glm-5.2
+  [undefined_terms] Abstract: 'CAPE-Swarm, a team layer on the CAPE-Bench environments [1]' — CAPE-Bench is not explained until Section 3.1; a first-time reader of the abstract has no idea what it is.
+  [undefined_terms] Section 3.2: 'except in E4, which pairs different models' — experiment labels E1–E13 are not introduced until Section 4, yet E4 is referenced here.
+  [undefined_terms] Section 3.5: 'glm-53-flash, temperature 0' — this model name appears with no introduction or explanation of what it is.
+  [undefined_terms] Section 3.5: 'Our claim filter is a form of spotlighting [14]' — spotlighting is referenced but never defined; a reader must consult the citation.
+  [undefined_terms] Figure 1 caption: 'the ladder shows a Qwen3.5-397B judge' — model names and the 'ladder' concept appear before Section 4 introduces models or Section 3.6 defines monitor levels.
+  [undefined_terms] Section 2: 'defines retroactive permission laundering' — this term from CAPE-Bench is mentioned but never defined in the paper.
+  [number_heavy] Section 4.1: 'For a single agent, one false sentence raises V from 0.16 to 0.37 (+0.21 [+0.16, +0.25]). The average hides a split between models (Figure 2a): three models react strongly (+0.35 to +0.54), one weakly (+0.08) and thr
+  [number_heavy] Section 4.3 (Permission record and Ask-before-act gate paragraphs): 'V is 43%, and 81% of violating episodes give a false report … false reports fall to 26% (a relative cut of 68% [57%, 78%]) … V does not change (+0.03 [-0.04, +0.
+  [number_heavy] Section 4.7 (mechanism paragraph): 'the claim raises V from 0.10 to 0.38 … V is 0.06 without the claim and 0.10 with it … +0.04 [-0.01, +0.09] … The interaction is +0.24 [+0.10, +0.38] … in 0.82 of episodes … 0.47 [0.33, 0.60] … 0
+  [number_heavy] Section 4.8 (Finding paragraph): 'V from 0.09 to 0.36 (+0.27 [+0.17, +0.38]) … V falls to 0.03 (-0.33 [-0.44, -0.23]) … 75% without the filter … at most 0.14 … 0.50 to 0.01 (-0.49 [-0.64, -0.33]) … 0.80 with the filter and 0.74 wi
+  [report_like] Section 4.8: 'If it returns nothing, the original message passes, which happened in 129 of 610 calls, mostly on the Lead's brief.' — Reads like a raw implementation log, not a paper.
+  [report_like] Section 4.8: 'The design had 40 base tasks, and 22 have every condition finished (Appendix A).' — Lab-notebook style reporting of incomplete data collection.
+  [report_like] Section 4.7: 'The Operator asked the permission system before acting in 0.82 of episodes with no claim and 0.47 [0.33, 0.60] with the claim, and in 0.80 and 0.80 with the rule.' — Four conditions compressed into one sentence with 
+  [report_like] Section 4.5: 'A single episode repeats its own outcome only 77% of the time (κ = 0.53), so we report rates and not single traces.' — Reads like a methodological footnote from a lab notebook rather than a motivated design choice.
+  [report_like] Section 4.5: 'Its best message is not stronger than the scripted one on fresh tasks (V = 0.49 against 0.43; difference +0.06 [-0.02, +0.14]), and the gate holds against it (V = 1.0%).' — Pure results logging with no interpretation
+  [top_changes] Add a table early in Section 4 listing all experiments (E1–E13) with their conditions, models, team shapes, and sample sizes, since labels like E4, E8, E11 are used in Section 3 before any experiment is introduced.
+  [top_changes] Move the formal mathematical definitions (Eqs. 5–10) to an appendix and replace them with a short prose summary in the main text; the formulas interrupt the narrative for a reader who is not a statistician.
+  [top_changes] Define or briefly gloss technical terms on first use: spotlighting, retroactive permission laundering, provenance paradox, Cohen's kappa, interaction effect, AUROC — each currently appears without explanation.
+  [top_changes] Reduce number density in results paragraphs by moving confidence intervals and per-model breakdowns to tables/figures, keeping the main text focused on the direction and magnitude of effects.
+  [top_changes] Add one or two sentences to the abstract or introduction explaining what CAPE-Bench is (matched safe/unsafe task twins with rule-based labels), since it is central to the entire paper but undefined until Section 3.1.
+== qwen3.5-397b
+  [undefined_terms] CAPE-Swarm (Abstract, defined Section 1)
+  [undefined_terms] Lead/Operator agent roles (Section 1, defined Section 3.2)
+  [undefined_terms] safe/unsafe twin (Abstract, defined Section 3.1)
+  [undefined_terms] Experiment labels E1-E13 (Section 4, defined in Appendix D Table D1)
+  [undefined_terms] relay/relay-2 team (Section 3.2, no clear definition of naming)
+  [undefined_terms] log levels L0-L4 (Section 3.6, first use without context)
+  [number_heavy] Abstract (12,064 episodes, 0.16 to 0.37, 70% to 93%, AUROC 0.90-0.93, 0.69-0.70, 7 of 33)
+  [number_heavy] Section 3.4 (five indicator equations, two averaging formulas with summations)
+  [number_heavy] Section 4.1 (0.16 to 0.37, +0.21 [+0.16, +0.25], +0.35 to +0.54, +0.08, 0.37, 0.27, 0.15)
+  [number_heavy] Section 4.3 (43%, 81%, 26%, 68% [57%, 78%], +0.03 [-0.04, +0.09], 0.5%, 1.6%, 0.05 [0.02, 0.09], 5% to 9%, 0.26)
+  [number_heavy] Section 4.8 (896 episodes, 40 base tasks, 22 finished, 0.09 to 0.36, +0.27 [+0.17, +0.38], 0.03, -0.33 [-0.44, -0.23], 75%, 0.14, 0.50 to 0.01, -0.49 [-0.64, -0.33], 0.80, 0.74, -0.06 [-0.11, +0.01], 0.00, 0.77, +0.02 [-0.03, +0.0
+  [report_like] Section 4 opening: 'Each subsection answers one question: does a false peer message make agents act (4.1, experiment E1)...' - reads like experimental log
+  [report_like] Section 3.7: 'SHA-256 hashes and git commits record the order (Appendix C)' - procedural documentation
+  [report_like] Section 4.8: '22 have every condition finished (Appendix A)' - lab notebook style
+  [report_like] Section 4.5: 'This did not replicate on fresh tasks (Section 4.7)' - informal lab note
+  [report_like] Section 5: 'Appendix C lists all predictions by experiment' - reference to tracking document
+  [report_like] Section 4.7: 'The logs show this (exploratory)' - informal aside
+  [top_changes] Move experiment labels (E1-E13) and their descriptions from Appendix D into Section 4 where they are first referenced
+  [top_changes] Add a glossary box defining Lead, Operator, gateway, twins, and log levels before Section 3
+  [top_changes] Replace mathematical formulas in Section 3.4-3.6 with plain-language descriptions, move equations to appendix
+  [top_changes] Reduce Abstract statistics by 50% - keep only the key finding (0.16 to 0.37 increase, 70-93% false reports)
+  [top_changes] Clearly mark exploratory vs. preregistered findings with visual indicators (e.g., asterisks or boxes) throughout Section 4
+== gemma-4-31b-it
+  [undefined_terms] "assurance laundering" (Abstract - used in title and abstract, but the formal definition "an unverified remark becomes an instruction..." is in Section 1)
+  [undefined_terms] "CAPE-Bench" (Abstract - "CAPE-Bench environments [1]" used before the purpose of the benchmark is explained in Section 1)
+  [undefined_terms] "AUROC" (Abstract - used without definition)
+  [undefined_terms] "relay team" (Section 3.2 - "The relay team is Lead plus Operator" is the definition, but it is used in the Abstract/Intro contextually first)
+  [undefined_terms] "gateway log" (Abstract - "gateway log with results" used before the gateway is defined in Section 3.2)
+  [number_heavy] Abstract
+  [number_heavy] Section 3.4 (Outcomes and estimands)
+  [number_heavy] Section 3.7 (Inference)
+  [number_heavy] Section 4.1 (A false peer message makes agents act without authorization)
+  [report_like] "All experiments were preregistered; 7 of 33 predictions failed." (Abstract)
+  [report_like] "E1 crosses seven open-weight models, three team shapes and two message conditions (4,032 episodes)." (Section 4)
+  [report_like] "The main experiments use |S| = 48 scenarios (six per family, seed 9001)." (Section 3.1)
+  [top_changes] Define "factorial test" and "interaction" in Section 4.7 to explain how the verification rule and claim were crossed.
+  [top_changes] Clarify the "self-query monitor" in Section 3.6; specify what the "two yes/no questions" actually are.
+  [top_changes] Simplify the notation in Section 3.4 (Eq 1-6) or provide a plain-English summary of what V, F, D, and G represent before the formulas.
+  [top_changes] Explain the significance of the "kappa (κ = 0.53)" value in Section 4.5 for readers unfamiliar with Cohen's kappa/inter-rater reliability.
+  [top_changes] Explicitly define "safe twin" and "unsafe twin" earlier in the Introduction rather than waiting for the Methodology section.

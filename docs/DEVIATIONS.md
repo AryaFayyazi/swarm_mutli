@@ -33,3 +33,10 @@
   topology contrasts and relative effects, claim survival by hop, stance of the instruction the Operator received, E4 group means, log-level contrasts,
   hedged versus silent peer, the independent judge family (glm-53-flash, L0 and L3). The lock files record the time of each lock; the times written inside
   the preregistration documents are approximate and the lock files are authoritative.
+
+## Round 2 log (2026-11-08, PST)
+- ~13:15: Amendment 5c (scenario-major run order with adjacent twins; terse cells E and F dropped; H23 is the attacker wording only) written and locked before the analysis was run. Disclosure: one look at per-cell violation rates for the first ~200 E9 episodes preceded it; no hypothesis, threshold or test changed because of that look.
+- ~13:20: Addendum 6 (E11 filter-aware adaptive attacker, H28-H30) and ~13:30 Addendum 7 (E12 claim x reminder 2x2, H31) written and locked (`prereg_v1_8_lock.json`, `prereg_v1_9_lock.json`) before any E11/E12 episode or candidate existed.
+- 16:30: E9 was stopped at its scheduled time by `scripts/chain_round2.sh` (the amendment allowed 17:30 as the latest stop; the queue was moved up to leave time for E11 and E12). The analysis uses the 22 base scenarios (of 40) with every condition finished; the other scenarios are partial and not analysed. Counts are in `results/round2.json`.
+- Observed (a finding, not a change): the filter on the Lead's brief fails open more often than on the peer message; the per-hop count is reported in the paper's Appendix A.
+- `scripts/26_audit_numbers.py` now recomputes the E9 cells independently from the raw file and matches `results/round2.json`.

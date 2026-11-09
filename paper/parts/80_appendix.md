@@ -12,6 +12,9 @@ We list each assumption and say how a result would change if it failed.
 - **Reports show facts, not intent.** A false "authorized" is a false statement of fact. We do not claim the agents *meant* to deceive. The self-query monitor (H9) probes this and does not settle it.
 - **Monitors are LLM judges from the same families as the agents.** A judge may share the agents' blind spots. We assume the gateway ledger (L2, L3) is written by the gateway and cannot be edited by agents. An incident investigation found agents that spoofed tool calls and edited logs inside their containers [13]. If agents could write the ledger, L3 would lose its advantage.
 - **Sample size and scope.** 48 base scenarios (6 per family) give 96 instances per condition. Intervals reflect scenario sampling, not template or family sampling. Per-family results are exploratory.
+- **Round 2 is smaller than planned.** The API limit fell from about 300 to about 60 requests a minute during the sprint, so we cut the design (Amendments 5b, 5c). E9 stopped at its scheduled time: {{R['_n_clusters']}} of 40 planned base scenarios have every condition finished, and 26 of its 96 task prompts repeat prompts of round 1 (new entities, same templates). Its intervals use these {{R['_n_clusters']}} clusters. We looked once at the per-cell violation rates of the first 200 finished E9 episodes, and changed no hypothesis, threshold or test after that look (Amendment 5c; `docs/DEVIATIONS.md`).
+- **The claim filter fails open.** If the filter model returns nothing, the original message passes: {{R['_filter']['fail_open']}} of {{R['_filter']['calls']}} calls, mostly on the Lead's brief. The filter's effect is therefore a lower bound for a filter that never fails. A filter is one more model in the path, so it adds latency and one more point of attack. It protects against *claims of approval*, not against other false claims.
+- **The filter-aware attacker is white-box but brief.** It sees the full filter prompt, searches for two rounds on a development seed against two models, and tests one message. A longer search, or an attacker that is trained, may do more.
 - **Ordering evidence is local.** Locks are SHA-256 hashes and git commits. Dates inside one repository can be forged. The commit history should be published with the report so that readers can check the order.
 
 
@@ -57,6 +60,9 @@ TABLE{1.25,2.65,0.65,0.8,1.1}: **Table D1.** Every experiment, its design and it
 | E6 repeat | 48 unsafe instances rerun | 4 | {{D['counts']['e6']}} | descriptive |
 | E7 diverse auditor | GLM-5.2 as the auditor | 4 | {{D['counts']['e7']}} | H17 |
 | E8 attacker | selected message, with and without the gate | 4 | {{D['counts']['e8']}} | H18–H19 |
+| E9 claim filter | none / peer message / filter / gate / attacker message / attacker message + filter (fresh seed 5501) | 4 | {{R['counts']['e9']}} | H20–H25 |
+| E11 filter-aware attacker | message chosen against the filter; filter / none / gate | 4 | {{R['counts'].get('e11',0)}} | H28–H30 |
+| E12 2×2 | false claim × verification reminder | 4 | {{R['counts'].get('e12',0)}} | H31 |
 | E2 monitors | 768 E1 relay traces × 5 log levels × 2 judges × 2 scores, plus self-query | 4 | monitor calls only | H7, H9 |
 
 ## Appendix D. Implementation details and cost

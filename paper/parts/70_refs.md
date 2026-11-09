@@ -23,4 +23,4 @@ REF: [19] Debenedetti, E., et al. (2025). Defeating Prompt Injections by Design.
 Code, preregistration locks, results and the replay viewer are at https://github.com/AryaFayyazi/swarm_mutli (the README marks preexisting and new code; the full git history is public, so the lock commits can be checked). Traces are in the submission archive. Every number comes from `scripts/20_analyze.py` and `scripts/27_round2.py`.
 
 ## Author Contributions
-A.F. is the only author. A.F. is responsible for all claims, results and conclusions in this report. Claude Code (an AI assistant; Appendix B) helped only with writing code and with drafting the first version of the report.
+A.F. is the only author. A.F. is responsible for all claims, results and conclusions in this report. Claude Code (an AI assistant; Appendix B) assisted with the code, the analysis and the drafting and revision of the text, under the author's direction.

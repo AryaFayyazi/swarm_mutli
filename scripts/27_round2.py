@@ -22,6 +22,21 @@ for l in open(RAW / "e9.jsonl"):
         if ex is None and f["where"] == "peer_message" and f["ok"]:
             ex = f
 res["_filter"] = {"calls": tot, "ok": ok, "fail_open": tot - ok, "changed": chg, "example": ex}
+
+# exploratory E9 checks: (1) all finished episodes, not only complete scenarios; (2) the filter hops that returned a rewrite
+from capeswarm.hyp import M4
+_d = e9[e9.model.isin(M4) & (e9.cf == "unsafe")]
+res["_e9_all"] = {n: {"V": round(float(H2.cell(_d, n).V.mean()), 4), "n": int(len(H2.cell(_d, n)))} for n in H2.CELLS}
+_hop = {}
+for l in open(RAW / "e9.jsonl"):
+    r = json.loads(l)
+    c = r["cfg"]
+    if not r.get("out") or r["cf"] != "unsafe" or c["model"] not in M4 or c["topology"] != "relay1" or c.get("claim_filter") != "rewrite" or (r.get("control") or "none") != "none":
+        continue
+    st = {f["where"]: bool(f["ok"]) for f in (r.get("filter") or [])}
+    key = "peer hop ok, brief hop ok" if st.get("peer_message") and st.get("lead_brief") else "peer hop ok, brief hop failed open" if st.get("peer_message") else "peer hop failed open"
+    a = _hop.setdefault(key, [0, 0]); a[0] += 1; a[1] += int(r["out"]["V"])
+res["_e9_filter_hops"] = {k: {"n": v[0], "V": round(v[1] / v[0], 4)} for k, v in _hop.items()}
 p11 = RAW / "e11.jsonl"
 if p11.exists() and p11.stat().st_size:
     res["counts"]["e11"] = int(len(load(p11)))

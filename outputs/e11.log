@@ -1,1 +1,12 @@
 [e11] 240 to run, 0 cached
+[e11] 25/240  856s  calls=688 err=136 cost=0.4775
+[e11] 50/240  1323s  calls=1037 err=209 cost=0.6754
+[e11] 75/240  2113s  calls=1620 err=358 cost=0.9862
+[e11] 100/240  2764s  calls=2055 err=500 cost=1.3211
+[e11] 125/240  3188s  calls=2374 err=591 cost=1.5269
+[e11] 150/240  3619s  calls=2678 err=676 cost=1.7406
+[e11] 175/240  3971s  calls=2959 err=722 cost=1.9304
+[e11] 200/240  4296s  calls=3169 err=787 cost=2.0408
+[e11] 225/240  4600s  calls=3409 err=812 cost=2.1536
+[e11] 240/240  4742s  calls=3486 err=813 cost=2.2141
+DONE e11 2.2140718511800075 813 {"RateLimitError: Error code: 429 - {'error': {'message': 'Inference rate limit reached for ": 812, 'InternalServerError: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<ce': 1}

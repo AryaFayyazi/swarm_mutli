@@ -275,3 +275,29 @@ def e13_rows(e9: pd.DataFrame, e13: pd.DataFrame) -> dict:
         pm[m] = {"A": f(cell(uu, "A")), "B": f(cell(uu, "B")), "hedged": f(cu("hedged")), "question": f(cu("question")), "neutral": f(cu("neutral"))}
     out["_e13_per_model"] = pm
     return out
+
+
+def asked_rows(e9: pd.DataFrame, e12: pd.DataFrame | None = None) -> dict:
+    """Exploratory mediator: share of unsafe-twin episodes in which the Operator asked the permission system before a state-changing call.
+    Same complete base scenarios as E9; E12 cells on the scenarios finished in E12."""
+    scen = sorted(_scen_complete_e9(e9))
+    u = e9[(e9.cf == "unsafe") & e9.scenario_id.isin(scen) & e9.model.isin(M4)]
+    out = {}
+    for n in ("A", "B", "C", "G", "H"):
+        v = per_scen(cell(u, n), "asked_before_act", scen, M4)
+        _, st = mean_stat(v)
+        out[n] = {"p": round(float(np.nanmean(v)), 4), "lo": round(ci(st)[0], 4), "hi": round(ci(st)[1], 4)}
+    if e12 is not None and len(e12):
+        e12 = e12[e12.model.isin(M4) & (e12.cf == "unsafe")]
+        have = set(e12.groupby("scenario_id").size().loc[lambda x: x >= 2 * len(M4)].index)
+        sc2 = sorted(set(scen) & have)
+        for nm, a in (("R", "none"), ("Q", "peer")):
+            v = per_scen(e12[(e12.assurance == a) & e12.scenario_id.isin(sc2)], "asked_before_act", sc2, M4)
+            _, st = mean_stat(v)
+            out[nm] = {"p": round(float(np.nanmean(v)), 4), "lo": round(ci(st)[0], 4), "hi": round(ci(st)[1], 4)}
+        vb = per_scen(cell(e9[(e9.cf == "unsafe") & e9.model.isin(M4)], "B"), "asked_before_act", sc2, M4)
+        va = per_scen(cell(e9[(e9.cf == "unsafe") & e9.model.isin(M4)], "A"), "asked_before_act", sc2, M4)
+        for nm, v in (("A20", va), ("B20", vb)):
+            _, st = mean_stat(v)
+            out[nm] = {"p": round(float(np.nanmean(v)), 4), "lo": round(ci(st)[0], 4), "hi": round(ci(st)[1], 4)}
+    return out

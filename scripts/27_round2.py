@@ -51,8 +51,13 @@ if p12.exists() and p12.stat().st_size:
     res.update(H2.e12_rows(e9, load(p12)))
     if "H31" in res:
         r = res["H31"]; print("H31", r["point"], r["lo"], r["hi"], r.get("p_holm"), r["supported"], res["_2x2"])
+try:
+    res["_asked"] = H2.asked_rows(e9, load(p12) if p12.exists() and p12.stat().st_size else None)
+    print("asked", res["_asked"])
+except Exception as ex:
+    print("asked failed", ex)
 p13 = RAW / "e13.jsonl"
-if p13.exists() and p13.stat().st_size:
+if p13.exists() and p13.stat().st_size and ((ROOT / "outputs/chain3_done.txt").exists() or (ROOT / "outputs/e13_stopped.txt").exists()):   # no look at E13 outcomes before the run has ended
     res["counts"]["e13"] = int(len(load(p13)))
     res.update(H2.e13_rows(e9, load(p13)))
     for h in ("H32", "H33", "H34", "H35", "H36"):

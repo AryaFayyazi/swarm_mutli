@@ -1,0 +1,9 @@
+[e12] 160 to run, 0 cached
+[e12] 25/160  783s  calls=642 err=106 cost=0.4401
+[e12] 50/160  1443s  calls=1119 err=226 cost=0.7731
+[e12] 75/160  1932s  calls=1501 err=311 cost=0.9917
+[e12] 100/160  2248s  calls=1733 err=356 cost=1.1213
+[e12] 125/160  2600s  calls=1999 err=409 cost=1.2406
+[e12] 150/160  2805s  calls=2153 err=426 cost=1.3092
+[e12] 160/160  2908s  calls=2191 err=426 cost=1.3496
+DONE e12 1.349632218547998 426 {"RateLimitError: Error code: 429 - {'error': {'message': 'Inference rate limit reached for ": 426}

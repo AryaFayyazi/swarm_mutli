@@ -83,6 +83,10 @@ if (R / "results/round2.json").exists():
         check(f"E9 goal on safe twins, cell {n}", sum(v) / len(v), R2["_cells"][n]["goal_safe"], 0.0006)
     check("H21 point (C - B)", sum(float(got[sc][("C", "unsafe", m)]["V"]) - float(got[sc][("B", "unsafe", m)]["V"]) for sc in comp for m in M4) / (len(comp) * 4), R2["H21"]["point"], 0.0006)
     check("H25 point (goal C - goal D)", sum(float(got[sc][("C", "safe", m)]["goal_gt"]) - float(got[sc][("D", "safe", m)]["goal_gt"]) for sc in comp for m in M4) / (len(comp) * 4), R2["H25"]["point"], 0.0006)
+    # --- exploratory mediator: share of episodes where the Operator asked permission before acting (cells A, B, C)
+    for n in "ABC":
+        v = [float(got[sc][(n, "unsafe", m)]["asked_before_act"]) for sc in comp for m in M4]
+        check(f"asked_before_act cell {n}", sum(v) / len(v), R2["_asked"][n]["p"], 0.0006)
     # --- E11: filter-aware attacker message, unsafe twins only; cells I (filter), J (none), K (gate)
     g11 = defaultdict(dict)
     for r in rows("e11.jsonl"):
@@ -94,5 +98,26 @@ if (R / "results/round2.json").exists():
     for k, nm in (("I", "V_filter"), ("J", "V_nofilter"), ("K", "V_gate")):
         check(f"E11 V cell {k}", sum(g11[sc][(k, m)] for sc in c11 for m in M4) / (4 * len(c11)), R2["_e11"][nm], 0.0006)
     check("H28 point (I - J)", sum(g11[sc][("I", m)] - g11[sc][("J", m)] for sc in c11 for m in M4) / (4 * len(c11)), R2["H28"]["point"], 0.0006)
+    # --- E13: doubt from a peer. Hd (hedged, both twins), Qn, Nt (unsafe), N0s (no message, safe); A, B from E9
+    if os.path.exists(R / "outputs/raw/e13.jsonl") and "_e13" in R2:
+        g13 = defaultdict(dict)
+        for r in rows("e13.jsonl"):
+            if r["cfg"]["model"] not in M4: continue
+            g13[r["scenario_id"]][(r["cfg"]["assurance"], r["cf"], r["cfg"]["model"])] = r["out"]
+        need13 = [("hedged", "unsafe"), ("question", "unsafe"), ("neutral", "unsafe"), ("hedged", "safe"), ("none", "safe")]
+        c13 = [sc for sc, d in g13.items() if sc in comp and all((a, cf, m) in d for a, cf in need13 for m in M4)]
+        check("E13 number of complete base scenarios", len(c13), R2["_e13_n_clusters"], 0.0)
+        mean = lambda xs: sum(xs) / len(xs)
+        vA = mean([float(got[sc][("A", "unsafe", m)]["V"]) for sc in c13 for m in M4])
+        vH = mean([float(g13[sc][("hedged", "unsafe", m)]["V"]) for sc in c13 for m in M4])
+        vQ = mean([float(g13[sc][("question", "unsafe", m)]["V"]) for sc in c13 for m in M4])
+        vN = mean([float(g13[sc][("neutral", "unsafe", m)]["V"]) for sc in c13 for m in M4])
+        check("E13 V none", vA, R2["_e13"]["none"]["V"], 0.0006)
+        check("E13 V hedged", vH, R2["_e13"]["hedged"]["V"], 0.0006)
+        check("E13 V question", vQ, R2["_e13"]["question"]["V"], 0.0006)
+        check("E13 V neutral", vN, R2["_e13"]["neutral"]["V"], 0.0006)
+        check("H32 point (hedged - none)", vH - vA, R2["H32"]["point"], 0.0006)
+        g0 = mean([float(g13[sc][("none", "safe", m)]["goal_gt"]) for sc in c13 for m in M4]); gh = mean([float(g13[sc][("hedged", "safe", m)]["goal_gt"]) for sc in c13 for m in M4])
+        check("H35 point (goal none - goal hedged)", g0 - gh, R2["H35"]["point"], 0.0006)
 print("\nALL MATCH" if not bad else f"\nMISMATCHES: {bad}")
 sys.exit(1 if bad else 0)

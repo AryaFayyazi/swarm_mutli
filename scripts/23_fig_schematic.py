@@ -91,9 +91,11 @@ badge(16.25, y0 - 3.4, 0)
 badge(42.5, y0 - 3.4, 1)
 badge(67.5, y0 + 3.3, 2)
 badge(84.4, y0 + 3.3, 3)
-# verification prompt strip
-rbox(3, 15.7, 61.5, 3.7, "white", GRAY, lw=1.0, ls="--", r=1.2, z=2)
-ax.text(33.75, 17.55, "optional: a verification rule in every agent's system prompt", ha="center", va="center", fontsize=5.9, color=SUB, zorder=4)
+# optional defenses on the team side: verification rule and claim filter
+rbox(3, 15.7, 30, 3.7, "white", GRAY, lw=1.0, ls="--", r=1.2, z=2)
+ax.text(18, 17.55, "optional: verification rule in prompts", ha="center", va="center", fontsize=5.4, color=SUB, zorder=4)
+rbox(34.5, 15.7, 30, 3.7, "white", AQUA, lw=1.0, ls="--", r=1.2, z=2)
+ax.text(49.5, 17.55, "optional: claim filter on the message bus", ha="center", va="center", fontsize=5.4, color=SUB, zorder=4)
 
 # log ladder -------------------------------------------------------------------------------------------------------------
 ax.text(0.8, 8.0, "What a monitor may read", fontsize=7.0, color=INK, fontweight="bold", va="center")

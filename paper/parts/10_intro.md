@@ -13,4 +13,4 @@ To test this, we built **CAPE-Swarm** (Figure 1). It is a team layer on CAPE-Ben
 3. We test a cheap defense, the claim filter, against a fixed message, a new wording and an attacker who knows how the filter works. We also test why the false claim works.
 4. We show which log a monitor must read. We release traces, a replay viewer and a ledger auditor, so that a team can run the same test on its own agents.
 
-FIG: fig0_overview.png | 4.8 | **Figure 1. The setting.** A peer agent states an unverified approval. The Lead may pass it on. Only the Operator can act. A gateway logs every call and can apply a control. A rule checker labels each call. Five log levels (L0–L4) say what a monitor may read.
+FIG: fig0_overview.png | 4.8 | **Figure 1. The setting.** A peer agent states an unverified approval. The Lead may pass it on. Only the Operator can act. A gateway logs every call and can apply a control. A rule checker labels each call. Five log levels (L0–L4) say what a monitor may read. Dashed boxes are optional defenses.

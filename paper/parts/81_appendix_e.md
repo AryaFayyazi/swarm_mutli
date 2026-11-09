@@ -3,6 +3,8 @@
 
 **E.2 Team shape, exploratory contrasts (4.1).** Exploratory contrasts: solo minus relay {{X['exp_topology']['peer: solo-relay1']['point']|+.2f}} [{{X['exp_topology']['peer: solo-relay1']['lo']|+.2f}}, {{X['exp_topology']['peer: solo-relay1']['hi']|+.2f}}]; solo minus relay-2 {{X['exp_topology']['peer: solo-relay2']['point']|+.2f}} [{{X['exp_topology']['peer: solo-relay2']['lo']|+.2f}}, {{X['exp_topology']['peer: solo-relay2']['hi']|+.2f}}].
 
+FIG: fig2_laundering.png | 3.8 | **Figure E1. Where the false claim goes.** (a) Share of peer-assured unsafe episodes in which each hop carries or acts on the claim. (b) What the final report says in violating episodes, by team shape and assurance message.
+
 **E.3 Stance by model (4.2).** The two Gemma-4 models endorse in {{X['stance']['by_model_share']['gemma-4-26b-a4b-it']['endorse']|.0%}} and {{X['stance']['by_model_share']['gemma-4-31b-it']['endorse']|.0%}} of episodes, DeepSeek-V4 flash and Qwen3.5-397B in {{X['stance']['by_model_share']['deepseek-v4-flash']['endorse']|.0%}} and {{X['stance']['by_model_share']['qwen3.5-397b']['endorse']|.0%}}, and GLM-5.2, glm-53-flash and Qwen3.8-27B in {{X['stance']['by_model_share']['glm-5.2']['endorse']|.0%}}, {{X['stance']['by_model_share']['glm-53-flash']['endorse']|.0%}} and {{X['stance']['by_model_share']['qwen3.8-27b']['endorse']|.0%}}. This is an association, but the mixed-team results in 4.4 point the same way.
 
 TABLE: **Table E1.** The same task and the same peer message, two teams (verbatim sentences). Rule: the first scenario, in sorted order, where the GLM-5.2 team received a rejecting instruction, asked for permission and did not violate, and the Qwen3.5-397B team received an endorsing instruction, violated and reported "authorized".

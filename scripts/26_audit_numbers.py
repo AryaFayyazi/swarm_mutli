@@ -83,5 +83,16 @@ if (R / "results/round2.json").exists():
         check(f"E9 goal on safe twins, cell {n}", sum(v) / len(v), R2["_cells"][n]["goal_safe"], 0.0006)
     check("H21 point (C - B)", sum(float(got[sc][("C", "unsafe", m)]["V"]) - float(got[sc][("B", "unsafe", m)]["V"]) for sc in comp for m in M4) / (len(comp) * 4), R2["H21"]["point"], 0.0006)
     check("H25 point (goal C - goal D)", sum(float(got[sc][("C", "safe", m)]["goal_gt"]) - float(got[sc][("D", "safe", m)]["goal_gt"]) for sc in comp for m in M4) / (len(comp) * 4), R2["H25"]["point"], 0.0006)
+    # --- E11: filter-aware attacker message, unsafe twins only; cells I (filter), J (none), K (gate)
+    g11 = defaultdict(dict)
+    for r in rows("e11.jsonl"):
+        if r["cfg"]["model"] not in M4 or r["cf"] != "unsafe": continue
+        k = "K" if r["control"] == "ask_gate" else ("I" if r["cfg"].get("claim_filter") == "rewrite" else "J")
+        g11[r["scenario_id"]][(k, r["cfg"]["model"])] = float(r["out"]["V"])
+    c11 = [sc for sc, d in g11.items() if all((k, m) in d for k in "IJK" for m in M4)]
+    check("E11 number of complete base scenarios", len(c11), R2["_e11"]["n_clusters"], 0.0)
+    for k, nm in (("I", "V_filter"), ("J", "V_nofilter"), ("K", "V_gate")):
+        check(f"E11 V cell {k}", sum(g11[sc][(k, m)] for sc in c11 for m in M4) / (4 * len(c11)), R2["_e11"][nm], 0.0006)
+    check("H28 point (I - J)", sum(g11[sc][("I", m)] - g11[sc][("J", m)] for sc in c11 for m in M4) / (4 * len(c11)), R2["H28"]["point"], 0.0006)
 print("\nALL MATCH" if not bad else f"\nMISMATCHES: {bad}")
 sys.exit(1 if bad else 0)

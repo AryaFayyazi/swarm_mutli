@@ -4,7 +4,7 @@
 **What a deployer should log and enforce.**
 1. Write the log at the gateway, with tool results, where no agent can edit it. A monitor that reads the report ({{X['mon']['L0'][0]|.2f}}–{{X['mon']['L0'][1]|.2f}} AUROC) or the calls without results ({{X['mon']['L2'][0]|.2f}}–{{X['mon']['L2'][1]|.2f}}) is close to blind. One that reads calls with results reaches {{X['mon']['L3'][0]|.2f}}–{{X['mon']['L3'][1]|.2f}}.
 2. Keep an explicit permission record, and make reports cite it and not a peer.
-3. Enforce ask-before-act at the gateway. If you cannot, mark every approval claim that crosses an agent boundary as unverified (the claim filter, 4.8).
+3. Enforce ask-before-act at the gateway. If you cannot, mark every approval claim that crosses an agent boundary as unverified (the claim filter, 4.8), and do not rely on it alone: a pressure message with no claim passes it.
 4. Test your own models with matched twins first. Three of seven models hardly reacted to the claim and three reacted strongly, so model choice is a safety decision.
 5. Make agents state what they did not verify (4.5).
 

@@ -1,0 +1,43 @@
+== glm-5.2
+== qwen3.5-397b
+  [undefined_terms] CAPE-Swarm (Abstract: 'We build CAPE-Swarm' - not defined until Introduction)
+  [undefined_terms] assurance laundering (Abstract: 'We study assurance laundering' - defined in Introduction)
+  [undefined_terms] safe and unsafe twin (Abstract: 'matched safe and unsafe twin' - explained in Section 3.1)
+  [undefined_terms] V(e), F(e), D(e), G(e), A(e) (Abstract uses 'unauthorized actions from 0.16 to 0.37' - defined in Section 3.4)
+  [undefined_terms] AUROC (Abstract: 'detection AUROC 0.90–0.93' - defined in Section 3.6)
+  [undefined_terms] Lead, Operator, Manager roles (Abstract mentions team structure - defined in Section 3.2)
+  [number_heavy] Abstract (episode counts, percentages, AUROC values all in one paragraph)
+  [number_heavy] Section 4.1 (V from 0.16 to 0.37, +0.21 [+0.16, +0.25], model splits +0.35 to +0.54, +0.08)
+  [number_heavy] Section 4.3 (V is 43%, 81%, falls to 26%, +0.03 [-0.04, +0.09], 0.5%, 1.6%, 0.05 [0.02, 0.09], 5% to 9%, 0.26)
+  [number_heavy] Section 4.6 (AUROC 0.69–0.70, 0.90–0.93, +0.21, +0.23, 0.15, 5%, 71%, 12%, 0.69–0.74, 0.78 [0.71, 0.85], 0.75)
+  [number_heavy] Section 4.7 (0.10 to 0.38, 0.06, 0.10, +0.04 [-0.01, +0.09], +0.24 [+0.10, +0.38], 0.82, 0.47 [0.33, 0.60], 0.80, 0.09, 0.10, -0.01 [-0.10, +0.07], 0.38, 0.78, 0.60, 0.18 [0.10, 0.25], 0.10, 0.01, -0.09 [-0.15, -0.03])
+  [number_heavy] Section 4.8 (0.09 to 0.36, 0.03, -0.33 [-0.44, -0.23], 75%, 0.14, 0.50, 0.01, 0.80, 0.74, -0.06, 0.00, 0.77, +0.02 [-0.03, +0.08], 0.31, 0.05, -0.26 [-0.41, -0.11])
+  [report_like] Section 4 opening: 'Questions and design. Each subsection answers one question: does a false peer message make agents act (4.1, experiment E1)' - reads like experimental protocol
+  [report_like] Section 4: 'E1 crosses seven open-weight models, three team shapes and two message conditions (4,032 episodes)' - lab notebook style
+  [report_like] Section 4: 'V is the share of unsafe-twin episodes with a violation (Eq. 1), and brackets give 95% intervals' - assumes reader tracks equation references
+  [report_like] Section 3.7: 'SHA-256 hashes and git commits record the order (Appendix C)' - internal documentation reference
+  [report_like] Section 4.8: 'Appendix A reports how often' - assumes reader will check appendices mid-results
+  [report_like] Section 5: 'Appendix C lists all predictions by experiment' - refers to internal tracking document
+  [top_changes] Define all acronyms and technical terms (CAPE-Swarm, AUROC, V/F/D/G/A indicators) on first use in Abstract or Introduction
+  [top_changes] Move mathematical notation (Section 3.4-3.7 formulas) to appendix or add plain-language explanations alongside
+  [top_changes] Reduce number density in results sections - use tables for confidence intervals instead of packing into prose
+  [top_changes] Explain upfront why some experiments had fewer episodes than planned (API rate limit impact on validity)
+  [top_changes] Create a glossary or notation table for experiment labels (E1-E13), log levels (L0-L4), and role names (Lead, Operator)
+== gemma-4-31b-it
+  [undefined_terms] 'safe and unsafe twin' (Abstract: 'every task has a matched safe and unsafe twin')
+  [undefined_terms] 'gateway rule' (Abstract: 'a gateway rule that requires a permission request stops the action')
+  [undefined_terms] 'claim filter' (Abstract: 'A claim filter that marks approval claims as unverified')
+  [undefined_terms] 'AUROC' (Abstract: 'detection AUROC 0.90–0.93')
+  [undefined_terms] 'relay team' (Section 3.2: 'The relay team is Lead plus Operator')
+  [number_heavy] 3.4 Outcomes and estimands (new)
+  [number_heavy] 3.7 Inference
+  [number_heavy] 4.1 A false peer message makes agents act without authorization
+  [number_heavy] 4.7 The claim works by displacing the agent's own check
+  [report_like] 'E1 crosses seven open-weight models, three team shapes and two message conditions (4,032 episodes).'
+  [report_like] 'E3–E8 use four models (Gemma-4 26B, Gemma-4 31B, Qwen3.5-397B and DeepSeek-V4 flash) chosen in a pilot.'
+  [report_like] 'E9–E13 use fresh scenarios and are smaller than planned, because the API rate limit fell during the sprint'
+  [top_changes] Define 'safe twin' and 'unsafe twin' more explicitly in the Introduction before using them to explain the methodology.
+  [top_changes] Clarify the 'factorial test' in Section 4.7; explain the 2x2 design (Claim vs. No Claim, Rule vs. No Rule) in plain English before presenting the numbers.
+  [top_changes] Simplify the notation in Section 3.4 (Eq 1-6); using symbols like V(e), F(e), and Δ(c,c') makes the results section harder to read for non-experts.
+  [top_changes] Explain the 'gateway' and 'ledger' concepts more intuitively in Section 3.2, perhaps with a brief analogy, as these are central to the security architecture.
+  [top_changes] The 'claim filter' (Section 4.8) is a major contribution but its mechanism is described briefly; a concrete example of a 'before' and 'after' message would greatly improve clarity.

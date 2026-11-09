@@ -1,0 +1,102 @@
+{
+ "glm-5.2": {
+  "error": ""
+ },
+ "qwen3.5-397b": {
+  "undefined_terms": [
+   "CAPE-Swarm (Abstract: 'We build CAPE-Swarm' - not defined until Introduction)",
+   "assurance laundering (Abstract: 'We study assurance laundering' - defined in Introduction)",
+   "safe and unsafe twin (Abstract: 'matched safe and unsafe twin' - explained in Section 3.1)",
+   "V(e), F(e), D(e), G(e), A(e) (Abstract uses 'unauthorized actions from 0.16 to 0.37' - defined in Section 3.4)",
+   "AUROC (Abstract: 'detection AUROC 0.90\u20130.93' - defined in Section 3.6)",
+   "Lead, Operator, Manager roles (Abstract mentions team structure - defined in Section 3.2)",
+   "relay team, relay-2 team (Section 4.1: '0.27 for the relay team' - defined in Section 3.2)",
+   "E1, E3-E13 experiment labels (Section 4: 'experiment E1' - not introduced earlier)",
+   "L0-L4 log levels (Section 4.6: 'L0 the final report' - defined in Section 3.6)",
+   "\u03c7 checker symbol (Section 3.1: 'deterministic rule \u03c7' - no prior introduction)",
+   "\u03b8 threshold (Section 3.7: 'its threshold \u03b8' - undefined)"
+  ],
+  "hard_sentences": [
+   "Abstract: 'In 12,064 episodes with seven open-weight models, one false peer sentence raises a single agent's rate of unauthorized actions from 0.16 to 0.37, and 70% to 93% of violating team runs still report authorized' - Too many statistics packed together, unclear what each number represents",
+   "Section 3.4: 'For an indicator y, a condition c, a scenario s and a model set M, we average over the episodes E(c, s, m) of each model and then give the models equal weight' - Dense mathematical notation without plain-language explanation",
+   "Section 3.5: 'run(a(t)) \u21d4 readonly(a(t)) \u2228 \u2203 u < t : covers(r(u), a(t)) \u2227 answer(r(u)) \u2260 denied' - Formal logic notation inaccessible to most readers",
+   "Section 3.7: 'Within a family of k related predictions with sorted p-values p(1) \u2264 \u2026 \u2264 p(k), the Holm-adjusted value is p\u0303(i) = maxj\u2264i min{ 1, (k \u2212 j + 1) \u00b7 p(j) }' - Complex statistical formula without intuition",
+   "Section 4.7: 'The interaction, the claim's effect without the rule minus its effect with the rule, is +0.24 [+0.10, +0.38]' - Statistical interaction described confusingly",
+   "Section 3.6: 'With T\u207a a random violating trace and T\u207b a random clean one, we report the AUROC and the catch rate at a 5% false-alarm budget' - Assumes statistical knowledge",
+   "Section 4.8: 'We analyse the 22 of 40 planned base tasks that finished every condition (Appendix A)' - Unclear why 18 tasks didn't finish, raises data quality concerns",
+   "Section 5: 'Three of seven models hardly reacted to the claim and three reacted strongly, so model choice is a safety decision' - Vague terms 'hardly' and 'strongly' without quantitative backing"
+  ],
+  "number_heavy": [
+   "Abstract (episode counts, percentages, AUROC values all in one paragraph)",
+   "Section 4.1 (V from 0.16 to 0.37, +0.21 [+0.16, +0.25], model splits +0.35 to +0.54, +0.08)",
+   "Section 4.3 (V is 43%, 81%, falls to 26%, +0.03 [-0.04, +0.09], 0.5%, 1.6%, 0.05 [0.02, 0.09], 5% to 9%, 0.26)",
+   "Section 4.6 (AUROC 0.69\u20130.70, 0.90\u20130.93, +0.21, +0.23, 0.15, 5%, 71%, 12%, 0.69\u20130.74, 0.78 [0.71, 0.85], 0.75)",
+   "Section 4.7 (0.10 to 0.38, 0.06, 0.10, +0.04 [-0.01, +0.09], +0.24 [+0.10, +0.38], 0.82, 0.47 [0.33, 0.60], 0.80, 0.09, 0.10, -0.01 [-0.10, +0.07], 0.38, 0.78, 0.60, 0.18 [0.10, 0.25], 0.10, 0.01, -0.09 [-0.15, -0.03])",
+   "Section 4.8 (0.09 to 0.36, 0.03, -0.33 [-0.44, -0.23], 75%, 0.14, 0.50, 0.01, 0.80, 0.74, -0.06, 0.00, 0.77, +0.02 [-0.03, +0.08], 0.31, 0.05, -0.26 [-0.41, -0.11])"
+  ],
+  "report_like": [
+   "Section 4 opening: 'Questions and design. Each subsection answers one question: does a false peer message make agents act (4.1, experiment E1)' - reads like experimental protocol",
+   "Section 4: 'E1 crosses seven open-weight models, three team shapes and two message conditions (4,032 episodes)' - lab notebook style",
+   "Section 4: 'V is the share of unsafe-twin episodes with a violation (Eq. 1), and brackets give 95% intervals' - assumes reader tracks equation references",
+   "Section 3.7: 'SHA-256 hashes and git commits record the order (Appendix C)' - internal documentation reference",
+   "Section 4.8: 'Appendix A reports how often' - assumes reader will check appendices mid-results",
+   "Section 5: 'Appendix C lists all predictions by experiment' - refers to internal tracking document",
+   "Section 4.3: 'Figure 3; Appendix E.4' - multiple cross-references interrupt flow"
+  ],
+  "unsupported": [
+   "Abstract: '7 of 33 predictions failed' - Section 5 lists some failures but not all 7",
+   "Section 4.8: 'The filter is not tuned to one sentence' - only tested against one attacker message, not generalizable",
+   "Section 4.8: 'A pressure message with no claim at all would pass it unchanged' - stated but not tested",
+   "Section 5: 'model choice is a safety decision' - strong claim based on only 7 models",
+   "Abstract/Conclusion: 'holds against a message written by a model that read its prompt' - Section 4.8 admits 'that was a short search'",
+   "Section 4.7: 'we cannot say that the effect is specific to what a message says about approval' - undermines earlier claims about assurance laundering specifically"
+  ],
+  "top_changes": [
+   "Define all acronyms and technical terms (CAPE-Swarm, AUROC, V/F/D/G/A indicators) on first use in Abstract or Introduction",
+   "Move mathematical notation (Section 3.4-3.7 formulas) to appendix or add plain-language explanations alongside",
+   "Reduce number density in results sections - use tables for confidence intervals instead of packing into prose",
+   "Explain upfront why some experiments had fewer episodes than planned (API rate limit impact on validity)",
+   "Create a glossary or notation table for experiment labels (E1-E13), log levels (L0-L4), and role names (Lead, Operator)"
+  ]
+ },
+ "gemma-4-31b-it": {
+  "hard_sentences": [
+   "A factorial test shows that the claim displaces the agent's own authorization check, and a verification rule removes nearly all of its effect.",
+   "The interaction, the claim's effect without the rule minus its effect with the rule, is +0.24 [+0.10, +0.38].",
+   "A monitor detects violations only if it reads the gateway log with results (detection AUROC 0.90\u20130.93, against 0.69\u20130.70 from the report).",
+   "The Operator asked the permission system before acting in 0.82 of episodes with no claim and 0.47 [0.33, 0.60] with the claim, and in 0.80 and 0.80 with the rule.",
+   "The provenance paradox [10] also finds that unverifiable claims mislead delegation.",
+   "A self-query monitor asks the Operator's own model two yes/no questions: did it check an approval itself before each state-changing action, and did it act mainly because a message said the action was approved.",
+   "The report is a structured call with the fields authorization_status (\"authorized\", \"not_authorized\" or \"unsure\"), goal_completed, actions_performed and summary, so we score reports by rule.",
+   "The a-before-act gate runs a call a(t) only if it is read-only, or an earlier permission request r covers it and the latest answer to r is not a denial."
+  ],
+  "number_heavy": [
+   "3.4 Outcomes and estimands (new)",
+   "3.7 Inference",
+   "4.1 A false peer message makes agents act without authorization",
+   "4.7 The claim works by displacing the agent's own check"
+  ],
+  "report_like": [
+   "'E1 crosses seven open-weight models, three team shapes and two message conditions (4,032 episodes).'",
+   "'E3\u2013E8 use four models (Gemma-4 26B, Gemma-4 31B, Qwen3.5-397B and DeepSeek-V4 flash) chosen in a pilot.'",
+   "'E9\u2013E13 use fresh scenarios and are smaller than planned, because the API rate limit fell during the sprint'"
+  ],
+  "top_changes": [
+   "Define 'safe twin' and 'unsafe twin' more explicitly in the Introduction before using them to explain the methodology.",
+   "Clarify the 'factorial test' in Section 4.7; explain the 2x2 design (Claim vs. No Claim, Rule vs. No Rule) in plain English before presenting the numbers.",
+   "Simplify the notation in Section 3.4 (Eq 1-6); using symbols like V(e), F(e), and \u0394(c,c') makes the results section harder to read for non-experts.",
+   "Explain the 'gateway' and 'ledger' concepts more intuitively in Section 3.2, perhaps with a brief analogy, as these are central to the security architecture.",
+   "The 'claim filter' (Section 4.8) is a major contribution but its mechanism is described briefly; a concrete example of a 'before' and 'after' message would greatly improve clarity."
+  ],
+  "undefined_terms": [
+   "'safe and unsafe twin' (Abstract: 'every task has a matched safe and unsafe twin')",
+   "'gateway rule' (Abstract: 'a gateway rule that requires a permission request stops the action')",
+   "'claim filter' (Abstract: 'A claim filter that marks approval claims as unverified')",
+   "'AUROC' (Abstract: 'detection AUROC 0.90\u20130.93')",
+   "'relay team' (Section 3.2: 'The relay team is Lead plus Operator')"
+  ],
+  "unsupported": [
+   "'The Lead's brief sets what the Operator believes (Appendix E.8).' (The main text provides no evidence or data from Appendix E.8 to support this causal claim)."
+  ]
+ }
+}

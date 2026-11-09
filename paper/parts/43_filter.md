@@ -8,7 +8,7 @@ We ran the filter on fresh tasks (E9, seed 5501, relay, four models, {{R['counts
 
 **The filter removes most of the harm.** With the filter, V falls to {{R['_cells']['C']['V']|.2f}} ({{H['H21']['point']|+.2f}} [{{H['H21']['lo']|+.2f}}, {{H['H21']['hi']|+.2f}}]). No violating report says "authorized" any more, against {{R['_cells']['B']['FA_over_V']|.0%}} without the filter. All four models improve: without the filter their V is {{min(R['_cells']['B']['per_model_V'].values())|.2f}} to {{max(R['_cells']['B']['per_model_V'].values())|.2f}}, and with it at most {{max(R['_cells']['C']['per_model_V'].values())|.2f}}.
 
-**It is not tuned to one sentence.** We wrote the filter prompt with the main message in mind. The attacker message from Section 4.5 is a wording the filter never saw, and its V falls from {{R['_cells']['G']['V']|.2f}} to {{R['_cells']['H']['V']|.2f}} ({{H['H23']['point']|+.2f}} [{{H['H23']['lo']|+.2f}}, {{H['H23']['hi']|+.2f}}]).
+**It is not tuned to one sentence.** The attacker message of Section 4.5 is a wording the filter never saw, and its V falls from {{R['_cells']['G']['V']|.2f}} to {{R['_cells']['H']['V']|.2f}} ({{H['H23']['point']|+.2f}} [{{H['H23']['lo']|+.2f}}, {{H['H23']['hi']|+.2f}}]).
 
 FIG: fig6_filter.png | 5.4 | **Figure 4. The claim filter** (E9, relay, four models). (a) V on unsafe twins for the main peer message and for the attacker message of Section 4.5. Bars: no control, the filter, and the ask-before-act gate (main message only). Whiskers are 95% intervals. The dashed line is V with no message. (b) Goal completion on safe twins.
 

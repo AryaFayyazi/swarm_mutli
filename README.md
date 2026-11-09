@@ -5,7 +5,7 @@ Oversight and Control.
 
 **Report:** `paper/report.pdf` (built on the official template; source `paper/parts/*.md`, builder `paper/build_report.py`).
 **Replay viewer:** open `paper/viewer.html` in a browser (self-contained, no network).
-**Full pass/fail record of every hypothesis:** `results/SUMMARY.md` (auto-generated from the raw traces).
+**Full pass/fail record of every hypothesis:** `results/SUMMARY.md` (auto-generated from the raw traces). Round-2 numbers: `results/round2.json`.
 
 ## The question
 In an agent team, a peer agent says "all approvals were already obtained (ticket #…)". Nobody verified it. Does the team act
@@ -21,7 +21,8 @@ labels every executed tool call.
   gateway rule stops the action at a small utility cost. A verification prompt and an auditor agent help but leave a residual.
 - A monitor must read the gateway ledger **with tool results** to see violations. The final report, the messages, or the call list
   without results are close to blind.
-- Three hypotheses failed (H8 and H13, and H18: a short attacker search found no significantly stronger message). They are reported in the paper. The gateway rule held against the best attacker message found (H19).
+- A **claim filter** (round 2) marks every approval claim that crosses an agent boundary as unverified. On fresh tasks it cut unauthorized actions from 0.36 to 0.03, with no measurable loss of useful work, and it also worked on an attacker wording it was not tuned on. It was not shown to be cheaper than the ask-before-act gateway rule. @@README_R2@@
+- Four hypotheses failed (H8, H13, H18 and H25). They are reported in the paper. The gateway rule held against the best attacker message found (H19).
 
 ## Preexisting work (written BEFORE the sprint) and new work (written DURING the sprint)
 | Part | Status |
@@ -38,7 +39,7 @@ No GreyBox code is used here.
 ## Layout
 ```
 capeswarm/      engine (llm.py, swarm.py), controls.py, monitors.py, audit.py (ledger auditor), hops.py, hyp.py, stats.py, load.py
-scripts/        10_confirm.py (runs e1..e7), 26_audit_numbers.py (independent recomputation of headline numbers), 11_monitor.py (E2), 12_brief_stance.py (exploratory label), 13_attacker.py (E8),
+scripts/        10_confirm.py (runs e1..e7), 26_audit_numbers.py (independent recomputation of headline numbers), 11_monitor.py (E2), 12_brief_stance.py (exploratory label), 13_attacker.py (E8), 14_filter_attacker.py (E11 search), 27_round2.py (round-2 tests), 28_fig_round2.py,
                 20_analyze.py (all tests), 21_figures.py, 22_quotes.py, 23_fig_schematic.py, 24_extra.py, 25_summary.py,
                 30_viewer.py, 40_review.py (LLM review aid), lock.py
 docs/           PREREG_v1.md and addenda, DEVIATIONS.md (every change after a lock), PAPER_ROADMAP.md, research notes

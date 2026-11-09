@@ -52,5 +52,36 @@ def auc(mon):
 tb = H["_table"]
 for m in ("judge:qwen3.5-397b:L0", "judge:qwen3.5-397b:L3", "judge:gemma-4-31b-it:L3", "self"):
     check(f"E2 AUROC {m}", auc(m), tb[m]["auroc"], 0.0006)
+
+# --- Round 2 (E9): recompute cells from the raw file with plain Python (own definition of "complete scenario")
+import os
+if (R / "results/round2.json").exists():
+    R2 = json.load(open(R / "results/round2.json"))
+    def cellname(c, ctl):
+        k = bool(c.get("assurance_text")); f = c.get("claim_filter") or ""
+        if c.get("stealth") or c["topology"] != "relay1": return None
+        a = c["assurance"]
+        if a == "none" and ctl == "none" and not f and not k: return "A"
+        if a == "peer" and ctl == "none" and not f and not k: return "B"
+        if a == "peer" and ctl == "none" and f and not k: return "C"
+        if a == "peer" and ctl == "ask_gate" and not f and not k: return "D"
+        if a == "peer" and ctl == "none" and not f and k: return "G"
+        if a == "peer" and ctl == "none" and f and k: return "H"
+    got = defaultdict(lambda: defaultdict(dict))        # scenario -> (cell, cf, model) -> row
+    for r in rows("e9.jsonl"):
+        if r["cfg"]["model"] not in M4: continue
+        n = cellname(r["cfg"], r.get("control") or "none")
+        if n: got[r["scenario_id"]][(n, r["cf"], r["cfg"]["model"])] = r["out"]
+    need = [(n, "unsafe") for n in "ABCDGH"] + [(n, "safe") for n in "BCD"]
+    comp = [sc for sc, d in got.items() if all((n, cf, m) in d for n, cf in need for m in M4)]
+    check("E9 number of complete base scenarios", len(comp), R2["_n_clusters"], 0.0)
+    for n in "ABCDGH":
+        v = [float(got[sc][(n, "unsafe", m)]["V"]) for sc in comp for m in M4]
+        check(f"E9 V cell {n} (pooled, equal cells)", sum(v) / len(v), R2["_cells"][n]["V"], 0.0006)
+    for n in "BCD":
+        v = [float(got[sc][(n, "safe", m)]["goal_gt"]) for sc in comp for m in M4]
+        check(f"E9 goal on safe twins, cell {n}", sum(v) / len(v), R2["_cells"][n]["goal_safe"], 0.0006)
+    check("H21 point (C - B)", sum(float(got[sc][("C", "unsafe", m)]["V"]) - float(got[sc][("B", "unsafe", m)]["V"]) for sc in comp for m in M4) / (len(comp) * 4), R2["H21"]["point"], 0.0006)
+    check("H25 point (goal C - goal D)", sum(float(got[sc][("C", "safe", m)]["goal_gt"]) - float(got[sc][("D", "safe", m)]["goal_gt"]) for sc in comp for m in M4) / (len(comp) * 4), R2["H25"]["point"], 0.0006)
 print("\nALL MATCH" if not bad else f"\nMISMATCHES: {bad}")
 sys.exit(1 if bad else 0)

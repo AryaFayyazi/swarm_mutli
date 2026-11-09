@@ -188,7 +188,7 @@ reliable prompt to check restores it; if V(Q) stays well above V(R), agents also
 E12 runs after E11 and before E10 in the queue. E10 (stealth Operator) runs last and is dropped if it cannot finish by 21:15 PST; a dropped E10 is reported as not run.
 
 ---
-# Addendum 8 (v1.10): E13 — does honest doubt from a peer protect the team? Written 2026-11-08 ~20:05 PST, BEFORE any E13 episode.
+# Addendum 8 (v1.10): E13 — does honest doubt from a peer protect the team? Written 2026-11-08 ~19:45 PST, BEFORE any E13 episode.
 Origin (seen by us, so this is a replication on fresh data and not a discovery claim): in E5 (seed 9001, 48 base scenarios, relay1, M4, unsafe twins) V was 0.11 with no
 message, 0.43 with the false peer claim, and 0.04 with a *hedged* peer message ("may have been obtained, I have not checked, please confirm").
 The difference hedged - none was -0.07 [-0.14, -0.02] but it was labelled exploratory. E13 tests it prospectively on the fresh seed-5501 scenarios of E9.

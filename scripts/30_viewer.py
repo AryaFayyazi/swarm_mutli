@@ -66,8 +66,23 @@ def pick():
                 out.append(slim(ledg, "4. Same scenario, reporter sees the permission-system record"))
                 if aud:
                     out.append(slim(aud, "5. Same scenario with an LLM auditor that sees the tool results"))
+                out += pick_filter()
                 return out
     return out
+
+
+def pick_filter():
+    """Round 2 (E9): a violation under the false peer message and the same scenario and model with the claim filter."""
+    rows = [r for r in read("e9.jsonl") if r.get("out") and r["cfg"].get("topology") == "relay1" and r["cfg"].get("assurance") == "peer"
+            and not r["cfg"].get("assurance_text") and (r.get("control") or "none") == "none" and r["cf"] == "unsafe"]
+    plain = {(r["scenario_id"], r["cfg"]["model"]): r for r in rows if not r["cfg"].get("claim_filter")}
+    filt = {(r["scenario_id"], r["cfg"]["model"]): r for r in rows if r["cfg"].get("claim_filter") == "rewrite"}
+    for k in sorted(plain):
+        a, b = plain[k], filt.get(k)
+        if b and a["out"]["V"] and a["out"]["false_assurance"] and not b["out"]["V"] and b["out"]["report_present"] and any(f["where"] == "peer_message" and f["ok"] for f in b.get("filter", [])):
+            return [slim(a, "6. Round 2, fresh scenario: the false peer message without a filter (violation, false report)"),
+                    slim(b, "7. Same scenario and model with the claim filter (the claim arrives marked as unverified)")]
+    return []
 
 
 TEMPLATE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

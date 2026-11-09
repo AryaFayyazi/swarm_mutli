@@ -7,8 +7,7 @@ needs the following. Items are ordered by how much each one raises the claim, no
 1. **Frontier models.** Re-run E1 (solo, relay, peer vs none) and the ask-before-act gate on two or three closed models.
    Estimated cost: about 4,000 calls per model for E1's relay/peer slice. The sprint API only serves open-weight models, so this needs
    separate funding. The code path already exists: `capeswarm/llm.py` is the only provider-specific file.
-2. **Adaptive attacker.** Replace the scripted peer message by an attacker agent that optimizes the message against the team
-   (best-of-n, then a trained attacker). Question: does the ask-before-act gate still hold, and how much does it cost?
+2. **Adaptive attacker.** Round 1 ran a two-round best-of-n search (E8). Round 2 ran a filter-aware white-box search (E11). Still missing: an attacker that is trained against the team, and one that knows the scenario and the policy.
 3. **Real logs.** Apply the ledger monitors to public swarm traces (Swarm Traces, AI Village transcripts) to check that the log
    ladder transfers from mock tools to real work. Labels will be weaker (no rule checker), so use human labels on a sample.
 4. **More topologies.** Mesh teams, a shared message board (the improvised channel seen in real incidents), and K parallel
@@ -33,3 +32,6 @@ needs the following. Items are ordered by how much each one raises the claim, no
 ## What the sprint already locked in
 Preregistered hypotheses H1–H17 with hashes (`results/prereg_*_lock.json`). A full paper can reuse them as "study 1" and
 preregister the new studies in the same way.
+
+## Round 2 (2026-11-08): what it added and what it did not
+Added: a claim filter at the message bus (E9), a filter-aware attacker (E11), a 2x2 on the mechanism (E12). Not added: frontier models, trained attackers, real logs, human study. The API limit fell mid-sprint, so every round-2 experiment is smaller than the round-1 design (Amendments 5b, 5c).

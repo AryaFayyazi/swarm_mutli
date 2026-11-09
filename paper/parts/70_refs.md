@@ -18,3 +18,9 @@ REF: [16] Safin, T. H., et al. (2026). Trust propagation and structural containm
 REF: [17] Zhu, J., et al. (2026). Who Speaks, Who Authorizes, Who Acts? Understanding Trust Boundaries in Multi-Agent LLMs. arXiv:2610.24298. https://arxiv.org/abs/2610.24298
 REF: [18] Xu, Z., et al. (2026). MasDrift: Benchmarking Authorization Preservation Across Multi-Agent Architectures. arXiv:2608.07556. https://arxiv.org/abs/2608.07556
 REF: [19] Debenedetti, E., et al. (2025). Defeating Prompt Injections by Design. arXiv:2503.18813. https://arxiv.org/abs/2503.18813
+
+## Code and Data
+Code, traces, locks and the replay viewer are in `swarm_hack/` (README marks preexisting and new code). Every number comes from `scripts/20_analyze.py` and `scripts/27_round2.py`.
+
+## Author Contributions
+A.F. is the only author. A.F. is responsible for all claims, results and conclusions in this report. Claude Code (an AI assistant; Appendix B) helped only with writing code and with drafting the first version of the report.

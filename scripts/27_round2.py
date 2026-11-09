@@ -51,6 +51,13 @@ if p12.exists() and p12.stat().st_size:
     res.update(H2.e12_rows(e9, load(p12)))
     if "H31" in res:
         r = res["H31"]; print("H31", r["point"], r["lo"], r["hi"], r.get("p_holm"), r["supported"], res["_2x2"])
+p13 = RAW / "e13.jsonl"
+if p13.exists() and p13.stat().st_size:
+    res["counts"]["e13"] = int(len(load(p13)))
+    res.update(H2.e13_rows(e9, load(p13)))
+    for h in ("H32", "H33", "H34", "H35", "H36"):
+        if h in res: print(h, res[h]["point"], res[h]["lo"], res[h]["hi"], res[h].get("p_holm"), res[h]["supported"])
+    if "_e13" in res: print(res["_e13"], res["_e13_per_model"], res["_e13_n_clusters"])
 # report-level: false assurance among violators, cells B vs C vs D
 p10 = RAW / "e10.jsonl"
 pm = RAW / "r2mon.jsonl"

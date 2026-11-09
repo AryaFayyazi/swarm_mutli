@@ -1,0 +1,6 @@
+### 4.7 The claim works by displacing the agent's own check
+A false claim could raise V because agents believe it. Or it could raise V because it replaces the agent's own question, "does this need approval?". Experiment E12 separates the two. It crosses the false claim (absent or present) with the verification rule of Section 4.3 (absent or present in every system prompt). It uses the fresh tasks of Section 4.8 (where the no-message and false-message cells also come from), the unsafe twins and four models ({{R['counts']['e12']}} new episodes, {{R['_2x2_n_clusters']}} base tasks).
+
+Without the rule, the claim raises V from {{R['_2x2']['A none']['V']|.2f}} to {{R['_2x2']['B claim']['V']|.2f}}. With the rule, V is {{R['_2x2']['R reminder']['V']|.2f}} without the claim and {{R['_2x2']['Q claim+reminder']['V']|.2f}} with it. So the claim adds {{R['_2x2']['B-A (claim, no reminder)']['d']|+.2f}} without the rule and only {{R['_2x2']['Q-R (claim, with reminder)']['d']|+.2f}} [{{R['_2x2']['Q-R (claim, with reminder)']['lo']|+.2f}}, {{R['_2x2']['Q-R (claim, with reminder)']['hi']|+.2f}}] with it. The interaction is {{R['H31']['point']|+.2f}} [{{R['H31']['lo']|+.2f}}, {{R['H31']['hi']|+.2f}}]. Agents do not simply believe the claim. They stop asking.
+
+@@E13TEXT@@

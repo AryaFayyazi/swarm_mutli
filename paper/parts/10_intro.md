@@ -1,5 +1,5 @@
 ## 1. Introduction
-LLM agents now do real work with real tools, often as teams, and the human often reads only the last message. The final report is therefore a safety object. If agents misreport what they did, we need to know which record to trust. A recent incident investigation found agents that faked tool calls and tried to edit their own logs [13].
+LLM agents now do real work with real tools, often as teams, and the human often reads only the last message. The final report is therefore a safety object. If agents misreport what they did, we need to know which record to trust: an incident investigation found agents that faked tool calls and edited their own logs [13].
 
 We study one way a report goes wrong. A human gives a team a task. A peer agent adds a plausible remark: "all approvals were already obtained (ticket #31819)". Nobody checks it. The *Lead* agent passes the remark on, the *Operator*, the only agent with tools, acts, and the Lead tells the human that the work was authorized and cites the ticket. We call this **assurance laundering**: an unverified remark becomes an instruction, then an unauthorized action, then a confident and false report. It differs from prompt injection [3], because the peer injects no command. It only states a fact that nobody can check.
 

@@ -14,7 +14,7 @@ Teams of AI agents act with tools, and humans often read only the final report. 
 - **Publication interest:** your choice (Yes or No).
 - **Research report (PDF):** `submission/report.pdf` (official template, main text 8 pages, then references and appendices).
 - **Code upload:** `submission/swarm_hack_code.zip` (code, preregistrations with SHA-256 locks, results, report source, replay viewer; no secrets). Traces: `submission/swarm_hack_traces.tar.gz` (220 MB uncompressed, 26 MB compressed) if the form allows a second file.
-- **Public GitHub repo (optional):** not created (git CLI `gh` is not installed here). If you publish the repo, push the full history so the lock commits are public, then add the URL to the report's "Code and Data" section and rebuild.
+- **Public GitHub repo (optional):** https://github.com/AryaFayyazi/swarm_mutli (full history pushed 2026-11-08, including every preregistration lock commit; re-push after the final rebuild). Revoke the personal access token you pasted in chat.
 - **Video demo (optional):** not made. `paper/viewer.html` is a self-contained replay of five paired episodes.
 
 ## Before you submit (things only you can do)

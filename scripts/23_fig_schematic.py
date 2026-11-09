@@ -29,7 +29,10 @@ def arrow(ax, a, b, col=SUB, lw=1.4, z=3, ms=8):
 
 
 def badge(ax, x, y, k, col=INK, r=2.4):
-    ax.add_patch(Circle((x, y), r, fc=col, ec="white", lw=1.2, zorder=9))
+    from matplotlib.patches import Ellipse
+    bb = ax.get_position()
+    sx = 6.5 * bb.width / 100.0; sy = 3.7 * bb.height / 100.0          # inches per data unit
+    ax.add_patch(Ellipse((x, y), 2 * r * sy / sx, 2 * r, fc=col, ec="white", lw=1.2, zorder=9))
     ax.text(x, y, str(k), ha="center", va="center", fontsize=7.0, color="white", fontweight="bold", zorder=10)
 
 
@@ -99,8 +102,8 @@ for i, (k, title, big, sub, fix) in enumerate(cards):
     badge(B, 7.5, y + 25.4, k)
     B.text(13.5, y + 25.4, title, ha="left", va="center", fontsize=6.8, fontweight="bold", color=INK, zorder=4)
     B.text(5.0, y + 16.2, big, ha="left", va="center", fontsize=14, fontweight="bold", color=ORANGE, zorder=4)
-    B.text(5.0, y + 8.6, sub[0], ha="left", va="center", fontsize=6.5, color=SUB, zorder=4)
-    B.text(5.0, y + 5.2, sub[1], ha="left", va="center", fontsize=6.5, color=SUB, zorder=4)
-    B.text(5.0, y + 1.7, "fix: " + fix, ha="left", va="center", fontsize=6.3, color=GREEN, fontweight="bold", zorder=4)
+    B.text(5.0, y + 9.4, sub[0], ha="left", va="center", fontsize=6.5, color=SUB, zorder=4)
+    B.text(5.0, y + 5.9, sub[1], ha="left", va="center", fontsize=6.5, color=SUB, zorder=4)
+    B.text(5.0, y + 2.4, "fix: " + fix, ha="left", va="center", fontsize=6.3, color=GREEN, fontweight="bold", zorder=4)
 fig.savefig(OUT / "fig0_overview.png"); fig.savefig(OUT / "fig0_overview.pdf")
 print("ok")

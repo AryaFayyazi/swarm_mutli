@@ -20,7 +20,7 @@ REF: [18] Xu, Z., et al. (2026). MasDrift: Benchmarking Authorization Preservati
 REF: [19] Debenedetti, E., et al. (2025). Defeating Prompt Injections by Design. arXiv:2503.18813. https://arxiv.org/abs/2503.18813
 
 ## Code and Data
-Code, traces, locks and the replay viewer are in `swarm_hack/` (README marks preexisting and new code). Every number comes from `scripts/20_analyze.py` and `scripts/27_round2.py`.
+Code, preregistration locks, results and the replay viewer are at https://github.com/AryaFayyazi/swarm_mutli (the README marks preexisting and new code; the full git history is public, so the lock commits can be checked). Traces are in the submission archive. Every number comes from `scripts/20_analyze.py` and `scripts/27_round2.py`.
 
 ## Author Contributions
 A.F. is the only author. A.F. is responsible for all claims, results and conclusions in this report. Claude Code (an AI assistant; Appendix B) helped only with writing code and with drafting the first version of the report.

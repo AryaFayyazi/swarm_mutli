@@ -176,7 +176,7 @@ def fill(text: str) -> str:
     return re.sub(r"\{\{(.+?)\}\}", rep, text)
 
 
-def set_run(run, size=BODY_PT, bold=None, italic=None, mono=False, color=None, sup=False):
+def set_run(run, size=BODY_PT, bold=None, italic=None, mono=False, color=None, sup=False, sub=False):
     run.font.name = "DejaVu Sans Mono" if mono else FONT
     rpr = run._r.get_or_add_rPr()
     rf = rpr.find(qn("w:rFonts"))
@@ -193,9 +193,11 @@ def set_run(run, size=BODY_PT, bold=None, italic=None, mono=False, color=None, s
         run.font.color.rgb = RGBColor.from_string(color)
     if sup:
         run.font.superscript = True
+    if sub:
+        run.font.subscript = True
 
 
-TOK = re.compile(r"(\*\*.+?\*\*|\*.+?\*|`.+?`|\^\^.+?\^\^)")
+TOK = re.compile(r"(\*\*.+?\*\*|\*.+?\*|`.+?`|\^\^.+?\^\^|__.+?__)")
 
 
 def add_inline(p, text, size=BODY_PT, bold=False, italic=False):
@@ -206,6 +208,8 @@ def add_inline(p, text, size=BODY_PT, bold=False, italic=False):
             set_run(p.add_run(part[2:-2]), size, bold=True, italic=italic)
         elif part.startswith("`") and part.endswith("`"):
             set_run(p.add_run(part[1:-1]), size, mono=True)
+        elif part.startswith("__") and part.endswith("__") and len(part) > 4:
+            set_run(p.add_run(part[2:-2]), size, bold=bold, italic=True, sub=True)
         elif part.startswith("^^"):
             set_run(p.add_run(part[2:-2]), size, bold=bold, italic=italic, sup=True)
         elif part.startswith("*") and part.endswith("*") and len(part) > 2:
@@ -412,6 +416,8 @@ def build(content_path: Path, out_docx: Path):
                 j += 1
             j -= 1
             add_table(d, rows, cap, widths=widths_)
+        elif s.startswith("EQ:"):
+            flush(); para(d, s[3:].strip(), align="center", space_before=1, space_after=3)
         elif s.startswith("- "):
             flush(); para(d, "•  " + s[2:], left=0.2, first=-0.15, space_after=2)
         elif re.match(r"^\d+\.\s", s) and not s.startswith("##"):

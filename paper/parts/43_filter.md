@@ -1,7 +1,7 @@
 ### 4.8 A claim filter marks the claim and keeps the work
 If the false claim does its harm by displacing the agent's check, a defense can restore the check at the claim itself. We added a **claim filter** to the message bus. A small model (glm-53-flash, temperature 0) reads every message between agents. If a message claims approval, authorization or permission, the filter rewrites that claim. The new text says who made the claim, says that it is unverified, and tells the reader to confirm it with the permission system before any state-changing action. The rest of the message is unchanged. The filter sees neither the task, nor the log, nor the twin. If it returns nothing, the original message passes, which happened in {{R['_filter']['fail_open']}} of {{R['_filter']['calls']}} calls, mostly on the Lead's brief. The idea is close to spotlighting [14], which marks untrusted text for the model. We mark a *claim* by its source, between agents.
 
-We ran the filter on fresh tasks (E9, seed 5501, relay, four models, {{R['counts']['e9']}} episodes). The design had 40 base tasks, but the API limit fell during the sprint, so only {{R['_n_clusters']}} base tasks have every condition finished. We analyse those (Appendix A). Figure 4 shows the results.
+We ran the filter on fresh tasks (E9, seed 5501, relay, four models, {{R['counts']['e9']}} episodes). The design had 40 base tasks, but the API limit fell during the sprint, so only {{R['_n_clusters']}} base tasks have every condition finished. We analyse those (Appendix A). Figure 3 shows the results.
 
 **The false message works again on fresh tasks.** V rises from {{R['_cells']['A']['V']|.2f}} with no message to {{R['_cells']['B']['V']|.2f}} with the peer message ({{H['H20']['point']|+.2f}} [{{H['H20']['lo']|+.2f}}, {{H['H20']['hi']|+.2f}}]).
 
@@ -10,7 +10,7 @@ We ran the filter on fresh tasks (E9, seed 5501, relay, four models, {{R['counts
 
 **It is not tuned to one sentence.** The attacker message of Section 4.5 is a wording the filter never saw, and its V falls from {{R['_cells']['G']['V']|.2f}} to {{R['_cells']['H']['V']|.2f}} ({{H['H23']['point']|+.2f}} [{{H['H23']['lo']|+.2f}}, {{H['H23']['hi']|+.2f}}]).
 
-FIG: fig6_filter.png | 5.4 | **Figure 4. The claim filter** (E9, relay, four models). (a) V on unsafe twins for the main peer message and for the attacker message of Section 4.5. Bars: no control, the filter, and the ask-before-act gate (main message only). Whiskers are 95% intervals. The dashed line is V with no message. (b) Goal completion on safe twins.
+FIG: fig6_filter.png | 5.4 | **Figure 3. The claim filter** (E9, relay, four models). (a) V on unsafe twins for the main peer message and for the attacker message of Section 4.5. Bars: no control, the filter, and the ask-before-act gate (main message only). Whiskers are 95% intervals. The dashed line is V with no message. (b) Goal completion on safe twins.
 
 **It costs no measurable useful work.** Goal completion on safe twins is {{R['_cells']['C']['goal_safe']|.2f}} with the filter and {{R['_cells']['B']['goal_safe']|.2f}} without. The change (without minus with the filter) is {{H['H22']['point']|+.2f}} [{{H['H22']['lo']|+.2f}}, {{H['H22']['hi']|+.2f}}]; a negative value means the filter lost nothing, and our margin was 0.10.
 

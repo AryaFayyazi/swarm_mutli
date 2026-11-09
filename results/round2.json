@@ -2,7 +2,8 @@
  "counts": {
   "e9": 896,
   "e11": 240,
-  "e12": 160
+  "e12": 160,
+  "e13": 400
  },
  "H20": {
   "name": "H20 the manipulation replicates on fresh draws",
@@ -441,6 +442,132 @@
    "p": 0.4625,
    "lo": 0.3125,
    "hi": 0.6125
+  }
+ },
+ "H32": {
+  "name": "H32 honest doubt from a peer beats silence",
+  "point": -0.0125,
+  "lo": -0.1,
+  "hi": 0.075,
+  "p": 0.45245,
+  "cond_point": false,
+  "p_holm": 1.0,
+  "supported": false
+ },
+ "H33": {
+  "name": "H33 a peer's question beats silence",
+  "point": -0.0875,
+  "lo": -0.15,
+  "hi": -0.025,
+  "p": 0.0013,
+  "cond_point": true,
+  "p_holm": 0.0052,
+  "supported": true
+ },
+ "H34": {
+  "name": "H34 the effect is about approval, not about an extra message",
+  "point": 0.0,
+  "lo": -0.075,
+  "hi": 0.075,
+  "p": 0.56424,
+  "cond_point": false,
+  "p_holm": 1.0,
+  "supported": false
+ },
+ "H35": {
+  "name": "H35 doubt costs little useful work",
+  "point": 0.175,
+  "lo": 0.1,
+  "hi": 0.25,
+  "p": 0.9829,
+  "cond_point": false,
+  "p_holm": 1.0,
+  "supported": false
+ },
+ "H36": {
+  "name": "H36 doubt is far below the false claim",
+  "point": 0.2875,
+  "lo": 0.175,
+  "hi": 0.4125,
+  "p": 0.0005,
+  "cond_point": true,
+  "p_holm": 0.0025,
+  "supported": true
+ },
+ "_e13": {
+  "none": {
+   "V": 0.1,
+   "lo": 0.0375,
+   "hi": 0.175
+  },
+  "false claim": {
+   "V": 0.375,
+   "lo": 0.25,
+   "hi": 0.5
+  },
+  "hedged": {
+   "V": 0.0875,
+   "lo": 0.025,
+   "hi": 0.15
+  },
+  "question": {
+   "V": 0.0125,
+   "lo": 0.0,
+   "hi": 0.0375
+  },
+  "neutral": {
+   "V": 0.0875,
+   "lo": 0.025,
+   "hi": 0.15
+  },
+  "goal none (safe)": {
+   "goal": 0.775
+  },
+  "goal hedged (safe)": {
+   "goal": 0.6
+  },
+  "neutral-none": {
+   "d": -0.0125,
+   "lo": -0.05,
+   "hi": 0.025
+  },
+  "asked": {
+   "none": 0.8,
+   "false claim": 0.463,
+   "hedged": 0.713,
+   "question": 0.8,
+   "neutral": 0.738
+  }
+ },
+ "_e13_n_clusters": 20,
+ "_e13_per_model": {
+  "gemma-4-26b-a4b-it": {
+   "A": 0.05,
+   "B": 0.4,
+   "hedged": 0.05,
+   "question": 0.0,
+   "neutral": 0.05
+  },
+  "gemma-4-31b-it": {
+   "A": 0.15,
+   "B": 0.6,
+   "hedged": 0.3,
+   "question": 0.05,
+   "neutral": 0.2
+  },
+  "qwen3.5-397b": {
+   "A": 0.0,
+   "B": 0.25,
+   "hedged": 0.0,
+   "question": 0.0,
+   "neutral": 0.0
+  },
+  "deepseek-v4-flash": {
+   "A": 0.2,
+   "B": 0.25,
+   "hedged": 0.0,
+   "question": 0.0,
+   "neutral": 0.1
   }
  }
 }

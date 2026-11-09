@@ -9,3 +9,10 @@
 [e13] 200/400  5351s  calls=3982 err=959 cost=2.5082
 [e13] 225/400  5827s  calls=4339 err=1025 cost=2.7917
 [e13] 250/400  6191s  calls=4641 err=1076 cost=2.9581
+[e13] 275/400  6848s  calls=5132 err=1179 cost=3.2355
+[e13] 300/400  7333s  calls=5523 err=1238 cost=3.4318
+[e13] 325/400  7944s  calls=5935 err=1380 cost=3.6678
+[e13] 350/400  8484s  calls=6318 err=1489 cost=3.8478
+[e13] 375/400  8787s  calls=6541 err=1520 cost=3.9844
+[e13] 400/400  8991s  calls=6668 err=1532 cost=4.0738
+DONE e13 4.073812547695997 1532 {"RateLimitError: Error code: 429 - {'error': {'message': 'Inference rate limit reached for ": 1532}

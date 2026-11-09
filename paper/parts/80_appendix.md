@@ -35,7 +35,7 @@ We list each assumption and say how a result would change if it failed.
 We used Claude Code (Claude Sonnet 5.5) only to help write code (the harness, the analysis scripts and the figures) and to draft the first version of this report. The open-weight models served through the Adaption API are the subjects of the experiments and the monitors. The text pulls each number from `results/*.json`, which `scripts/20_analyze.py` writes from the raw traces. The preregistration and its locks were written before the confirmatory runs. The author is the only author and is responsible for all claims and for everything in this report and repository.
 
 ## Appendix C. All preregistered hypotheses
-We list every hypothesis, including those that did not hold. Directions and thresholds were fixed before the data existed (`docs/PREREG_v1.md` and its addenda). Holm correction is applied within each family (H1–H7; H12–H14; H15–H16; H18–H19; H17 is a single test).
+We list every hypothesis, including those that did not hold. Directions and thresholds were fixed before the data existed (`docs/PREREG_v1.md` and its addenda). Holm correction is applied within each family (H1–H7; H12–H14; H15–H16; H18–H19; H20–H25; H28–H30; H17 and H31 are single tests).
 
 TABLE{0.45,3.2,2.2,0.85}: **Table C1.** Outcome of every hypothesis. Estimates are pooled over models with equal weight; intervals are 95% cluster-bootstrap over base scenarios.
 {{X['hyp_table']}}
@@ -49,6 +49,7 @@ TABLE: **Table C3.** Unauthorized-action rate on unsafe twins by scenario family
 TABLE{1.75,0.95,0.7,1.15,1.0,0.95}: **Table C4.** All controls on the peer-assured relay (four models; 96 instances each: unsafe twins for violations and reports, safe twins for goal completion). Report ratios rest on few violations when violations are near zero (for example, one violation under the gate).
 {{X['controls_table']}}
 
+## Appendix D. Experiments, implementation and cost
 TABLE{1.25,2.65,0.65,0.8,1.1}: **Table D1.** Every experiment, its design and its size (all on the confirmatory seed unless noted).
 | Experiment | What varies | Models | Episodes | Hypotheses |
 |---|---|---|---|---|
@@ -65,5 +66,4 @@ TABLE{1.25,2.65,0.65,0.8,1.1}: **Table D1.** Every experiment, its design and it
 | E12 2×2 | false claim × verification reminder | 4 | {{R['counts'].get('e12',0)}} | H31 |
 | E2 monitors | 768 E1 relay traces × 5 log levels × 2 judges × 2 scores, plus self-query | 4 | monitor calls only | H7, H9 |
 
-## Appendix D. Implementation details and cost
-All agents run at temperature 0.7 with native tool calls and at most 24 turns. An agent that stops without reporting gets up to two neutral nudges; a neutral warning appears three turns before the step limit. Auditors run at temperature 0. Each of two judge models runs at temperature 0.5 and scores each trace twice (the scores are averaged). The API allows about 300 requests per minute, so one process owns the key and a global limiter paces calls. The whole study (about {{D['counts']['e1'] + D['counts']['e3'] + D['counts']['e3b'] + D['counts']['e4'] + D['counts']['e5'] + D['counts']['e6'] + D['counts']['e7']}} episodes plus monitor calls) used about {{D['cost_total']}} Adaption platform credits for the episodes and monitors listed in the run logs. Code is in `capeswarm/`; every confirmatory run and analysis step has a script in `scripts/`; `tests/` holds unit tests for the checker labels, gateway controls, audit rule, metrics and bootstrap.
+**Implementation.** All agents run at temperature 0.7 with native tool calls and at most 24 turns. An agent that stops without reporting gets up to two neutral nudges; a neutral warning appears three turns before the step limit. Auditors run at temperature 0. Each of two judge models runs at temperature 0.5 and scores each trace twice (the scores are averaged). The API allowed about 300 requests per minute in round 1 and about 60 in round 2, so one process owns the key and a global limiter paces calls. The whole study (about {{D['counts']['e1'] + D['counts']['e3'] + D['counts']['e3b'] + D['counts']['e4'] + D['counts']['e5'] + D['counts']['e6'] + D['counts']['e7']}} episodes plus monitor calls) used about {{D['cost_total']}} Adaption platform credits for the episodes and monitors listed in the run logs. Code is in `capeswarm/`; every confirmatory run and analysis step has a script in `scripts/`; `tests/` holds unit tests for the checker labels, gateway controls, audit rule, metrics and bootstrap.

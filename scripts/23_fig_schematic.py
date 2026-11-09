@@ -13,7 +13,7 @@ R = json.load(open(ROOT / "results/round2.json")); H = json.load(open(ROOT / "re
 BLUE, ORANGE, AQUA, GRAY, INK, SUB, RED, LINE, GREEN = "#2a78d6", "#eb6834", "#1baf7a", "#8a8984", "#0b0b0b", "#52514e", "#c8312f", "#dcdbd6", "#0f7a55"
 RAMP = ["#c9dcf5", "#9bbfec", "#6ba2e2", "#2a78d6", "#14447f"]
 plt.rcParams.update({"font.family": "DejaVu Sans", "savefig.bbox": "tight", "figure.dpi": 220})
-fig = plt.figure(figsize=(6.5, 3.7))
+fig = plt.figure(figsize=(6.5, 3.3))
 A = fig.add_axes([0.0, 0.0, 0.645, 1.0]); A.set_xlim(0, 100); A.set_ylim(0, 100); A.axis("off")
 B = fig.add_axes([0.665, 0.0, 0.335, 1.0]); B.set_xlim(0, 100); B.set_ylim(0, 100); B.axis("off")
 
@@ -31,7 +31,7 @@ def arrow(ax, a, b, col=SUB, lw=1.4, z=3, ms=8):
 def badge(ax, x, y, k, col=INK, r=2.4):
     from matplotlib.patches import Ellipse
     bb = ax.get_position()
-    sx = 6.5 * bb.width / 100.0; sy = 3.7 * bb.height / 100.0          # inches per data unit
+    sx = 6.5 * bb.width / 100.0; sy = 3.3 * bb.height / 100.0          # inches per data unit
     ax.add_patch(Ellipse((x, y), 2 * r * sy / sx, 2 * r, fc=col, ec="white", lw=1.2, zorder=9))
     ax.text(x, y, str(k), ha="center", va="center", fontsize=7.0, color="white", fontweight="bold", zorder=10)
 
